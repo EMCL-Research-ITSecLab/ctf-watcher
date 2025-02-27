@@ -1,0 +1,137 @@
+
+<!-- Local rules -->
+
+<!-- Modify it at your will. -->
+<!-- Copyright (C) 2015, Wazuh Inc. -->
+
+<!-- Example -->
+<group name="local,syslog,sshd,">
+
+  <!--
+  Dec 10 01:02:02 host sshd[1234]: Failed none for root from 1.1.1.1 port 1066 ssh2
+  -->
+  <rule id="100001" level="5">
+    <if_sid>5716</if_sid>
+    <srcip>1.1.1.1</srcip>
+    <description>sshd: authentication failed from IP 1.1.1.1.</description>
+    <group>authentication_failed,pci_dss_10.2.4,pci_dss_10.2.5,</group>
+  </rule>
+
+</group>
+
+<group name="firewall,">
+  <rule id="104102" level="5">
+    <if_sid>4100</if_sid>
+    <action>UFW BLOCK</action>
+    <description>Firewall block event.</description>
+    <group>firewall_drop,pci_dss_1.4,gpg13_4.12,gdpr_IV_35.7.d,hipaa_164.312.a.1,nist_800_53_SC.7,tsc_CC6.7,tsc_CC6.8,</group>
+  </rule>
+
+  <rule id="104151" level="10" frequency="18" timeframe="45" ignore="240">
+    <if_matched_sid>104102"</if_matched_sid>
+    <same_source_ip />
+    <description>Multiple Firewall block events from same source.</description>
+    <group>multiple_drops,pci_dss_1.4,pci_dss_10.6.1,gpg13_4.12,gdpr_IV_35.7.d,hipaa_164.312.a.1,hipaa_164.312.b,nist_800_53_SC.7,nist_800_53_AU.6,tsc_CC6.7,tsc_CC6.8,tsc_CC7.2,tsc_CC7.3,</group>
+  </rule>
+
+</group>
+
+<group name="hei_dpi,">
+  <rule id="100011" level="1">
+    <decoded_as>json</decoded_as>
+    <field name="flow_event_id">\.*</field>
+    <description>heiDPI flow event.</description>
+  </rule>
+  <rule id="100012" level="1">
+    <decoded_as>json</decoded_as>
+    <field name="packet_event_id">\.*</field>
+    <description>heiDPI packet event.</description>
+  </rule>
+</group>
+
+<group name="performance_metric,">
+
+<!-- CPU, Memory and Disk usage -->
+<rule id="100054" level="3">
+  <decoded_as>general_health_check</decoded_as>
+  <description>CPU | MEMORY | DISK usage metrics</description>
+</rule>
+
+<!-- High memory usage -->
+<rule id="100055" level="12">
+  <if_sid>100054</if_sid>
+  <field name="memory_usage_%">^[8-9]\d|100</field>
+  <description>Memory usage is high: $(memory_usage_%)%</description>
+  <options>no_full_log</options>
+</rule>
+
+<!-- High CPU usage -->
+<rule id="100056" level="12">
+  <if_sid>100054</if_sid>
+  <field name="cpu_usage_%">^[8-9]\d|100</field>
+  <description>CPU usage is high: $(cpu_usage_%)%</description>
+  <options>no_full_log</options>
+</rule>
+
+<!-- High disk usage -->
+<rule id="100057" level="12">
+  <if_sid>100054</if_sid>
+  <field name="disk_usage_%">^[7-9]\d|100</field>
+  <description>Disk space is running low: $(disk_usage_%)%</description>
+  <options>no_full_log</options>
+</rule>
+
+<!-- Load average check -->
+<rule id="100058" level="3">
+  <decoded_as>load_average_check</decoded_as>
+  <description>load average metrics</description>
+</rule>
+
+<!-- memory check -->
+<rule id="100059" level="3">
+  <decoded_as>memory_check</decoded_as>
+  <description>Memory metrics</description>
+</rule>
+
+<!-- Disk check -->
+<rule id="100060" level="3">
+  <decoded_as>disk_check</decoded_as>
+  <description>Disk metrics</description>
+</rule>
+</group>
+
+<group name="active_user">
+
+<!-- active user check -->
+<rule id="100101" level="1">
+  <decoded_as>current_active_users</decoded_as>
+  <description>Active user check</description>
+</rule>
+
+<!-- active user number -->
+<rule id="100102" level="1">
+  <decoded_as>current_active_user_number</decoded_as>
+  <description>Active user number check</description>
+</rule>
+
+</group>
+
+<group name="bash_logs">
+
+<!-- bash log-->
+<rule id="100201" level="1">
+  <decoded_as>bash_commands</decoded_as>
+  <description>Bash command used</description>
+</rule>
+
+</group>
+
+<group name="ufw_status">
+
+<!-- ufw_status-->
+<rule id="100301" level="1">
+  <decoded_as>ufw_status</decoded_as>
+  <description>UFW Status Check</description>
+</rule>
+
+</group>
