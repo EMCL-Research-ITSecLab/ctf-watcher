@@ -32,18 +32,19 @@ echo --------[2/4]Build Images--------
 echo
 
 cd wazuh-docker
-git checkout stable
-sudo -u $SUDO_USER ./build-docker-images/build-images.sh -v 4.11.0
+git checkout 4.11.1
+sudo -u $SUDO_USER ./build-docker-images/build-images.sh -v 4.11.1
 
 echo
 echo --------[3/3]Generat Certs--------
 echo
 
+cd single-node
 sudo -u $SUDO_USER docker-compose -f generate-indexer-certs.yml run --rm generator
 
 echo
 echo --------[4/4]Compose Docker--------
 echo
 
-cd single-node
+
 sudo -u $SUDO_USER docker-compose up -d
