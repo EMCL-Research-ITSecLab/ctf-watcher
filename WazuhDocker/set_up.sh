@@ -3,34 +3,47 @@
 
 cat << "EOF"
 
- __          __             _       _____           _        _ _           
- \ \        / /            | |     |_   _|         | |      | | |          
-  \ \  /\  / /_ _ _____   _| |__     | |  _ __  ___| |_ __ _| | | ___ _ __ 
-   \ \/  \/ / _` |_  / | | | '_ \    | | | '_ \/ __| __/ _` | | |/ _ \ '__|
-    \  /\  / (_| |/ /| |_| | | | |  _| |_| | | \__ \ || (_| | | |  __/ |   
-     \/  \/ \__,_/___|\__,_|_| |_| |_____|_| |_|___/\__\__,_|_|_|\___|_|   
-                                                                       
+                               __                    
+ \ \        / /            | |     |   |         | |      | | |
+  \ \  /\  / /  __   | |__     | |     _| | __ | | |    
+   \ /  / / ` |  / | | | ' \    | | | ' / | / ` | | |/  \ '|
+    \  /\  / (| |/ /| || | | | |  | || | | _ \ || (| | | |  / |
+     /  / _,/|_,|| || |__|| ||/__,|||_|_|
+
 
 EOF
 
 
+if [ $(id -u) -ne 0 ]
+then
+    echo "Please run this script as root or using sudo!"
+    exit 0
+fi
+
+
 echo
-echo --------[1/3]Set Map Count--------
+echo --------[1/4]Set Map Count--------
 echo
 
 sysctl -w vm.max_map_count=262144
 
+echo
+echo --------[2/4]Build Images--------
+echo
+
 cd wazuh-docker
+git checkout stable
+sudo -u $SUDO_USER ./build-docker-images/build-images.sh -v 4.11.0
+
+echo
+echo --------[3/3]Generat Certs--------
+echo
+
+sudo -u $SUDO_USER docker-compose -f generate-indexer-certs.yml run --rm generator
+
+echo
+echo --------[4/4]Compose Docker--------
+echo
+
 cd single-node
-
-echo
-echo --------[2/3]Generat Certs--------
-echo
-
-docker-compose -f generate-indexer-certs.yml run --rm generator
-
-echo
-echo --------[3/3]Compose Docker--------
-echo
-
-docker-compose up -d
+sudo -u $SUDO_USER docker-compose up -d
