@@ -3,12 +3,12 @@
 
 cat << "EOF"
 
-                               __                    
+                               
  \ \        / /            | |     |   |         | |      | | |
-  \ \  /\  / /  __   | |__     | |     _| | __ | | |    
-   \ /  / / ` |  / | | | ' \    | | | ' / | / ` | | |/  \ '|
-    \  /\  / (| |/ /| || | | | |  | || | | _ \ || (| | | |  / |
-     /  / _,/|_,|| || |__|| ||/__,|||_|_|
+  \ \  /\  / /     | |     | |     _| |  | | |
+   \ /  / /  |  / | | | ' \    | | | ' / | /  | | |/  \ '|
+    \  /\  / (| |/ /|  | | | |  |  | |  \ || (| | | |  / |
+     /  / ,/|,  | /,||||_|
 
 
 EOF
@@ -48,3 +48,30 @@ echo
 
 
 sudo -u $SUDO_USER docker-compose up -d
+
+echo
+echo --------[5/5]Set up custom rules--------
+echo
+
+cd ..
+cd ..
+
+docker cp config/local_rules.xml $(docker ps -aqf "name=single-node-wazuh.manager-1"):/var/ossec/etc/rules/local_rules.xml
+docker cp config/local_decoder.xml $(docker ps -aqf "name=single-node-wazuh.manager-1"):/var/ossec/etc/decoders/local_decoder.xml
+#docker cp config/ossec.conf $(docker ps -aqf "name=single-node-wazuh.manager-1"):/var/ossec/etc/decoders/local_decoder.xm
+
+
+echo
+echo --------[6/6]Restart Manager--------
+echo
+
+docker restart $(docker ps -aqf "name=single-node-wazuh.manager-1")
+
+
+echo
+echo --------Instalation Finished--------
+echo
+
+echo Dashboard: 10.20.30.57
+echo User: admin
+echo Password: SecretPassword
