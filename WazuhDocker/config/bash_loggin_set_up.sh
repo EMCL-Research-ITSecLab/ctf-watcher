@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GLOBAL_BASHRC="test"
+GLOBAL_BASHRC="/etc/bash.bashrc"
 COMMAND_LOG_BASH="
 # log last bash command to local6.debug which is located in /var/log/commands.log
 export PROMPT_COMMAND='RETRN_VAL=\$?;logger -t bash_commands -p local6.debug \"User \$(whoami) @ \$(pwd) [$$]: \$(history 1 | sed \"s/^[ ]*[0-9]\+[ ]*//\" )\"'
