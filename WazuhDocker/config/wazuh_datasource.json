@@ -1,6 +1,4 @@
 {
-  "id": 1,
-  "uid": "aefmbd7dr4hdsc",
   "orgId": 1,
   "name": "Wazuh-2",
   "type": "elasticsearch",
