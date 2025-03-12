@@ -1,7 +1,7 @@
 #!/bin/bash
 GRAFANA_URL="http://localhost:3000"
-GRAFANA_PASS="admin"
 GRAFANA_USERNAME="admin"
+GRAFANA_PASSWORD="admin"
 DASHBOARD_JSON="wazuh_dashboard.json"
 DATASOURCE_JSON="wazuh_datasource.json"
 
