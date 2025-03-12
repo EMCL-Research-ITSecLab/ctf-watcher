@@ -19,7 +19,7 @@ fi
 # Append the command to the GLOBAL_BASHRC file
 echo "$COMMAND_LOG_BASH" >> "$GLOBAL_BASHRC"
 
-source /etc/bashrc
+source "$GLOBAL_BASHRC
 
 echo "$LOG_DESTINATION" >> "$PATH_BASH_CONF"
 
