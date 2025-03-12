@@ -1,0 +1,2460 @@
+{
+  "__inputs": [
+    {
+      "name": "DS_WAZUH-2",
+      "label": "Wazuh-2",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "elasticsearch",
+      "pluginName": "Elasticsearch"
+    }
+  ],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "datasource",
+      "id": "elasticsearch",
+      "name": "Elasticsearch",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "gauge",
+      "name": "Gauge",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "geomap",
+      "name": "Geomap",
+      "version": ""
+    },
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "11.3.1"
+    },
+    {
+      "type": "panel",
+      "id": "stat",
+      "name": "Stat",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "${DS_WAZUH-2}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "%"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 16,
+        "x": 0,
+        "y": 0
+      },
+      "id": 6,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "vertical",
+        "reduceOptions": {
+          "calcs": [
+            "first"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": true,
+        "showThresholdMarkers": true,
+        "sizing": "auto"
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "alias": "",
+          "bucketAggs": [],
+          "metrics": [
+            {
+              "id": "1",
+              "settings": {
+                "size": "500"
+              },
+              "type": "raw_data"
+            }
+          ],
+          "query": "rule.id:100054",
+          "refId": "A",
+          "timeField": "@timestamp",
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "${DS_WAZUH-2}"
+          }
+        }
+      ],
+      "title": "Wazuh Server Health",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "rule.firedtimes": true,
+              "rule.level": true
+            },
+            "includeByName": {},
+            "indexByName": {
+              "@timestamp": 0,
+              "_id": 1,
+              "_index": 2,
+              "_type": 3,
+              "agent.id": 4,
+              "agent.name": 5,
+              "data.cpu_usage_%": 6,
+              "data.disk_usage_%": 8,
+              "data.memory_usage_%": 7,
+              "decoder.name": 9,
+              "decoder.parent": 10,
+              "full_log": 11,
+              "highlight": 12,
+              "id": 13,
+              "input.type": 14,
+              "location": 15,
+              "manager.name": 16,
+              "predecoder.hostname": 17,
+              "predecoder.program_name": 18,
+              "predecoder.timestamp": 19,
+              "rule.description": 20,
+              "rule.firedtimes": 21,
+              "rule.groups": 22,
+              "rule.id": 23,
+              "rule.level": 24,
+              "rule.mail": 25,
+              "sort": 26,
+              "timestamp": 27
+            },
+            "renameByName": {
+              "data.cpu_usage_%": "CPU",
+              "data.disk_usage_%": "Disk",
+              "data.memory_usage_%": "Memory"
+            }
+          }
+        },
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "number",
+                "targetField": "data.cpu_usage_%"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "data.memory_usage_%"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "data.disk_usage_%"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "${DS_WAZUH-2}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "data.To"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 158
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Action"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 113
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Server"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 227
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 26,
+        "w": 8,
+        "x": 16,
+        "y": 0
+      },
+      "id": 10,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "alias": "",
+          "bucketAggs": [],
+          "metrics": [
+            {
+              "id": "1",
+              "settings": {
+                "size": "500"
+              },
+              "type": "raw_data"
+            }
+          ],
+          "query": "rule.id:100301",
+          "refId": "A",
+          "timeField": "@timestamp",
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "${DS_WAZUH-2}"
+          }
+        }
+      ],
+      "timeFrom": "30s",
+      "title": "UFW Port Status",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "@timestamp": false,
+              "_id": true,
+              "_index": true,
+              "_type": true,
+              "agent.id": true,
+              "decoder.name": true,
+              "decoder.parent": true,
+              "full_log": true,
+              "highlight": true,
+              "id": true,
+              "input.type": true,
+              "location": true,
+              "manager.name": true,
+              "predecoder.hostname": true,
+              "predecoder.program_name": true,
+              "predecoder.timestamp": true,
+              "rule.description": true,
+              "rule.firedtimes": true,
+              "rule.groups": true,
+              "rule.id": true,
+              "rule.level": true,
+              "rule.mail": true,
+              "sort": true,
+              "timestamp": true
+            },
+            "includeByName": {},
+            "indexByName": {
+              "@timestamp": 0,
+              "_id": 1,
+              "_index": 2,
+              "_type": 3,
+              "agent.id": 4,
+              "agent.name": 5,
+              "data.Action": 6,
+              "data.From": 8,
+              "data.To": 7,
+              "decoder.name": 9,
+              "decoder.parent": 10,
+              "full_log": 11,
+              "highlight": 12,
+              "id": 13,
+              "input.type": 14,
+              "location": 15,
+              "manager.name": 16,
+              "predecoder.hostname": 17,
+              "predecoder.program_name": 18,
+              "predecoder.timestamp": 19,
+              "rule.description": 20,
+              "rule.firedtimes": 21,
+              "rule.groups": 22,
+              "rule.id": 23,
+              "rule.level": 24,
+              "rule.mail": 25,
+              "sort": 26,
+              "timestamp": 27
+            },
+            "renameByName": {
+              "agent.name": "Server",
+              "data.Action": "Action",
+              "data.From": "From",
+              "data.To": "To"
+            }
+          }
+        },
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "Action": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "From": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Server": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "To": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "field": "To"
+              }
+            ]
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "${DS_WAZUH-2}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 4,
+        "x": 0,
+        "y": 10
+      },
+      "id": 8,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "first"
+          ],
+          "fields": "/^data\\.active_users$/",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "value",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "alias": "",
+          "bucketAggs": [],
+          "metrics": [
+            {
+              "id": "1",
+              "settings": {
+                "size": "500"
+              },
+              "type": "raw_data"
+            }
+          ],
+          "query": "rule.id:100102",
+          "refId": "A",
+          "timeField": "@timestamp",
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "${DS_WAZUH-2}"
+          }
+        }
+      ],
+      "title": "Current Active Users",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "number",
+                "targetField": "data.active_users"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "${DS_WAZUH-2}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": true,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "@timestamp"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 262
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "sort"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 76
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "rule.mail"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 32
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "rule.id"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 95
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "rule.level"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 52
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "rule.firedtimes"
+            },
+            "properties": [
+              {
+                "id": "custom.width"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "agent.name"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 260
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 4,
+        "y": 10
+      },
+      "id": 7,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "enablePagination": true,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "alias": "",
+          "bucketAggs": [],
+          "metrics": [
+            {
+              "id": "1",
+              "settings": {
+                "size": "500"
+              },
+              "type": "raw_data"
+            }
+          ],
+          "query": "rule.id:100101\n",
+          "refId": "A",
+          "timeField": "@timestamp",
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "${DS_WAZUH-2}"
+          }
+        }
+      ],
+      "timeFrom": "30s",
+      "title": "Current Active User ",
+      "transformations": [
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "@timestamp": {
+                "aggregations": []
+              },
+              "agent.name": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "data.dstuser": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "data.from": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "data.login": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "data.tty": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {
+              "agent.name": 1,
+              "data.dstuser": 0,
+              "data.from": 2,
+              "data.login": 3,
+              "data.tty": 4
+            },
+            "renameByName": {
+              "agent.name": "Server",
+              "data.dstuser": "User",
+              "data.from": "From",
+              "data.login": "Login Time",
+              "data.tty": "TTY"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "${DS_WAZUH-2}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "#F2495C",
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 4,
+        "x": 12,
+        "y": 10
+      },
+      "id": 1,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "alias": "    authentication_success",
+          "bucketAggs": [
+            {
+              "field": "@timestamp",
+              "id": "2",
+              "settings": {
+                "interval": "auto"
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "${DS_WAZUH-2}"
+          },
+          "hide": false,
+          "metrics": [
+            {
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "rule.id:5501",
+          "refId": "C",
+          "timeField": "@timestamp"
+        },
+        {
+          "alias": "Non-existent user",
+          "bucketAggs": [
+            {
+              "field": "@timestamp",
+              "id": "2",
+              "settings": {
+                "interval": "auto"
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "${DS_WAZUH-2}"
+          },
+          "metrics": [
+            {
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "rule.id:5710",
+          "refId": "A",
+          "timeField": "@timestamp"
+        },
+        {
+          "alias": "Brute force trying",
+          "bucketAggs": [
+            {
+              "field": "@timestamp",
+              "id": "2",
+              "settings": {
+                "interval": "auto"
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "${DS_WAZUH-2}"
+          },
+          "hide": false,
+          "metrics": [
+            {
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "rule.id:5712",
+          "refId": "B",
+          "timeField": "@timestamp"
+        }
+      ],
+      "title": "SSH: Login Warnings",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "${DS_WAZUH-2}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": true,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Command"
+            },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "pattern": ".sudo.*",
+                      "result": {
+                        "color": "red",
+                        "index": 0
+                      }
+                    },
+                    "type": "regex"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 16,
+        "x": 0,
+        "y": 18
+      },
+      "id": 9,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "enablePagination": true,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "alias": "",
+          "bucketAggs": [],
+          "metrics": [
+            {
+              "id": "1",
+              "settings": {
+                "size": "500"
+              },
+              "type": "raw_data"
+            }
+          ],
+          "query": "rule.id:100201 -location:journald",
+          "refId": "A",
+          "timeField": "@timestamp",
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "${DS_WAZUH-2}"
+          }
+        }
+      ],
+      "title": "Bash Commands",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "_id": true,
+              "_index": true,
+              "_type": true,
+              "agent.id": true,
+              "decoder.name": true,
+              "decoder.parent": true,
+              "full_log": true,
+              "highlight": true,
+              "id": true,
+              "input.type": true,
+              "location": true,
+              "manager.name": true,
+              "predecoder.hostname": true,
+              "predecoder.program_name": true,
+              "predecoder.timestamp": true,
+              "rule.description": true,
+              "rule.firedtimes": true,
+              "rule.groups": true,
+              "rule.id": true,
+              "rule.level": true,
+              "rule.mail": true,
+              "sort": true,
+              "timestamp": true
+            },
+            "includeByName": {},
+            "indexByName": {
+              "@timestamp": 0,
+              "_id": 1,
+              "_index": 2,
+              "_type": 3,
+              "agent.id": 4,
+              "agent.name": 5,
+              "data.Command": 8,
+              "data.User": 6,
+              "data.WD": 7,
+              "decoder.name": 9,
+              "decoder.parent": 10,
+              "full_log": 11,
+              "highlight": 12,
+              "id": 13,
+              "input.type": 14,
+              "location": 15,
+              "manager.name": 16,
+              "predecoder.hostname": 17,
+              "predecoder.program_name": 18,
+              "predecoder.timestamp": 19,
+              "rule.description": 20,
+              "rule.firedtimes": 21,
+              "rule.groups": 22,
+              "rule.id": 23,
+              "rule.level": 24,
+              "rule.mail": 25,
+              "sort": 26,
+              "timestamp": 27
+            },
+            "renameByName": {
+              "@timestamp": "Timestamp",
+              "data.Command": "Command",
+              "data.User": "User",
+              "data.WD": "Directory"
+            }
+          }
+        },
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "Command": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Directory": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Timestamp": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "User": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "agent.name": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
+            }
+          }
+        },
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "string",
+                "targetField": "Command"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "${DS_WAZUH-2}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 26
+      },
+      "id": 5,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "enablePagination": true,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "alias": "",
+          "bucketAggs": [],
+          "metrics": [
+            {
+              "id": "1",
+              "settings": {
+                "size": "500"
+              },
+              "type": "raw_data"
+            }
+          ],
+          "query": "rule.id:100012",
+          "refId": "A",
+          "timeField": "@timestamp",
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "${DS_WAZUH-2}"
+          }
+        }
+      ],
+      "title": "heiDPI Packet Events",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "_id": true,
+              "_index": true,
+              "_type": true,
+              "agent.id": true,
+              "data.alias": true,
+              "data.flow_dst_last_pkt_time": true,
+              "data.flow_id": true,
+              "data.flow_idle_time": true,
+              "data.flow_packet_id": true,
+              "data.flow_src_last_pkt_time": true,
+              "data.packet_event_id": true,
+              "data.packet_event_name": false,
+              "data.packet_id": true,
+              "data.pkt": true,
+              "data.pkt_caplen": true,
+              "data.pkt_datalink": true,
+              "data.pkt_l3_offset": true,
+              "data.pkt_l4_len": true,
+              "data.pkt_l4_offset": true,
+              "data.pkt_len": true,
+              "data.pkt_type": true,
+              "data.source": true,
+              "data.thread_id": true,
+              "data.thread_ts_usec": true,
+              "data.timestamp": true,
+              "decoder.name": true,
+              "full_log": true,
+              "highlight": true,
+              "id": true,
+              "input.type": true,
+              "location": true,
+              "rule.firedtimes": true,
+              "rule.groups": true,
+              "rule.id": true,
+              "rule.level": true,
+              "rule.mail": true,
+              "sort": true,
+              "timestamp": true
+            },
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "${DS_WAZUH-2}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "data.ndpi.proto_by_ip"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 249
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "data.dst_port"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 68
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "data.src_port"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 78
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "data.flow_event_id"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 37
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "data.l3_proto"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 48
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "data.l4_proto"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 62
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "data.ndpi.breed"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 102
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "data.ndpi.category"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 88
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "data.ndpi.encrypted"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 16
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Encrypted"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 93
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Category"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 114
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Unsafe Cypher"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 122
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Protocoll"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 76
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Encrypted"
+            },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "applyToRow": false,
+                  "mode": "basic",
+                  "type": "color-background",
+                  "wrapText": false
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Unsafe Cypher"
+            },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "mode": "basic",
+                  "type": "color-background"
+                }
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "0": {
+                        "color": "green",
+                        "index": 0
+                      },
+                      "1": {
+                        "color": "red",
+                        "index": 1
+                      }
+                    },
+                    "type": "value"
+                  },
+                  {
+                    "options": {
+                      "match": "null",
+                      "result": {
+                        "color": "transparent",
+                        "index": 2
+                      }
+                    },
+                    "type": "special"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Dst IP"
+            },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "255.255.255.255": {
+                        "color": "yellow",
+                        "index": 1
+                      }
+                    },
+                    "type": "value"
+                  },
+                  {
+                    "options": {
+                      "pattern": "10\\..*",
+                      "result": {
+                        "color": "text",
+                        "index": 0
+                      }
+                    },
+                    "type": "regex"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 15,
+        "w": 24,
+        "x": 0,
+        "y": 33
+      },
+      "id": 4,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "enablePagination": true,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "alias": "",
+          "bucketAggs": [],
+          "metrics": [
+            {
+              "id": "1",
+              "settings": {
+                "limit": "500"
+              },
+              "type": "logs"
+            }
+          ],
+          "query": "rule.id:100011",
+          "refId": "A",
+          "timeField": "@timestamp",
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "${DS_WAZUH-2}"
+          }
+        }
+      ],
+      "title": "heiDPId Flow Events",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "_id": true,
+              "_index": true,
+              "_source": true,
+              "_type": true,
+              "agent.id": true,
+              "data.alias": true,
+              "data.flow_datalink": true,
+              "data.flow_dst_last_pkt_time": true,
+              "data.flow_dst_max_l4_payload_len": true,
+              "data.flow_dst_min_l4_payload_len": true,
+              "data.flow_dst_packets_processed": true,
+              "data.flow_dst_tot_l4_payload_len": true,
+              "data.flow_event_id": true,
+              "data.flow_first_seen": true,
+              "data.flow_id": true,
+              "data.flow_idle_time": true,
+              "data.flow_max_packets": true,
+              "data.flow_src_last_pkt_time": true,
+              "data.flow_src_max_l4_payload_len": true,
+              "data.flow_src_min_l4_payload_len": true,
+              "data.flow_src_packets_processed": true,
+              "data.flow_src_tot_l4_payload_len": true,
+              "data.midstream": true,
+              "data.ndpi.category_id": true,
+              "data.ndpi.confidence.6": true,
+              "data.ndpi.dhcp.fingerprint": true,
+              "data.ndpi.dns.num_answers": true,
+              "data.ndpi.dns.num_queries": true,
+              "data.ndpi.dns.query_type": true,
+              "data.ndpi.dns.reply_code": true,
+              "data.ndpi.dns.rsp_addr": true,
+              "data.ndpi.dns.rsp_type": true,
+              "data.ndpi.encrypted": false,
+              "data.ndpi.flow_risk.15.risk": true,
+              "data.ndpi.flow_risk.15.risk_score.client": true,
+              "data.ndpi.flow_risk.15.risk_score.server": true,
+              "data.ndpi.flow_risk.15.risk_score.total": true,
+              "data.ndpi.flow_risk.15.severity": true,
+              "data.ndpi.flow_risk.24.risk": true,
+              "data.ndpi.flow_risk.24.risk_score.client": true,
+              "data.ndpi.flow_risk.24.risk_score.server": true,
+              "data.ndpi.flow_risk.24.risk_score.total": true,
+              "data.ndpi.flow_risk.24.severity": true,
+              "data.ndpi.flow_risk.32.risk": true,
+              "data.ndpi.flow_risk.32.risk_score.client": true,
+              "data.ndpi.flow_risk.32.risk_score.server": true,
+              "data.ndpi.flow_risk.32.risk_score.total": true,
+              "data.ndpi.flow_risk.32.severity": true,
+              "data.ndpi.flow_risk.46.risk": true,
+              "data.ndpi.flow_risk.46.risk_score.client": true,
+              "data.ndpi.flow_risk.46.risk_score.server": true,
+              "data.ndpi.flow_risk.46.risk_score.total": true,
+              "data.ndpi.flow_risk.46.severity": true,
+              "data.ndpi.flow_risk.5.risk": true,
+              "data.ndpi.flow_risk.5.risk_score.client": true,
+              "data.ndpi.flow_risk.5.risk_score.server": true,
+              "data.ndpi.flow_risk.5.risk_score.total": true,
+              "data.ndpi.flow_risk.5.severity": true,
+              "data.ndpi.flow_risk.52.risk": true,
+              "data.ndpi.flow_risk.52.risk_score.client": true,
+              "data.ndpi.flow_risk.52.risk_score.server": true,
+              "data.ndpi.flow_risk.52.risk_score.total": true,
+              "data.ndpi.flow_risk.52.severity": true,
+              "data.ndpi.hostname": true,
+              "data.ndpi.http.code": true,
+              "data.ndpi.http.url": true,
+              "data.ndpi.http.user_agent": true,
+              "data.ndpi.ntp.request_code": true,
+              "data.ndpi.ntp.version": true,
+              "data.ndpi.proto": true,
+              "data.ndpi.proto_by_ip": true,
+              "data.ndpi.proto_by_ip_id": true,
+              "data.ndpi.proto_id": true,
+              "data.ndpi.ssh.client_signature": true,
+              "data.ndpi.ssh.hassh_client": true,
+              "data.ndpi.ssh.hassh_server": true,
+              "data.ndpi.ssh.server_signature": true,
+              "data.ndpi.tls.advertised_alpns": true,
+              "data.ndpi.tls.cipher": true,
+              "data.ndpi.tls.fingerprint": true,
+              "data.ndpi.tls.issuerDN": true,
+              "data.ndpi.tls.ja3": true,
+              "data.ndpi.tls.ja3s": true,
+              "data.ndpi.tls.server_names": true,
+              "data.ndpi.tls.subjectDN": true,
+              "data.ndpi.tls.tls_supported_versions": true,
+              "data.ndpi.tls.unsafe_cipher": false,
+              "data.ndpi.tls.version": true,
+              "data.packet_id": true,
+              "data.source": true,
+              "data.thread_id": true,
+              "data.thread_ts_usec": true,
+              "data.timestamp": true,
+              "decoder.name": true,
+              "full_log": true,
+              "highlight": true,
+              "id": true,
+              "input.type": true,
+              "location": true,
+              "manager.name": true,
+              "rule.description": true,
+              "rule.firedtimes": true,
+              "rule.groups": true,
+              "rule.id": true,
+              "rule.level": true,
+              "rule.mail": true,
+              "sort": true,
+              "timestamp": true
+            },
+            "includeByName": {},
+            "indexByName": {
+              "@timestamp": 0,
+              "_id": 1,
+              "_index": 2,
+              "_source": 3,
+              "_type": 4,
+              "agent.id": 5,
+              "agent.name": 6,
+              "data.alias": 7,
+              "data.dst_ip": 8,
+              "data.dst_port": 9,
+              "data.flow_datalink": 12,
+              "data.flow_dst_last_pkt_time": 13,
+              "data.flow_dst_max_l4_payload_len": 14,
+              "data.flow_dst_min_l4_payload_len": 15,
+              "data.flow_dst_packets_processed": 16,
+              "data.flow_dst_tot_l4_payload_len": 17,
+              "data.flow_event_id": 18,
+              "data.flow_event_name": 19,
+              "data.flow_first_seen": 20,
+              "data.flow_id": 21,
+              "data.flow_idle_time": 22,
+              "data.flow_max_packets": 23,
+              "data.flow_src_last_pkt_time": 24,
+              "data.flow_src_max_l4_payload_len": 25,
+              "data.flow_src_min_l4_payload_len": 26,
+              "data.flow_src_packets_processed": 27,
+              "data.flow_src_tot_l4_payload_len": 28,
+              "data.flow_state": 29,
+              "data.l3_proto": 30,
+              "data.l4_proto": 31,
+              "data.midstream": 32,
+              "data.ndpi.breed": 33,
+              "data.ndpi.category": 34,
+              "data.ndpi.category_id": 35,
+              "data.ndpi.confidence.6": 36,
+              "data.ndpi.dns.num_answers": 37,
+              "data.ndpi.dns.num_queries": 38,
+              "data.ndpi.dns.query_type": 39,
+              "data.ndpi.dns.reply_code": 40,
+              "data.ndpi.dns.rsp_addr": 41,
+              "data.ndpi.dns.rsp_type": 42,
+              "data.ndpi.encrypted": 43,
+              "data.ndpi.flow_risk.15.risk": 44,
+              "data.ndpi.flow_risk.15.risk_score.client": 45,
+              "data.ndpi.flow_risk.15.risk_score.server": 46,
+              "data.ndpi.flow_risk.15.risk_score.total": 47,
+              "data.ndpi.flow_risk.15.severity": 48,
+              "data.ndpi.flow_risk.24.risk": 49,
+              "data.ndpi.flow_risk.24.risk_score.client": 50,
+              "data.ndpi.flow_risk.24.risk_score.server": 51,
+              "data.ndpi.flow_risk.24.risk_score.total": 52,
+              "data.ndpi.flow_risk.24.severity": 53,
+              "data.ndpi.flow_risk.32.risk": 54,
+              "data.ndpi.flow_risk.32.risk_score.client": 55,
+              "data.ndpi.flow_risk.32.risk_score.server": 56,
+              "data.ndpi.flow_risk.32.risk_score.total": 57,
+              "data.ndpi.flow_risk.32.severity": 58,
+              "data.ndpi.flow_risk.46.risk": 59,
+              "data.ndpi.flow_risk.46.risk_score.client": 60,
+              "data.ndpi.flow_risk.46.risk_score.server": 61,
+              "data.ndpi.flow_risk.46.risk_score.total": 62,
+              "data.ndpi.flow_risk.46.severity": 63,
+              "data.ndpi.flow_risk.5.risk": 64,
+              "data.ndpi.flow_risk.5.risk_score.client": 65,
+              "data.ndpi.flow_risk.5.risk_score.server": 66,
+              "data.ndpi.flow_risk.5.risk_score.total": 67,
+              "data.ndpi.flow_risk.5.severity": 68,
+              "data.ndpi.flow_risk.52.risk": 69,
+              "data.ndpi.flow_risk.52.risk_score.client": 70,
+              "data.ndpi.flow_risk.52.risk_score.server": 71,
+              "data.ndpi.flow_risk.52.risk_score.total": 72,
+              "data.ndpi.flow_risk.52.severity": 73,
+              "data.ndpi.hostname": 74,
+              "data.ndpi.proto": 75,
+              "data.ndpi.proto_by_ip": 76,
+              "data.ndpi.proto_by_ip_id": 77,
+              "data.ndpi.proto_id": 78,
+              "data.ndpi.tls.advertised_alpns": 79,
+              "data.ndpi.tls.cipher": 80,
+              "data.ndpi.tls.fingerprint": 81,
+              "data.ndpi.tls.issuerDN": 82,
+              "data.ndpi.tls.ja3": 83,
+              "data.ndpi.tls.ja3s": 84,
+              "data.ndpi.tls.server_names": 85,
+              "data.ndpi.tls.subjectDN": 86,
+              "data.ndpi.tls.tls_supported_versions": 87,
+              "data.ndpi.tls.unsafe_cipher": 88,
+              "data.ndpi.tls.version": 89,
+              "data.packet_id": 90,
+              "data.source": 91,
+              "data.src_ip": 10,
+              "data.src_port": 11,
+              "data.thread_id": 92,
+              "data.thread_ts_usec": 93,
+              "data.timestamp": 94,
+              "decoder.name": 95,
+              "full_log": 96,
+              "highlight": 97,
+              "id": 98,
+              "input.type": 99,
+              "location": 100,
+              "manager.name": 101,
+              "rule.description": 102,
+              "rule.firedtimes": 103,
+              "rule.groups": 104,
+              "rule.id": 105,
+              "rule.level": 106,
+              "rule.mail": 107,
+              "sort": 108,
+              "timestamp": 109
+            },
+            "renameByName": {
+              "@timestamp": "Timestamp",
+              "agent.name": "Agent",
+              "data.dst_ip": "Dst IP",
+              "data.dst_port": "Dst Port",
+              "data.flow_dst_last_pkt_time": "",
+              "data.flow_event_name": "Event",
+              "data.flow_state": "State",
+              "data.l3_proto": "Protocoll",
+              "data.l4_proto": "",
+              "data.midstream": "",
+              "data.ndpi.breed": "Breed",
+              "data.ndpi.category": "Category",
+              "data.ndpi.encrypted": "Encrypted",
+              "data.ndpi.flow_risk.15.risk": "",
+              "data.ndpi.tls.unsafe_cipher": "Unsafe Cypher",
+              "data.src_ip": "Src IP",
+              "data.src_port": "Src Port"
+            }
+          }
+        },
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "number",
+                "targetField": "Encrypted"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "${DS_WAZUH-2}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto",
+              "wrapText": true
+            },
+            "filterable": true,
+            "inspect": false,
+            "minWidth": 0
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "data.srcuser"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 145
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "data.dstuser"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 134
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "agent.name"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 199
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "@timestamp"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 198
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 24,
+        "x": 0,
+        "y": 48
+      },
+      "id": 2,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "enablePagination": true,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "alias": "",
+          "bucketAggs": [],
+          "metrics": [
+            {
+              "id": "1",
+              "settings": {
+                "limit": "500"
+              },
+              "type": "logs"
+            }
+          ],
+          "query": "rule.id:5402",
+          "refId": "A",
+          "timeField": "@timestamp",
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "${DS_WAZUH-2}"
+          }
+        }
+      ],
+      "title": "Bash Log",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "_id": true,
+              "_index": true,
+              "_source": true,
+              "_type": true,
+              "agent.id": true,
+              "data.pwd": true,
+              "data.tty": true,
+              "decoder.name": true,
+              "decoder.parent": true,
+              "full_log": true,
+              "highlight": true,
+              "id": true,
+              "input.type": true,
+              "location": true,
+              "manager.name": true,
+              "predecoder.hostname": true,
+              "predecoder.program_name": true,
+              "predecoder.timestamp": true,
+              "rule.description": true,
+              "rule.firedtimes": true,
+              "rule.gdpr": true,
+              "rule.gpg13": true,
+              "rule.groups": true,
+              "rule.hipaa": true,
+              "rule.id": true,
+              "rule.level": true,
+              "rule.mail": true,
+              "rule.mitre.id": true,
+              "rule.mitre.tactic": true,
+              "rule.mitre.technique": true,
+              "rule.nist_800_53": true,
+              "rule.pci_dss": true,
+              "rule.tsc": true,
+              "sort": true,
+              "timestamp": true
+            },
+            "includeByName": {},
+            "indexByName": {
+              "@timestamp": 0,
+              "_id": 1,
+              "_index": 2,
+              "_source": 3,
+              "_type": 4,
+              "agent.id": 5,
+              "agent.name": 6,
+              "data.command": 9,
+              "data.dstuser": 8,
+              "data.pwd": 10,
+              "data.srcuser": 7,
+              "data.tty": 11,
+              "decoder.ftscomment": 12,
+              "decoder.name": 13,
+              "decoder.parent": 14,
+              "full_log": 15,
+              "highlight": 16,
+              "id": 17,
+              "input.type": 18,
+              "location": 19,
+              "manager.name": 20,
+              "predecoder.hostname": 21,
+              "predecoder.program_name": 22,
+              "predecoder.timestamp": 23,
+              "rule.description": 24,
+              "rule.firedtimes": 25,
+              "rule.gdpr": 26,
+              "rule.gpg13": 27,
+              "rule.groups": 28,
+              "rule.hipaa": 29,
+              "rule.id": 30,
+              "rule.level": 31,
+              "rule.mail": 32,
+              "rule.mitre.id": 33,
+              "rule.mitre.tactic": 34,
+              "rule.mitre.technique": 35,
+              "rule.nist_800_53": 36,
+              "rule.pci_dss": 37,
+              "rule.tsc": 38,
+              "sort": 39,
+              "timestamp": 40
+            },
+            "renameByName": {
+              "@timestamp": "Timestamp",
+              "agent.name": "Agent name",
+              "data.command": "Command",
+              "data.dstuser": "Target User",
+              "data.pwd": "",
+              "data.srcuser": "Source User",
+              "data.tty": "",
+              "decoder.ftscomment": "Comment"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "${DS_WAZUH-2}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 17,
+        "x": 7,
+        "y": 61
+      },
+      "id": 3,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "enablePagination": true,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "alias": "",
+          "bucketAggs": [],
+          "metrics": [
+            {
+              "id": "1",
+              "settings": {
+                "limit": "500"
+              },
+              "type": "logs"
+            }
+          ],
+          "query": "rule.id:104102",
+          "refId": "A",
+          "timeField": "@timestamp",
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "${DS_WAZUH-2}"
+          }
+        }
+      ],
+      "title": "UFW Events",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "@timestamp": false,
+              "_id": true,
+              "_index": true,
+              "_source": true,
+              "_type": true,
+              "agent.id": true,
+              "decoder.name": true,
+              "decoder.parent": true,
+              "full_log": true,
+              "highlight": true,
+              "id": true,
+              "input.type": true,
+              "location": true,
+              "predecoder.hostname": true,
+              "predecoder.program_name": true,
+              "predecoder.timestamp": true,
+              "rule.firedtimes": true,
+              "rule.gdpr": true,
+              "rule.gpg13": true,
+              "rule.groups": true,
+              "rule.hipaa": true,
+              "rule.id": true,
+              "rule.level": true,
+              "rule.mail": true,
+              "rule.nist_800_53": true,
+              "rule.pci_dss": true,
+              "rule.tsc": true,
+              "sort": true,
+              "timestamp": true
+            },
+            "includeByName": {},
+            "indexByName": {
+              "@timestamp": 0,
+              "_id": 1,
+              "_index": 2,
+              "_source": 3,
+              "_type": 4,
+              "agent.id": 5,
+              "agent.name": 7,
+              "data.action": 8,
+              "data.dstip": 10,
+              "data.dstport": 11,
+              "data.protocol": 14,
+              "data.srcip": 12,
+              "data.srcport": 13,
+              "decoder.name": 15,
+              "decoder.parent": 16,
+              "full_log": 17,
+              "highlight": 18,
+              "id": 19,
+              "input.type": 20,
+              "location": 21,
+              "manager.name": 6,
+              "predecoder.hostname": 22,
+              "predecoder.program_name": 23,
+              "predecoder.timestamp": 24,
+              "rule.description": 9,
+              "rule.firedtimes": 25,
+              "rule.gdpr": 26,
+              "rule.gpg13": 27,
+              "rule.groups": 28,
+              "rule.hipaa": 29,
+              "rule.id": 30,
+              "rule.level": 31,
+              "rule.mail": 32,
+              "rule.nist_800_53": 33,
+              "rule.pci_dss": 34,
+              "rule.tsc": 35,
+              "sort": 36,
+              "timestamp": 37
+            },
+            "renameByName": {
+              "@timestamp": "Timestamp",
+              "_id": "",
+              "agent.name": "Wazuh Agent",
+              "data.action": "UFW Action",
+              "data.dstip": "Destination IP",
+              "data.dstport": "Destination Port",
+              "data.protocol": "Protocol",
+              "data.srcip": "Source IP",
+              "data.srcport": "Source Port",
+              "decoder.name": "",
+              "decoder.parent": "",
+              "manager.name": "Wazuh Manager",
+              "rule.description": "Description"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "${DS_WAZUH-2}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 25,
+        "w": 24,
+        "x": 0,
+        "y": 68
+      },
+      "id": 11,
+      "options": {
+        "basemap": {
+          "config": {
+            "server": "streets",
+            "showLabels": true,
+            "theme": "auto"
+          },
+          "name": "Layer 0",
+          "type": "default"
+        },
+        "controls": {
+          "mouseWheelZoom": false,
+          "showAttribution": false,
+          "showDebug": true,
+          "showMeasure": false,
+          "showScale": false,
+          "showZoom": true
+        },
+        "layers": [
+          {
+            "config": {
+              "showLegend": true,
+              "style": {
+                "color": {
+                  "fixed": "dark-green"
+                },
+                "opacity": 0.4,
+                "rotation": {
+                  "fixed": 0,
+                  "max": 360,
+                  "min": -360,
+                  "mode": "mod"
+                },
+                "size": {
+                  "fixed": 5,
+                  "max": 15,
+                  "min": 2
+                },
+                "symbol": {
+                  "fixed": "img/icons/marker/circle.svg",
+                  "mode": "fixed"
+                },
+                "symbolAlign": {
+                  "horizontal": "center",
+                  "vertical": "center"
+                },
+                "textConfig": {
+                  "fontSize": 12,
+                  "offsetX": 0,
+                  "offsetY": 0,
+                  "textAlign": "center",
+                  "textBaseline": "middle"
+                }
+              }
+            },
+            "filterData": {
+              "id": "byRefId",
+              "options": "A"
+            },
+            "location": {
+              "latitude": "data.dst_geoip2_city.location.latitude",
+              "longitude": "data.dst_geoip2_city.location.longitude",
+              "mode": "coords"
+            },
+            "name": "Layer 1",
+            "tooltip": true,
+            "type": "markers"
+          }
+        ],
+        "tooltip": {
+          "mode": "details"
+        },
+        "view": {
+          "allLayers": true,
+          "id": "coords",
+          "lat": 50,
+          "lon": 8.5,
+          "zoom": 5.4
+        }
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "alias": "",
+          "bucketAggs": [],
+          "metrics": [
+            {
+              "id": "1",
+              "settings": {
+                "size": "500"
+              },
+              "type": "raw_data"
+            }
+          ],
+          "query": "rule.id:100011 AND longitude",
+          "refId": "A",
+          "timeField": "@timestamp",
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "${DS_WAZUH-2}"
+          }
+        }
+      ],
+      "title": "Panel Title",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "number",
+                "targetField": "data.dst_geoip2_city.location.longitude"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "data.dst_geoip2_city.location.latitude"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "geomap"
+    }
+  ],
+  "schemaVersion": 40,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "baseFilters": [],
+        "datasource": {
+          "type": "elasticsearch",
+          "uid": "fe5lh06b93x8ga"
+        },
+        "filters": [],
+        "name": "Filters",
+        "type": "adhoc"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "Europe/Berlin",
+  "title": "Wazuh",
+  "uid": "ee5oyzl487bwga",
+  "version": 73,
+  "weekStart": ""
+}
