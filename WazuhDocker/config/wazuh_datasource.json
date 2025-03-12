@@ -7,9 +7,12 @@
   "access": "proxy",
   "url": "https://10.20.30.57:9200",
   "user": "admin",
-  "password": "SecretPassword",
   "database": "",
   "basicAuth": true,
+  "basicAuthUser": "admin",
+  "secureJsonData": {
+    "basicAuthPassword": "SecretPassword"
+  },
   "isDefault": true,
   "jsonData": {
     "includeFrozen": false,
