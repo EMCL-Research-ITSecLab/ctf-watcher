@@ -3,10 +3,29 @@ You can manually set up a Wazuh Agent or install it on a different machine by ru
 ```
 set_up_agent.sh
 ```
-If the Wazuh Manager is on a different address you need to provide it with
+
+If the Wazuh Manager is on a different address you need to provide it
 ```
 set_up_agent.sh --manager=<manager_ip_address>
 ```
+
+The name of the Wazuh Agent can be set with
+```
+set_up_agent.sh --name=<name>
+```
+But must be unique.
+
+Some logging features can be disabled 
+```
+set_up_agent.sh --use_bash_log=false --use_heidpi=false --use_use_ufw=false
+```
+But these can be set up after the agent installation manually running their corresponding script
+```
+sudo ./config/bash_loggin_set_up.sh
+sudo ./config/heiDPI_set_up.sh
+sudo ./config/ufw_set_up.sh
+```
+
 
 To get all the available script options, use the -h or --help option:
 ```
