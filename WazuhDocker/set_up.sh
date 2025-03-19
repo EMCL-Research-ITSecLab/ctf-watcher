@@ -19,6 +19,7 @@ then
     exit 0
 fi
 
+IP_ADDRESS=$(hostname -I | awk '{print $1}')
 
 echo
 echo --------[1/4]Set Map Count--------
@@ -71,6 +72,6 @@ echo
 echo --------Instalation Finished--------
 echo
 
-echo Dashboard: 10.20.30.57
+echo Dashboard: "$IP_ADDRESS"
 echo User: admin
 echo Password: SecretPassword
