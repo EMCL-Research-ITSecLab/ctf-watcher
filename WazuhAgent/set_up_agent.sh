@@ -54,6 +54,20 @@ Usage: set_up_agent.sh [OPTIONS]
                                    
     -h, --help                     [Optional] Show this help."
 
+delete_agent(){
+    echo "Remove Wazuh Agent"
+    echo ""
+    
+    apt-get remove wazuh-agent
+    apt-get remove --purge wazuh-agent
+    systemctl disable wazuh-agent
+    systemctl daemon-reload
+
+    echo ""
+    echo -e "\e[33m[Warning]:\e[0m Wazuh Agent is removed Locally. To remove the Agent from the Manager run '/var/ossec/bin/manage_agents' on the Manager machine
+    
+}
+
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --manager=*)
@@ -105,6 +119,10 @@ while [[ $# -gt 0 ]]; do
       CMD_INSTALL="$CMD_INSTALL_MAC_SILLICON"
       CMD_RUN="$CMD_RUN_MAC"
       OS="$OS_SILLICON"
+      ;;
+    --remove)
+      delete_agent
+      exit 0
       ;;
     -h|--help)
       echo "$HELP"
