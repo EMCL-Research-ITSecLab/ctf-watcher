@@ -13,13 +13,13 @@ The name of the Wazuh Agent can be set with
 ```
 set_up_agent.sh --name=<name>
 ```
-But must be unique.
+but must be unique.
 
 Some logging features can be disabled 
 ```
 set_up_agent.sh --use_bash_log=false --use_heidpi=false --use_use_ufw=false
 ```
-But these can be set up after the agent installation manually running their corresponding script
+These can also be manually set up after the Agent is installed by running their corresponding script
 ```
 sudo ./config/bash_loggin_set_up.sh
 sudo ./config/heiDPI_set_up.sh
@@ -36,6 +36,9 @@ Usage: set_up_agent.sh [OPTIONS]
     --manager=<ip_address>         [Optional] Set the Wazuh Manager ip address this Agent should report to.
                                    [Default] = localhost
 
+    --name=<name>                  [Optional] Set a custom Wazuh Agent name. This name must be unique.
+                                   [Default] = Agent_<localhost>
+        
     --use_bash_log=<true/false>    [Optional] Set if bash commands should be logged
                                    [Default] = true
 
