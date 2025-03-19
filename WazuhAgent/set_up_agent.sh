@@ -28,7 +28,10 @@ Usage: set_up_agent.sh [OPTIONS]
 
     --manager=<ip_address>         [Optional] Set the Wazuh Manager ip address this Agent should report to.
                                    [Default] = localhost
-
+                                   
+    --name=<name>                  [Optional] Set the Agent name. This name must be unique.
+                                   [Default] = Agent_<localhost>
+                                   
     --use_bash_log=<true/false>    [Optional] Set if bash commands should be logged
                                    [Default] = true
 
@@ -49,6 +52,7 @@ Usage: set_up_agent.sh [OPTIONS]
           >
 
                                    [Default] = Linux DEB amd64
+                                   
     -h, --help                     [Optional] Show this help."
 
 while [[ $# -gt 0 ]]; do
