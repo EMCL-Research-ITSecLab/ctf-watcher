@@ -59,6 +59,9 @@ Usage: set_up_agent.sh [OPTIONS]
           >
 
                                    [Default] = Linux DEB amd64
+
+    --remove                       [Optional] Remove the installed Wazuh Agent
+
     -h, --help                     [Optional] Show this help.
 
 ```
