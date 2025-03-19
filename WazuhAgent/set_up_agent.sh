@@ -2,7 +2,7 @@
 
 MANAGER_IP_ADDRESS=$(hostname -I | awk '{print $1}')
 LOCAL_IP_ADDRESS=$(hostname -I | awk '{print $1}')
-AGENT_NAME="Agent_$(LOCAL_IP_ADDRESS)"
+AGENT_NAME="Agent_"$LOCAL_IP_ADDRESS""
 BASH_LOG="true"
 HEIDPI="true"
 UFW="true"
