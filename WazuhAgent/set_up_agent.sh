@@ -142,22 +142,22 @@ echo "Logging Bash: $BASH_LOG"
 echo "Logging heiDPI: $HEIDPI"
 echo "Logging UFW: $UFW"
 
-echo "\n"
+echo ""
 echo "Start Agent Set UP"
-echo "\n"
+echo ""
 
-echo"Downlaod Agent"
+echo "Downlaod Agent"
 eval $CMD_INSTALL
 
-echo "\n"
+echo ""
 echo "Run Agent"
-echo "\n"
+echo ""
 
 eval $CMD_RUN
 
-echo "\n"
+echo ""
 echo "Agent Installed Succesfully"
-echo "\n"
+echo ""
 
 
 
