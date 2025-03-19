@@ -19,7 +19,6 @@ CMD_RUN_LINUX="sudo systemctl daemon-reload && sudo systemctl enable wazuh-agent
 CMD_RUN_WIN="NET START WazuhSvc"
 CMD_RUN_MAC="sudo /Library/Ossec/bin/wazuh-control start"
 
-CMD_INSTALL="$CMD_INSTALL_DEB_AMD"
 CMD_RUN="$CMD_RUN_LINUX"
 OS="$OS_DEB_AMD"
 
@@ -127,6 +126,7 @@ CMD_INSTALL_WIN="Invoke-WebRequest -Uri https://packages.wazuh.com/4.x/windows/w
 CMD_INSTALL_MAC_INTEL="curl -so wazuh-agent.pkg https://packages.wazuh.com/4.x/macos/wazuh-agent-4.11.0-1.intel64.pkg && echo 'WAZUH_MANAGER=\""$MANAGER_IP_ADDRESS"\" && WAZUH_AGENT_NAME=\""$AGENT_NAME"\"' > /tmp/wazuh_envs && sudo installer -pkg ./wazuh-agent.pkg -target /"
 CMD_INSTALL_MAC_SILLICON="curl -so wazuh-agent.pkg https://packages.wazuh.com/4.x/macos/wazuh-agent-4.11.0-1.arm64.pkg && echo 'WAZUH_MANAGER=\""$MANAGER_IP_ADDRESS"\" && WAZUH_AGENT_NAME=\""$AGENT_NAME"\"' > /tmp/wazuh_envs && sudo installer -pkg ./wazuh-agent.pkg -target /"
 
+CMD_INSTALL="$CMD_INSTALL_DEB_AMD"
 
 echo "Set up Agent:"
 echo "OS: $OS"
