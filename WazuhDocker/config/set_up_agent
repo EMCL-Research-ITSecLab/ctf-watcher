@@ -10,13 +10,16 @@ while [[ $# -gt 0 ]]; do
   case "$1" in
     --manager=*)
       MANAGER_IP_ADDRESS="${1#*=}"
+      ;;
     --use_bash_log=*)
       BASH_LOG="${1#*=}"
       ;;
     --use_heidpi=*)
       HEIDPI="${1#*=}"
       ;;
-    --use_ufw="${1#*=}"
+    --use_ufw=*)
+      UFW="${1#*=}"
+      ;;
     *)
       echo "Unknown option: $1"
       exit 1
@@ -28,15 +31,13 @@ done
 echo "Set up Agent:"
 echo "AGENT IP: $LOCAL_IP_ADDRESS"
 echo "Manager IP: $MANAGER_IP_ADDRESS"
-if ["$MANAGER_IP_ADDRESS" == "$LOCAL_IP_ADDRESS"; then
-  echo -e "\e[33m[Warning]:\e[0m Wazuh manager has same address as wazuh agent. Please provide the correct manager adress using --manager. Ignore if manager and agent are on the same system"
+
+if [ "$MANAGER_IP_ADDRESS" == "$LOCAL_IP_ADDRESS" ]; then
+  echo -e "\e[33m[Warning]:\e[0m Wazuh manager has same address as wazuh agent. Please provide the correct manager address using --manager. Ignore if manager and agent are on the same system"
 fi
-echo "Loggin Bash: $BASH_LOG"
+
+echo "Logging Bash: $BASH_LOG"
 echo "Logging heiDPI: $HEIDPI"
 echo "Logging UFW: $UFW"
 
-
-
-
-
-#wget https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.11.0-1_amd64.deb && sudo WAZUH_MANAGER='"$MANAGER_IP_ADDRESS"' WAZUH_AGENT_NAME='agent_"$LOCAL_IP_ADDRESS"' dpkg -i ./wazuh-agent_4.11.0-1_amd64.deb
+#wget https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.11.0-1_amd64.deb && sudo WAZUH_MANAGER='"$MANAGER_IP_ADDRESS"' WAZUH_AGENTNAME='agent"$LOCAL_IP_ADDRESS"' dpkg -i ./wazuh-agent_4.11.0-1_amd64.deb
