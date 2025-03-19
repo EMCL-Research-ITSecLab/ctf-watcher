@@ -1,9 +1,9 @@
-# Manuel Wazuh Agent SetUp
-You can manually set up a Wazuh Agent or install it on a different maschine by running 
+# Manual Wazuh Agent Set Up
+You can manually set up a Wazuh Agent or install it on a different machine by running 
 ```
 set_up_agent.sh
 ```
-To get all the available script options use the -h or --help option:
+To get all the available script options, use the -h or --help option:
 
 ```
 set_up_agent.sh -h
