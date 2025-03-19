@@ -3,7 +3,7 @@ You can manually set up a Wazuh Agent or install it on a different machine by ru
 ```
 set_up_agent.sh
 ```
-If the Wazuh manager is on a different address you need to provide it with
+If the Wazuh Manager is on a different address you need to provide it with
 ```
 set_up_agent.sh --manager=<manager_ip_address>
 ```
