@@ -5,7 +5,7 @@
   "typeName": "Elasticsearch",
   "typeLogoUrl": "public/app/plugins/datasource/elasticsearch/img/elasticsearch.svg",
   "access": "proxy",
-  "url": "https://10.20.30.57:9200",
+  "url": "https://<wazuh_manager_ip>:9200",
   "user": "admin",
   "database": "",
   "basicAuth": true,
