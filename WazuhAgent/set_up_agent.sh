@@ -22,6 +22,8 @@ CMD_RUN_MAC="sudo /Library/Ossec/bin/wazuh-control start"
 CMD_RUN="$CMD_RUN_LINUX"
 OS="$OS_DEB_AMD"
 
+SKIP_CONFIRMATION="false"
+
 HELP="
 Usage: set_up_agent.sh [OPTIONS]
 
@@ -68,6 +70,13 @@ delete_agent(){
     echo ""
     echo -e "\e[33m[Warning]:\e[0m Wazuh Agent is removed Locally. To remove the Agent from the Manager run '/var/ossec/bin/manage_agents' on the Manager machine
     
+}
+
+print()
+{
+echo ""
+echo $1
+echo
 }
 
 while [[ $# -gt 0 ]]; do
@@ -126,6 +135,8 @@ while [[ $# -gt 0 ]]; do
       delete_agent
       exit 0
       ;;
+    -y|--yes)
+    SKIP_CONFIRMATION="true"
     -h|--help)
       echo "$HELP"
       exit 0
@@ -162,25 +173,48 @@ echo "Logging Bash: $BASH_LOG"
 echo "Logging heiDPI: $HEIDPI"
 echo "Logging UFW: $UFW"
 
-echo ""
-echo "Start Agent Set UP"
-echo ""
+SET_UP_APPROVED="y"
+if ["$SKIP_CONFIRMATION"=false]; then
+  print "Set Up Agent with these Settings?"
+  read SET_UP_APPROVED
+if ["$SET_UP_APPROVED" -ne "y" && "$SET_UP_APPROVED" -ne "yes"]
+  print "Set Up Aborted"
+  exit 0
 
-echo "Downlaod Agent"
+print "Start Agent Set UP"
+
+print "Downlaod Agent"
 eval $CMD_INSTALL
 
-echo ""
-echo "Run Agent"
-echo ""
-
+print "Run Agent"
 eval $CMD_RUN
 
-echo ""
-echo "Agent Installed Succesfully"
-echo ""
 
+print "Agent Installed Succesfully"
+print "Agent Inject Localfiles"
 
+cat config/localfile_ossec_config >> /var/ossec/etc/ossec.conf
 
+if [ "$BASH_LOG" == true ]; then
+  print "Set up Bash Logging"
+  config/bash_loggin_set_up.sh
+fi
+if [ "$HEIDPI" == true ]; then
+  print "Set up heiDPId"
+  cofnig/heiDPI_set_up.sh
+fi
+if [ "$UFW" == true ]; then
+  print "Set up UFW"
+  config/ufw_set_up.sh
+fi
+
+if [ "$BASH_LOG" == false && "$HEIDPI" == false  && "$UFW" == false ]; then
+    print "No Logging to Set Up. Continue"
+else
+    print "Everything Set Up"
+fi
+
+print "Agent Set Up Completed"
 
 
 
