@@ -71,7 +71,7 @@ delete_agent(){
     systemctl daemon-reload
 
     echo ""
-    echo -e "\e[33m[Warning]:\e[0m Wazuh Agent is removed Locally. To remove the Agent from the Manager run '/var/ossec/bin/manage_agents' on the Manager machine
+    echo -e "\e[33m[Warning]:\e[0m Wazuh Agent is removed Locally. To remove the Agent from the Manager run '/var/ossec/bin/manage_agents' on the Manager machine"
     
 }
 
@@ -177,10 +177,10 @@ echo "Logging heiDPI: $HEIDPI"
 echo "Logging UFW: $UFW"
 
 SET_UP_APPROVED="y"
-if ["$SKIP_CONFIRMATION"=false]; then
+if [ "$SKIP_CONFIRMATION"==false ]; then
   print "Set Up Agent with these Settings?"
   read SET_UP_APPROVED
-if ["$SET_UP_APPROVED" -ne "y" && "$SET_UP_APPROVED" -ne "yes"]
+if [ "$SET_UP_APPROVED" -ne "y" ] && [ "$SET_UP_APPROVED" -ne "yes" ]; then
   print "Set Up Aborted"
   exit 0
 
@@ -198,20 +198,20 @@ print "Agent Inject Localfiles"
 
 cat config/localfile_ossec_config >> /var/ossec/etc/ossec.conf
 
-if [ "$BASH_LOG" == true ]; then
+if [ "$BASH_LOG" == "true" ]; then
   print "Set up Bash Logging"
   config/bash_loggin_set_up.sh
 fi
-if [ "$HEIDPI" == true ]; then
+if [ "$HEIDPI" == "true" ]; then
   print "Set up heiDPId"
-  cofnig/heiDPI_set_up.sh
+  config/heiDPI_set_up.sh
 fi
-if [ "$UFW" == true ]; then
+if [ "$UFW" == "true" ]; then
   print "Set up UFW"
   config/ufw_set_up.sh
 fi
 
-if [ "$BASH_LOG" == false && "$HEIDPI" == false  && "$UFW" == false ]; then
+if [ "$BASH_LOG" == false ] && [ "$HEIDPI" == false ]  && [ "$UFW" == false ]; then
     print "No Logging to Set Up. Continue"
 else
     print "Everything Set Up"
