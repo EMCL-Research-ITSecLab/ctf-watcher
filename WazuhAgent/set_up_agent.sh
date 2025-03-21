@@ -25,14 +25,16 @@ OS="$OS_DEB_AMD"
 SKIP_CONFIRMATION="false"
 
 HELP="
+set_up_agent.sh -h
+
 Usage: set_up_agent.sh [OPTIONS]
 
     --manager=<ip_address>         [Optional] Set the Wazuh Manager ip address this Agent should report to.
                                    [Default] = localhost
-                                   
-    --name=<name>                  [Optional] Set the Agent name. This name must be unique.
+
+    --name=<name>                  [Optional] Set a custom Wazuh Agent name. This name must be unique.
                                    [Default] = Agent_<localhost>
-                                   
+        
     --use_bash_log=<true/false>    [Optional] Set if bash commands should be logged
                                    [Default] = true
 
@@ -51,11 +53,12 @@ Usage: set_up_agent.sh [OPTIONS]
           mac_intel/                   macOS intel
           mac_sillicon                 macOS Apple silicon
           >
-
                                    [Default] = Linux DEB amd64
-                                   
+
     --remove                       [Optional] Remove the installed Wazuh Agent
-                                   
+
+    -y, --yes                      [Optional] Skip Set Up Confirmation
+
     -h, --help                     [Optional] Show this help."
 
 delete_agent(){
