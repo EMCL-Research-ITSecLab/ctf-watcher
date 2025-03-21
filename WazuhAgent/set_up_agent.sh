@@ -57,7 +57,7 @@ Usage: set_up_agent.sh [OPTIONS]
 
     --remove                       [Optional] Remove the installed Wazuh Agent
 
-    -y, --yes                      [Optional] Skip Set Up Confirmation
+    -y, --yes                      [Optional] Skip Setup Confirmation
 
     -h, --help                     [Optional] Show this help."
 
@@ -139,7 +139,8 @@ while [[ $# -gt 0 ]]; do
       exit 0
       ;;
     -y|--yes)
-    SKIP_CONFIRMATION="true"
+      SKIP_CONFIRMATION="true"
+      ;;
     -h|--help)
       echo "$HELP"
       exit 0
@@ -177,14 +178,16 @@ echo "Logging heiDPI: $HEIDPI"
 echo "Logging UFW: $UFW"
 
 SET_UP_APPROVED="y"
-if [ "$SKIP_CONFIRMATION"==false ]; then
-  print "Set Up Agent with these Settings?"
+if [ "$SKIP_CONFIRMATION" == "false" ]; then
+  print "Set up Agent with these settings? [y/yes]"
   read SET_UP_APPROVED
-if [ "$SET_UP_APPROVED" -ne "y" ] && [ "$SET_UP_APPROVED" -ne "yes" ]; then
-  print "Set Up Aborted"
+fi
+if [ "$SET_UP_APPROVED" != "y" ] && [ "$SET_UP_APPROVED" != "yes" ]; then
+  print "Setup Aborted"
   exit 0
+fi
 
-print "Start Agent Set UP"
+print "Start Agent Setup"
 
 print "Downlaod Agent"
 eval $CMD_INSTALL
@@ -212,12 +215,12 @@ if [ "$UFW" == "true" ]; then
 fi
 
 if [ "$BASH_LOG" == false ] && [ "$HEIDPI" == false ]  && [ "$UFW" == false ]; then
-    print "No Logging to Set Up. Continue"
+    print "No Logging to set up. Continue"
 else
-    print "Everything Set Up"
+    print "Everything set up"
 fi
 
-print "Agent Set Up Completed"
+print "Agent setup Completed"
 
 
 
