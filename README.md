@@ -9,12 +9,14 @@ Wazuh:    [Wazuh Website](https://wazuh.com/)
 Grafana:  [Grafana Website](https://grafana.com/)
 
 
-Complete setup on one system:
+## Complete setup on one system:
 ```
 Todo
 ```
 
-Manual setup
+## Manual setup:
+
+Set up the components on the same or different systems
 
 1) Install and set up Wazuh Manager:
 ```
@@ -34,4 +36,17 @@ sudo bash GrafanaDocker/set_up_grafana.sh
 ```
 more info: [Grafana Dashboard](https://github.com/FeDaas/Master-Practical-Evaluating-XDR-applications/tree/main/GrafanaDocker) 
 
+4) Now you can visit the wazuh and grafana dashboard in your browser via:
+
+Wazuh:
+```
+ https://<wazuh_ip>
+```
+Default user is **Admin** and password is **SecretPassword** 
+
+Grafana:
+```
+ https://<grafana_ip>:3000
+```
+Default user is **Admin** and password is **Admin** 
 
