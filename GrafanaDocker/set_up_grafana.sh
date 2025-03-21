@@ -110,7 +110,7 @@ curl -v -X POST "$GRAFANA_URL/api/dashboards/db" \
   -d @$DASHBOARD_JSON
 
 print "Grafana setup complete"
-echo "Grafana Dashboard: "https://$LOCAL_IP_ADDRESS:3000"
+echo "Grafana Dashboard: https://$LOCAL_IP_ADDRESS:3000"
 echo "User: Admin"
 echo "Password: Admin"
 
