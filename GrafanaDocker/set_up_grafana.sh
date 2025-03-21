@@ -1,22 +1,102 @@
 #!/bin/bash
 GRAFANA_URL="http://localhost:3000"
+LOCAL_IP_ADDRESS=$(hostname -I | awk '{print $1}')
+MANAGER_IP_ADDRESS="$LOCAL_IP_ADDRESS"
+MANAGER_PORT="9200"
 GRAFANA_PASSWORD="admin"
 GRAFANA_USERNAME="admin"
 DASHBOARD_JSON="config/wazuh_dashboard.json"
 DATASOURCE_JSON="config/wazuh_datasource.json"
+SKIP_CONFIRMATION="false"
+HELP="Help not implemented"
+
+delete_grafana()
+{
+echo "Deleting not implemented"
+}
+
+print()
+{
+echo ""
+echo $1
+echo
+}
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --manager=*)
+      MANAGER_IP_ADDRESS="${1#*=}"
+      ;;
+    --port=*)
+      MANAGER_PORT="${1#*=}"
+      ;;
+    --remove)
+      delete_grafana
+      exit 0
+      ;;
+    -y|--yes)
+      SKIP_CONFIRMATION="true"
+      ;;
+    -h|--help)
+      echo "$HELP"
+      exit 0
+      ;;
+    *)
+      echo "Unknown option: $1"
+      exit 1
+      ;;
+  esac
+  shift
+done
+
+echo "Set up Grafana Dashboard"
+echo "Grafana Dashboard: $LOCAL_IP_ADDRESS"
+echo "Wazuh Manager Ip: $MANAGER_IP_ADDRESS"
+echo "Wazuh Manager Port: $MANAGER_PORT"
+
+SET_UP_APPROVED="y"
+if [ "$SKIP_CONFIRMATION" == "false" ]; then
+  print "Set up Grafana Dashboard with these settings? [y/yes]"
+  read SET_UP_APPROVED
+fi
+if [ "$SET_UP_APPROVED" != "y" ] && [ "$SET_UP_APPROVED" != "yes" ]; then
+  print "Setup Aborted"
+  exit 0
+fi
+
+print "Start set up  Grafana Dashboard"
+print "Set Wazuh Manager Datasource ip address"
+
+sed -i "s/ \"url\": \"https:\/\/<wazuh_manager_ip>:9200\",/ \"url\": \"https:\/\/$MANAGER_IP_ADDRESS:$MANAGER_PORT\",/" config/wazuh_datasource.json
+
+print "Run Docker Grafana Dashbaord"
+
+docker run -d -p 3000:3000 --name=grafana grafana/grafana-enterprise
+
+print "Upload Wazuh Datasource"
 
 curl -X POST "$GRAFANA_URL/api/datasources" \
   -u "$GRAFANA_USERNAME:$GRAFANA_PASSWORD" \
   -H "Content-Type: application/json" \
   -d @$DATASOURCE_JSON
 
+print "Get Wazuh Datasource uid"
 ##Get The uid Grafana assigned to the new datasource and replace the old uid in DASHBOARD_JSON so the Dashboard is connected to the datasource  
-DATASOURCE_UID=(curl -X GET "http://localhost:3000/api/datasources/1" -u admin:admin 2>/dev/null | grep -o '"uid":"[^"]*' | sed 's/"uid":"//')
+DATASOURCE_UID=$(curl -X GET "http://localhost:3000/api/datasources/1" -u admin:admin 2>/dev/null | grep -o '"uid":"[^"]*' | sed 's/"uid":"//')
+echo "uid: $DATASOURCE_UID"
 sed 's/"uid": "\${DS_WAZUH-2}"/"uid": "'$DATASOURCE_UID'"/' $DASHBOARD_JSON > temp.json && mv temp.json $DASHBOARD_JSON
+
+print "Upload Dashboard"
 
 curl -v -X POST "$GRAFANA_URL/api/dashboards/db" \
   -u "$GRAFANA_USERNAME:$GRAFANA_PASSWORD" \
   -H "Content-Type: application/json" \
   -d @$DASHBOARD_JSON
+
+print "Grafana setup complete"
+echo "Grafana Dashboard: "https://$LOCAL_IP_ADDRESS:3000"
+echo "User: Admin"
+echo "Password: Admin"
+
 
 
