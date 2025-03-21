@@ -28,14 +28,53 @@ Usage: set_up_grafana.sh [OPTIONS]
 
 delete_grafana()
 {
-echo "Deleting not implemented"
+  echo "Deleting not implemented"
 }
+is_grafana_responding()
+{
+  GRAFANA_HEALTH=$(curl -s -u "$GRAFANA_USERNAME:$GRAFANA_PASSWORD" "$GRAFANA_URL/api/health" 2>/dev/null)
+  if [ "$GRAFANA_HEALTH" == "" ]; then
+    return 1
+  else
+    return 0
+  fi
+}
+wait_for_grafana() {
+  print "Wait for Grafana"
+  local total=100
+  local current=0
+  local progress
+  local bar_length=50  # Length of the progress bar
 
+  while [ $current -le $total ]; do
+    progress=$((current * bar_length / total))
+    bar=$(printf "%0.s=" $(seq 1 $progress)) 
+    spaces=$(printf "%0.s " $(seq 1 $((bar_length - progress))))
+    printf "\r[${bar}${spaces}] %3d%%" $((current * 100 / total))
+    sleep 0.1
+    
+    is_grafana_responding
+   
+    IS_GRAFANA_RUNNING=$?
+    if [ "$IS_GRAFANA_RUNNING" == "0" ]; then
+        return
+    fi  
+   
+    ((current++))
+  done
+
+  echo ""
+  print "Grafana not correctly installed, not set up or error in updloading datasource"
+  
+  print "Status:"
+  echo "$GRAFANA_HEALTH"
+  exit 1
+}
 print()
 {
 echo ""
 echo $1
-echo
+echo ""
 }
 
 while [[ $# -gt 0 ]]; do
@@ -89,6 +128,8 @@ print "Run Docker Grafana Dashbaord"
 
 docker run -d -p 3000:3000 --name=grafana grafana/grafana-enterprise
 
+wait_for_grafana
+
 print "Upload Wazuh Datasource"
 
 curl -X POST "$GRAFANA_URL/api/datasources" \
@@ -113,6 +154,3 @@ print "Grafana setup complete"
 echo "Grafana Dashboard: https://$LOCAL_IP_ADDRESS:3000"
 echo "User: Admin"
 echo "Password: Admin"
-
-
-
