@@ -57,10 +57,11 @@ Usage: set_up_agent.sh [OPTIONS]
           mac_intel/                   macOS intel
           mac_sillicon                 macOS Apple silicon
           >
-
                                    [Default] = Linux DEB amd64
 
     --remove                       [Optional] Remove the installed Wazuh Agent
+
+    -y, --yes                      [Optional] Skip Set Up Confirmation
 
     -h, --help                     [Optional] Show this help.
 
