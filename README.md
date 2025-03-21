@@ -28,9 +28,19 @@ more info: [Wazuh Manager](https://github.com/FeDaas/Master-Practical-Evaluating
 ```
 sudo bash WazuhAgent/set_up_agent.sh
 ```
+If the Agent is on a differnet system than the Manager you need to provide the Managers IP:
+```
+set_up_agent.sh --manager=<manager_ip_address>
+```
+
 more info: [Wazuh Agent](https://github.com/FeDaas/Master-Practical-Evaluating-XDR-applications/tree/main/WazuhAgent)
 
 3) Install and set up Grafana
+
+Edit GrafanaDocker/config/wazuh_datasource.json to provide the Managers IP: (ToDo: make this automatic in set_up_grafana.sh)
+```
+"url": "https://<manager_ip_address>:9200",
+```
 ```
 sudo bash GrafanaDocker/set_up_grafana.sh
 ```
