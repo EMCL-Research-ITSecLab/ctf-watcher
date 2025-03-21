@@ -1,4 +1,4 @@
-#Manuel Grafana Set up
+# Manuel Grafana Set up
 You can manually set up a Wazuh Agent or install it on a different machine by running 
 ```
 set_up_grafana.sh
