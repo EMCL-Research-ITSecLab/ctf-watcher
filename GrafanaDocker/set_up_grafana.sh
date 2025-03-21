@@ -8,7 +8,23 @@ GRAFANA_USERNAME="admin"
 DASHBOARD_JSON="config/wazuh_dashboard.json"
 DATASOURCE_JSON="config/wazuh_datasource.json"
 SKIP_CONFIRMATION="false"
-HELP="Help not implemented"
+HELP="
+set_up_grafana.sh -h
+
+Usage: set_up_grafana.sh [OPTIONS]
+
+    --manager=<ip_address>         [Optional] Set the Wazuh Manager ip address this Grafana dashboard should get data from.
+                                   [Default] = localhost
+
+    --port=<port>                  [Optional] Set the Wazuh Manager API port.
+                                   [Default] = 9200
+
+    --remove                       [Optional] Remove the installed Grafana Dashboard.
+
+    -y, --yes                      [Optional] Skip Set Up Confirmation.
+
+    -h, --help                     [Optional] Show this help.
+"
 
 delete_grafana()
 {
