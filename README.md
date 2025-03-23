@@ -17,11 +17,11 @@ Todo
 ## Manual setup:
 
 Set up the components on the same or different systems
-1) Install and set up Docker
+1) Install and set up Docker on Systems where the Wazuh Manager and Grafana should run.
 ```
 sudo bash set_up_docker.sh
 ```
-I you have docker allready installed make sure the current user is inside a docker group
+I you have docker allready installed make sure the current user is inside a docker group:
 ```
 sudo groupadd docker
 sudo usermod -aG docker $user
@@ -39,20 +39,18 @@ sudo bash WazuhAgent/set_up_agent.sh
 ```
 If the Agent is on a differnet system than the Manager you need to provide the Managers IP:
 ```
-set_up_agent.sh --manager=<manager_ip_address>
+sudo bash WazuhAgent/set_up_agent.sh --manager=<manager_ip_address>
 ```
 
 more info: [Wazuh Agent](https://github.com/FeDaas/Master-Practical-Evaluating-XDR-applications/tree/main/WazuhAgent)
 
 4) Install and set up Grafana
-
-Exchange the url in *GrafanaDocker/config/wazuh_datasource.json* with your Managers ip: (ToDo: make this automatic in set_up_grafana.sh)
-```
-"url": "https://<manager_ip_address>:9200",
-```
-Then set up Grafana Dashboard:
 ```
 sudo bash GrafanaDocker/set_up_grafana.sh
+```
+If Grafana is on a differnet system than the Manager you need to provide the Managers IP:
+```
+sudo bash GrafanaDocker/set_up_grafana.sh --manager=<manager_ip_address>
 ```
 more info: [Grafana Dashboard](https://github.com/FeDaas/Master-Practical-Evaluating-XDR-applications/tree/main/GrafanaDocker) 
 
