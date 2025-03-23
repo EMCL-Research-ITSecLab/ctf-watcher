@@ -62,7 +62,39 @@ Grafana:
 Default user is **Admin** and password is **Admin** 
 
 
+## Grafana Dashboard Features
+
+Incomplete list of Grafana Dashboard Features
+
+### Performance
+
+1) Life survailance of the Wazuh Manager System resources
+
+### Users
+
+1) Number of current active users aswell as an active user timeline
+2) All curently active user and from where there are connected
+3) All commands executed by users. Filterable by user. Sudo commands are highlighted.
+
+### SSH
+1) A life graph tracking the number of successfull, unsuccesfull and suspicious ssh requests
+
+### UFW
+1) A list of all active UFW Rules
+2) A List of Blcoked UFW Events
+
+### heiDPId
+1) A list of heiDPId flow events. Traffic ooutside is highlighted.
+2) A list of heiDPId packed events. Traffic ooutside is highlighted.
+3) Traffic outside is visualised and pinpointed on a world map
+
 ## Additional Wazuh Alerts
+
+The added Wazuh Alerts. These can be further extended as described in the [Wazuh Documentation](https://documentation.wazuh.com/current/user-manual/ruleset/rules/custom.html).
+Note that the mentioned files and commands must be altered and executed inside the corresponding docker container. You can easily work inside a container with 
+```
+docker exec -it <container_id_or_name>
+```
 
 ### SSH
 
@@ -109,8 +141,6 @@ Default user is **Admin** and password is **Admin**
 | Load average metrics | 100058 | 3 |
 | Memory metrics | 100059 | 3 |
 | Disk metrics | 100060 | 3 |
-
-
 
 
 
