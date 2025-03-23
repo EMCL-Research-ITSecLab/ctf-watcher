@@ -2,7 +2,7 @@ This is the Git Repository for the Master Practical:
 Evaluating XDR applications to protect Training Environments for the next Generation of Cybersecurity Specialists
 at the EMCL Research Group at University Heidelberg
 
-# Set up a Wazuh enviroment with Wazuh Manager, Wazuh Agent visualised with Grafana
+# Set up a Wazuh enviroment with extended monitoring specialized in supervising cybersecurity training environments visaualised in Grafana OSS
 
 Wazuh:    [Wazuh Website](https://wazuh.com/)
 
@@ -60,4 +60,60 @@ Grafana:
  https://<grafana_ip>:3000
 ```
 Default user is **Admin** and password is **Admin** 
+
+
+## Additional Wazuh Alerts
+
+### SSH
+
+| Describtion      | Rule ID      | Level |
+| ------------- | ------------- | ------|
+| sshd: authentication failed &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 100001 | 5 |
+
+### UFW
+
+| Describtion      | Rule ID      | Level |
+| ------------- | ------------- | ------|
+| Firewall block event | 104102 | 5 |
+| Multiple Firewall block events from same source | 104151 | 5 |
+| UFW Status | 100301 | 1 |
+
+### heiDPId
+
+| Describtion      | Rule ID      | Level |
+| ------------- | ------------- | ------|
+| heiDPI flow event &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 100011 | 1 |
+| heiDPI packet event | 100012 | 1 |
+
+### Bash Logging
+
+| Describtion      | Rule ID      | Level |
+| ------------- | ------------- | ------|
+| Bash command used &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 100201 | 1 |
+
+
+### Active User
+
+| Describtion      | Rule ID      | Level |
+| ------------- | ------------- | ------|
+| Active user check &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 100101 | 1 |
+| Active user number check | 100102 | 1 |
+
+### Performance
+
+| Describtion      | Rule ID      | Level |
+| ------------- | ------------- | ------|
+| Memory usage is high &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 100055 | 12 |
+| CPU usage is high | 100056 | 12 |
+| Disk space is running low | 100057 | 12 |
+| Load average metrics | 100058 | 3 |
+| Memory metrics | 100059 | 3 |
+| Disk metrics | 100060 | 3 |
+
+
+
+
+
+
+
 
