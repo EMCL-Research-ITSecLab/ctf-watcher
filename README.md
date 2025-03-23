@@ -145,8 +145,8 @@ docker exec -it <container_id_or_name>
 
 | Description      | Rule ID      | Level |
 | ------------- | ------------- | ------|
-| Firewall block event | 104601 | 5 |
-| Multiple Firewall block events from same source | 104602 | 5 |
+| Firewall block event | 100601 | 5 |
+| Multiple Firewall block events from same source | 100602 | 5 |
 | UFW Status | 100603 | 1 |
 
 
