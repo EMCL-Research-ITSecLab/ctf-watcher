@@ -2,7 +2,7 @@ This is the Git Repository for the Master Practical:
 Evaluating XDR applications to protect Training Environments for the next Generation of Cybersecurity Specialists
 at the EMCL Research Group at University Heidelberg
 
-# Set up a Wazuh enviroment with extended monitoring specialized in supervising cybersecurity training environments visaualised in Grafana OSS
+# Set up a Wazuh environment with extended monitoring specialized in supervising cybersecurity training environments visualized in Grafana OSS
 
 Wazuh:    [Wazuh Website](https://wazuh.com/)
 
@@ -21,7 +21,7 @@ Set up the components on the same or different systems
 ```
 sudo bash set_up_docker.sh
 ```
-I you have docker allready installed make sure the current user is inside a docker group:
+If you have docker already installed, make sure the current user is inside a docker group:
 ```
 sudo groupadd docker
 sudo usermod -aG docker $user
@@ -37,7 +37,7 @@ more info: [Wazuh Manager](https://github.com/FeDaas/Master-Practical-Evaluating
 ```
 sudo bash WazuhAgent/set_up_agent.sh
 ```
-If the Agent is on a differnet system than the Manager you need to provide the Managers IP:
+If the Agent is on a different system than the Manager you need to provide the Managers IP:
 ```
 sudo bash WazuhAgent/set_up_agent.sh --manager=<manager_ip_address>
 ```
@@ -48,7 +48,7 @@ more info: [Wazuh Agent](https://github.com/FeDaas/Master-Practical-Evaluating-X
 ```
 sudo bash GrafanaDocker/set_up_grafana.sh
 ```
-If Grafana is on a differnet system than the Manager you need to provide the Managers IP:
+If Grafana is on a different system than the Manager you need to provide the Managers IP:
 ```
 sudo bash GrafanaDocker/set_up_grafana.sh --manager=<manager_ip_address>
 ```
@@ -75,25 +75,25 @@ Incomplete list of Grafana Dashboard Features
 
 ### Performance
 
-1) Life survailance of the Wazuh Manager System resources
+1) Live surveillanc of the Wazuh Manager System resources
 
 ### Users
 
-1) Number of current active users aswell as an active user timeline
-2) All curently active user and from where there are connected
+1) Number of current active users as well as an active user timeline
+2) All currently active users and from where they are connected
 3) All commands executed by users. Filterable by user. Sudo commands are highlighted.
 
 ### SSH
-1) A life graph tracking the number of successfull, unsuccesfull and suspicious ssh requests
+1) A life graph tracking the number of successful, unsuccessful and suspicious ssh requests
 
 ### UFW
 1) A list of all active UFW Rules
-2) A List of Blcoked UFW Events
+2) A List of blocked UFW Events
 
 ### heiDPId
-1) A list of heiDPId flow events. Traffic ooutside is highlighted.
-2) A list of heiDPId packed events. Traffic ooutside is highlighted.
-3) Traffic outside is visualised and pinpointed on a world map
+1) A list of heiDPId flow events. Traffic outside is highlighted.
+2) A list of heiDPId packed events. Traffic outside is highlighted.
+3) Traffic outside is visualized and pinpointed on a world map.
 
 ## Additional Wazuh Alerts
 
@@ -105,13 +105,13 @@ docker exec -it <container_id_or_name>
 
 ### SSH
 
-| Describtion      | Rule ID      | Level |
+| Description     | Rule ID      | Level |
 | ------------- | ------------- | ------|
 | sshd: authentication failed &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 100001 | 5 |
 
 ### UFW
 
-| Describtion      | Rule ID      | Level |
+| Description      | Rule ID      | Level |
 | ------------- | ------------- | ------|
 | Firewall block event | 104102 | 5 |
 | Multiple Firewall block events from same source | 104151 | 5 |
@@ -119,28 +119,28 @@ docker exec -it <container_id_or_name>
 
 ### heiDPId
 
-| Describtion      | Rule ID      | Level |
+| Description      | Rule ID      | Level |
 | ------------- | ------------- | ------|
 | heiDPI flow event &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 100011 | 1 |
 | heiDPI packet event | 100012 | 1 |
 
 ### Bash Logging
 
-| Describtion      | Rule ID      | Level |
+| Description      | Rule ID      | Level |
 | ------------- | ------------- | ------|
 | Bash command used &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 100201 | 1 |
 
 
 ### Active User
 
-| Describtion      | Rule ID      | Level |
+| Description      | Rule ID      | Level |
 | ------------- | ------------- | ------|
 | Active user check &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 100101 | 1 |
 | Active user number check | 100102 | 1 |
 
 ### Performance
 
-| Describtion      | Rule ID      | Level |
+| Description      | Rule ID      | Level |
 | ------------- | ------------- | ------|
 | Memory usage is high &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 100055 | 12 |
 | CPU usage is high | 100056 | 12 |
