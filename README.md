@@ -17,14 +17,23 @@ Todo
 ## Manual setup:
 
 Set up the components on the same or different systems
+1) Install and set up Docker
+```
+sudo bash set_up_docker.sh
+```
+I you have docker allready installed make sure the current user is inside a docker group
+```
+sudo groupadd docker
+sudo usermod -aG docker $user
+```
 
-1) Install and set up Wazuh Manager:
+2) Install and set up Wazuh Manager:
 ```
 sudo bash WazuhDocker/set_up.sh
 ```
 more info: [Wazuh Manager](https://github.com/FeDaas/Master-Practical-Evaluating-XDR-applications/tree/main/WazuhDocker)
 
-2) Install and set up Wazuh Agent:
+3) Install and set up Wazuh Agent:
 ```
 sudo bash WazuhAgent/set_up_agent.sh
 ```
@@ -35,7 +44,7 @@ set_up_agent.sh --manager=<manager_ip_address>
 
 more info: [Wazuh Agent](https://github.com/FeDaas/Master-Practical-Evaluating-XDR-applications/tree/main/WazuhAgent)
 
-3) Install and set up Grafana
+4) Install and set up Grafana
 
 Exchange the url in *GrafanaDocker/config/wazuh_datasource.json* with your Managers ip: (ToDo: make this automatic in set_up_grafana.sh)
 ```
@@ -47,7 +56,7 @@ sudo bash GrafanaDocker/set_up_grafana.sh
 ```
 more info: [Grafana Dashboard](https://github.com/FeDaas/Master-Practical-Evaluating-XDR-applications/tree/main/GrafanaDocker) 
 
-4) Now you can visit the wazuh and grafana dashboard in your browser via:
+5) Now you can visit the wazuh and grafana dashboard in your browser via:
 
 Wazuh:
 ```
