@@ -40,17 +40,24 @@ is_grafana_responding()
   fi
 }
 wait_for_grafana() {
-  print "Wait for Grafana"
-  local total=100
+  print "Wait for Grafana. If this takes longer than a minute something went wrong and the programm exits"
+  local wait_time_ds=600
   local current=0
   local progress
-  local bar_length=50  # Length of the progress bar
+  local start_time=$(date +%s)  
+  local bar_length=50 
 
-  while [ $current -le $total ]; do
-    progress=$((current * bar_length / total))
+  while [ $current -le $wait_time_ds ]; do
+    progress=$((current * bar_length / wait_time_ds))
     bar=$(printf "%0.s=" $(seq 1 $progress)) 
     spaces=$(printf "%0.s " $(seq 1 $((bar_length - progress))))
-    printf "\r[${bar}${spaces}] %3d%%" $((current * 100 / total))
+        
+    local elapsed_time=$(( $(date +%s) - start_time ))
+    local minutes=$((elapsed_time / 60))
+    local seconds=$((elapsed_time % 60))
+    
+    printf "\r[${bar}${spaces}] %02d:%02d" $minutes $seconds
+
     sleep 0.1
     
     is_grafana_responding
@@ -70,6 +77,7 @@ wait_for_grafana() {
   echo "$GRAFANA_HEALTH"
   exit 1
 }
+
 print()
 {
 echo ""
