@@ -1,5 +1,6 @@
 #!/bin/bash
 VERSION=v0.49.1 # use the latest release version from https://github.com/google/cadvisor/releases
+LOCAL_IP_ADDRESS=$(hostname -I | awk '{print $1}')
 
 sudo docker run \
   --volume=/:/rootfs:ro \
@@ -14,4 +15,11 @@ sudo docker run \
   --device=/dev/kmsg \
   gcr.io/cadvisor/cadvisor:$VERSION
 
+sed -i 's/<ip>/\"$LOCAL_IP_ADDRESS"/' prometheus.yaml
+
 docker compose -f docker-compose.yaml up -d
+
+echo ""
+echo "cAdvisor setup complete. You can visit the web interfavce"
+echo "cAdvisor: $LOCAL_IP_ADDRESS:8080"
+echo "cAdvisor: $LOCAL_IP_ADDRESS:9090"
