@@ -5,8 +5,10 @@ MANAGER_IP_ADDRESS="$LOCAL_IP_ADDRESS"
 MANAGER_PORT="9200"
 GRAFANA_PASSWORD="admin"
 GRAFANA_USERNAME="admin"
-DASHBOARD_JSON="config/wazuh_dashboard.json"
-DATASOURCE_JSON="config/wazuh_datasource.json"
+DASHBOARD_WAZUH_JSON="config/wazuh_dashboard.json"
+DASHBOARD_CADVISOR_JSON="config/cadvisor_dashboard.json"
+DATASOURCE_WAZUH_JSON="config/wazuh_datasource.json"
+DATASOURCE_CADVISOR_JSON="config/cadvisor_datasource.json"
 SKIP_CONFIRMATION="false"
 HELP="
 set_up_grafana.sh -h
@@ -143,20 +145,41 @@ print "Upload Wazuh Datasource"
 curl -X POST "$GRAFANA_URL/api/datasources" \
   -u "$GRAFANA_USERNAME:$GRAFANA_PASSWORD" \
   -H "Content-Type: application/json" \
-  -d @$DATASOURCE_JSON
+  -d @$DATASOURCE_WAZUH_JSON
+
+print "Upload cAdvisor Datasource"
+
+curl -X POST "$GRAFANA_URL/api/datasources" \
+  -u "$GRAFANA_USERNAME:$GRAFANA_PASSWORD" \
+  -H "Content-Type: application/json" \
+  -d @$DATASOURCE_CADVISOR_JSON
 
 print "Get Wazuh Datasource uid"
-##Get The uid Grafana assigned to the new datasource and replace the old uid in DASHBOARD_JSON so the Dashboard is connected to the datasource  
-DATASOURCE_UID=$(curl -X GET "http://localhost:3000/api/datasources/1" -u admin:admin 2>/dev/null | grep -o '"uid":"[^"]*' | sed 's/"uid":"//')
-echo "uid: $DATASOURCE_UID"
-sed 's/"uid": "\${DS_WAZUH-2}"/"uid": "'$DATASOURCE_UID'"/' $DASHBOARD_JSON > temp.json && mv temp.json $DASHBOARD_JSON
+##Get The uid Grafana assigned to the new datasource and replace the old uid in DASHBOARD_WAZUH_JSON so the Dashboard is connected to the datasource  
+DATASOURCE_WAZUH_UID=$(curl -X GET "http://localhost:3000/api/datasources/1" -u admin:admin 2>/dev/null | grep -o '"uid":"[^"]*' | sed 's/"uid":"//')
+echo "uid: $DATASOURCE_WAZUH_UID"
+sed 's/"uid": "\${DS_WAZUH-2}"/"uid": "'$DATASOURCE_WAZUH_UID'"/' $DASHBOARD_WAZUH_JSON > temp.json && mv temp.json $DASHBOARD_WAZUH_JSON
 
-print "Upload Dashboard"
+print "Get cAdvisor Datasource uid"
+##Get The uid Grafana assigned to the new datasource and replace the old uid in DASHBOARD_WAZUH_JSON so the Dashboard is connected to the datasource  
+DATASOURCE_CADVISOR_UID=$(curl -X GET "http://localhost:3000/api/datasources/2" -u admin:admin 2>/dev/null | grep -o '"uid":"[^"]*' | sed 's/"uid":"//')
+echo "uid: $DATASOURCE_CADVISOR_UID"
+#sed 's/"uid": "\${DS_WAZUH-2}"/"uid": "'$DATASOURCE_CADVISOR_UID'"/' $DASHBOARD_WAZUH_JSON > temp.json && mv temp.json $DASHBOARD_WAZUH_JSON
+
+print "Upload Wazuh Dashboard"
 
 curl -v -X POST "$GRAFANA_URL/api/dashboards/db" \
   -u "$GRAFANA_USERNAME:$GRAFANA_PASSWORD" \
   -H "Content-Type: application/json" \
-  -d @$DASHBOARD_JSON
+  -d @$DASHBOARD_WAZUH_JSON
+
+
+print "Upload cAdvisor Dashboard"
+
+curl -v -X POST "$GRAFANA_URL/api/dashboards/db" \
+  -u "$GRAFANA_USERNAME:$GRAFANA_PASSWORD" \
+  -H "Content-Type: application/json" \
+  -d @$DASHBOARD_CADVISOR_JSON
 
 print "Grafana setup complete"
 echo "Grafana Dashboard: https://$LOCAL_IP_ADDRESS:3000"
