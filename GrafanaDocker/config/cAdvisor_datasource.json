@@ -1,0 +1,21 @@
+{
+  "orgId": 1,
+  "name": "cAdvisor",
+  "type": "prometheus",
+  "typeLogoUrl": "public/app/plugins/datasource/prometheus/img/prometheus_logo.svg",
+  "access": "proxy",
+  "url": "http://<cadvisor_ip>:9090",
+  "user": "",
+  "database": "",
+  "basicAuth": false,
+  "basicAuthUser": "",
+  "withCredentials": false,
+  "isDefault": false,
+  "jsonData": {
+    "httpMethod": "POST"
+  },
+  "secureJsonFields": {},
+  "version": 5,
+  "readOnly": false,
+  "apiVersion": ""
+}
