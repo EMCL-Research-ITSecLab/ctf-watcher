@@ -3,6 +3,8 @@ GRAFANA_URL="http://localhost:3000"
 LOCAL_IP_ADDRESS=$(hostname -I | awk '{print $1}')
 MANAGER_IP_ADDRESS="$LOCAL_IP_ADDRESS"
 MANAGER_PORT="9200"
+CADVISOR_IP_ADDRESS="$LOCAL_IP_ADDRESS"
+CADVISOR_PORT="9090"
 GRAFANA_PASSWORD="admin"
 GRAFANA_USERNAME="admin"
 DASHBOARD_WAZUH_JSON="config/wazuh_dashboard.json"
@@ -92,8 +94,14 @@ while [[ $# -gt 0 ]]; do
     --manager=*)
       MANAGER_IP_ADDRESS="${1#*=}"
       ;;
-    --port=*)
+    --manager_port=*)
       MANAGER_PORT="${1#*=}"
+      ;;
+    --cadvisor=*)
+      CADVISOR_IP_ADDRESS="${1#*=}"
+      ;;
+    --cadvisor_port=*)
+      CADVISOR_PORT="${1#*=}"
       ;;
     --remove)
       delete_grafana
@@ -133,6 +141,10 @@ print "Start set up  Grafana Dashboard"
 print "Set Wazuh Manager Datasource ip address"
 
 sed -i "s/ \"url\": \"https:\/\/<wazuh_manager_ip>:9200\",/ \"url\": \"https:\/\/$MANAGER_IP_ADDRESS:$MANAGER_PORT\",/" config/wazuh_datasource.json
+
+print "Set cAdvisor Datasource ip address"
+sed -i "s/ \"url\": \"https:\/\/<cadvisor_ip>:9090\",/ \"url\": \"https:\/\/$CADVISOR_IP_ADDRESS:$CADVISOR_PORT\",/" config/cadvisor_datasource.json
+
 
 print "Run Docker Grafana Dashbaord"
 
