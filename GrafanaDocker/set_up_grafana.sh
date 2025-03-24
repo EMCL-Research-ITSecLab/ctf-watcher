@@ -20,8 +20,14 @@ Usage: set_up_grafana.sh [OPTIONS]
     --manager=<ip_address>         [Optional] Set the Wazuh Manager ip address this Grafana dashboard should get data from.
                                    [Default] = localhost
 
-    --port=<port>                  [Optional] Set the Wazuh Manager API port.
+    --manager_port=<port>          [Optional] Set the Wazuh Manager API port.
                                    [Default] = 9200
+
+    --cadvisor=<ip_address>        [Optional] Set the cAdvisor Prometheus ip address this Grafana dashboard should get data from.
+                                   [Default] = localhost
+
+    --cadvisor_port=<port>         [Optional] Set the cAdvisor Prometheus API port.
+                                   [Default] = 9090
 
     --remove                       [Optional] Remove the installed Grafana Dashboard.
 
