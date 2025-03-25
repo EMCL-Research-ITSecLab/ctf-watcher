@@ -4,4 +4,4 @@ scrape_configs:
   - job_name: 'cadvisor'
     scrape_interval: 5s
     static_configs:
-      - targets: ['<ip>:8080']
+      - targets: ['<cadvisor_ip>:8080']
