@@ -149,7 +149,7 @@ print "Set Wazuh Manager Datasource ip address"
 sed -i "s/ \"url\": \"https:\/\/<wazuh_manager_ip>:9200\",/ \"url\": \"https:\/\/$MANAGER_IP_ADDRESS:$MANAGER_PORT\",/" config/wazuh_datasource.json
 
 print "Set cAdvisor Datasource ip address"
-sed -i "s/<cadvisor_ip>/$CADVISOR_IP_ADDRESS:$CADVISOR_PORT=/g" "$DASHBOARD_CADVISOR_JSON" config/cadvisor_datasource.json
+sed -i "s/<cadvisor_ip>/$CADVISOR_IP_ADDRESS/g" config/cadvisor_datasource.json
 
 
 print "Run Docker Grafana Dashbaord"
