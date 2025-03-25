@@ -149,7 +149,7 @@ print "Set Wazuh Manager Datasource ip address"
 sed -i "s/ \"url\": \"https:\/\/<wazuh_manager_ip>:9200\",/ \"url\": \"https:\/\/$MANAGER_IP_ADDRESS:$MANAGER_PORT\",/" config/wazuh_datasource.json
 
 print "Set cAdvisor Datasource ip address"
-sed -i "s/ \"url\": \"https:\/\/<cadvisor_ip>:9090\",/ \"url\": \"https:\/\/$CADVISOR_IP_ADDRESS:$CADVISOR_PORT\",/" config/cadvisor_datasource.json
+sed -i "s/<cadvisor_ip>/$CADVISOR_IP_ADDRESS:$CADVISOR_PORT=/g" "$DASHBOARD_CADVISOR_JSON" config/cadvisor_datasource.json
 
 
 print "Run Docker Grafana Dashbaord"
@@ -182,7 +182,7 @@ print "Get cAdvisor Datasource uid"
 ##Get The uid Grafana assigned to the new datasource and replace the old uid in DASHBOARD_WAZUH_JSON so the Dashboard is connected to the datasource  
 DATASOURCE_CADVISOR_UID=$(curl -X GET "http://localhost:3000/api/datasources/2" -u admin:admin 2>/dev/null | grep -o '"uid":"[^"]*' | sed 's/"uid":"//')
 echo "uid: $DATASOURCE_CADVISOR_UID"
-sed -i "s/<cadvisor_ip>/$CADVISOR_IP_ADDRESS:$CADVISOR_PORT/g" "$DASHBOARD_CADVISOR_JSON"
+sed -i "s/<cadvisor_uid>/$DATASOURCE_CADVISOR_UID=/g" "$DASHBOARD_CADVISOR_JSON"
 
 print "Upload Wazuh Dashboard"
 
