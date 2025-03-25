@@ -1,6 +1,16 @@
 {
   "dashboard":
 {
+  "__inputs": [
+    {
+      "name": "cAdvisor",
+      "label": "cadvisor",
+      "description": "Docker monitoring with Prometheus and cAdvisor",
+      "type": "datasource",
+      "pluginId": "elasticsearch",
+      "pluginName": "Elasticsearch"
+    }
+  ],
   "annotations": {
     "list": [
       {
