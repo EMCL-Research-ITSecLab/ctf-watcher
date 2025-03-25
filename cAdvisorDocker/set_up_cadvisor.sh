@@ -22,4 +22,4 @@ docker compose -f docker-compose.yaml up -d
 echo ""
 echo "cAdvisor setup complete. You can visit the web interface"
 echo "cAdvisor: $LOCAL_IP_ADDRESS:8080"
-echo "cAdvisor: $LOCAL_IP_ADDRESS:9090"
+echo "Prometheus: $LOCAL_IP_ADDRESS:9090"
