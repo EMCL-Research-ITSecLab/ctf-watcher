@@ -27,7 +27,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "fegtlxxvzylfkb"
+        "uid": "<cadvisor_ip>"
       },
       "fieldConfig": {
         "defaults": {
@@ -89,7 +89,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "fegtlxxvzylfkb"
+            "uid": "<cadvisor_ip>"
           },
           "expr": "count(container_last_seen{image!=\"\"})",
           "intervalFactor": 2,
@@ -106,7 +106,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "fegtlxxvzylfkb"
+        "uid": "<cadvisor_ip>"
       },
       "fieldConfig": {
         "defaults": {
@@ -168,7 +168,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "fegtlxxvzylfkb"
+            "uid": "<cadvisor_ip>"
           },
           "expr": "sum(container_memory_usage_bytes{image!=\"\"})/1024/1024",
           "intervalFactor": 2,
@@ -185,7 +185,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "fegtlxxvzylfkb"
+        "uid": "<cadvisor_ip>"
       },
       "fieldConfig": {
         "defaults": {
@@ -247,7 +247,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "fegtlxxvzylfkb"
+            "uid": "<cadvisor_ip>"
           },
           "expr": "sum(rate(container_cpu_user_seconds_total{image!=\"\"}[5m]) * 100)",
           "intervalFactor": 2,
@@ -264,7 +264,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "fegtlxxvzylfkb"
+        "uid": "<cadvisor_ip>"
       },
       "fieldConfig": {
         "defaults": {
@@ -350,7 +350,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "fegtlxxvzylfkb"
+            "uid": "<cadvisor_ip>"
           },
           "expr": "rate(container_cpu_user_seconds_total{image!=\"\"}[5m]) * 100",
           "intervalFactor": 2,
@@ -366,7 +366,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "fegtlxxvzylfkb"
+        "uid": "<cadvisor_ip>"
       },
       "fieldConfig": {
         "defaults": {
@@ -452,7 +452,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "fegtlxxvzylfkb"
+            "uid": "<cadvisor_ip>"
           },
           "expr": "container_memory_usage_bytes{image!=\"\"}",
           "hide": false,
@@ -469,7 +469,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "fegtlxxvzylfkb"
+        "uid": "<cadvisor_ip>"
       },
       "fieldConfig": {
         "defaults": {
@@ -552,7 +552,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "fegtlxxvzylfkb"
+            "uid": "<cadvisor_ip>"
           },
           "expr": "irate(container_network_receive_bytes_total{image!=\"\"}[5m])",
           "intervalFactor": 2,
@@ -568,7 +568,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "fegtlxxvzylfkb"
+        "uid": "<cadvisor_ip>"
       },
       "fieldConfig": {
         "defaults": {
@@ -651,7 +651,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "fegtlxxvzylfkb"
+            "uid": "<cadvisor_ip>"
           },
           "expr": "irate(container_network_transmit_bytes_total{image!=\"\"}[5m])",
           "intervalFactor": 2,
