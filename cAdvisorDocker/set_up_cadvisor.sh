@@ -15,7 +15,7 @@ sudo docker run \
   --device=/dev/kmsg \
   gcr.io/cadvisor/cadvisor:$VERSION
 
-sed -i 's/<ip>/\"$LOCAL_IP_ADDRESS"/' prometheus.yaml
+sed -i "s/<cadvisor_ip>/$LOCAL_IP_ADDRESS/g" prometheus.yaml
 
 docker compose -f docker-compose.yaml up -d
 
