@@ -149,6 +149,13 @@ docker exec -it <container_id_or_name>
 | Multiple Firewall block events from same source | 100602 | 5 |
 | UFW Status | 100603 | 1 |
 
+### OpenVPN
+
+| Description      | Rule ID      | Level |
+| ------------- | ------------- | ------|
+| OpenVPN access server messages grouped &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 100701 | 1 |
+| OpenVPN remote connection established | 100702 | 3 |
+
 
 
 
