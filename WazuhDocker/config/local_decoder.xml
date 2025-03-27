@@ -96,7 +96,7 @@
   <order>user, tty, from, login</order>
 </decoder>
 
-<!-- Active User Number --->
+<!-- Active User Number -->
 <decoder name="current_active_user_number">
      <program_name>current_active_user_number</program_name>
 </decoder>
@@ -129,4 +129,24 @@
   <prematch>ossec: output: 'ufw_status':</prematch>
   <regex offset="after_prematch">\s+(\S+\s\S*)\s+(\S+)\s+(\.+)|\s*(\S+)\s*(\S+)\s*(\S+)</regex>
   <order>To, Action, From</order>
+</decoder>
+
+<!-- OpenVPN -->
+<decoder name="openvpnas_decoder">
+    <prematch type="pcre2">\[OVPN \d+\] </prematch>
+</decoder>
+<decoder name="openvpnas_decoder_child">
+    <parent>openvpnas_decoder</parent>
+    <regex type="pcre2">(\d\d\d\d-\d\d-\d\d\w\d\d:\d\d:\d\d.\d\d\d\d)</regex>
+    <order>timestamp</order>
+</decoder>
+<decoder name="openvpnas_decoder_child">
+    <parent>openvpnas_decoder</parent>
+    <regex type="pcre2">(\d+\.\d+\.\d+\.\d+):(\d+) \[(\S+)\]</regex>
+    <order>srcip, srcport, srcuser</order>
+</decoder>
+<decoder name="openvpnas_decoder_child">
+    <parent>openvpnas_decoder</parent>
+    <regex type="pcre2">Peer Connection (\w+) with \[(\w+)\]</regex>
+    <order>action, interface</order>
 </decoder>
