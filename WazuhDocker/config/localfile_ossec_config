@@ -93,4 +93,9 @@
      <frequency>30</frequency>
   </localfile>
 
+<!-- OpenVPN -->
+ <localfile>
+    <log_format>syslog</log_format>
+    <location>/var/log/openvpnas.log</location>
+  </localfil
 
