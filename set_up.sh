@@ -30,11 +30,36 @@ function section_footer () {
     echo ""
 }
 
+function remove (){
+    echo "Remove Wazuh Enviroment"
+    clean_docker.sh #Todo: Only remove my containers
+    WazuhAgent/set_up_agent --remove
+    echo "Everything removed"
+}
+
 if [ $(id -u) -ne 0 ]
 then
     echo "Please run this script as root or using sudo!"
     exit 0
 fi
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --remove=*)
+      remove
+      exit 0
+      ;;
+    -h|--help)
+      echo "$HELP"
+      exit 0
+      ;;
+    *)
+      echo "Unknown option: $1"
+      exit 1
+      ;;
+  esac
+  shift
+done
 
 section_header "Set Up Wazuh Manager"
 WazuhDocker/set_up_manager.sh
