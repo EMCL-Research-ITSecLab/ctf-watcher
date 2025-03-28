@@ -11,7 +11,7 @@ Grafana:  [Grafana Website](https://grafana.com/)
 
 ## Complete setup on one system:
 ```
-Todo
+sudo set_up.sh
 ```
 
 ## Manual setup:
