@@ -104,6 +104,8 @@ echo -e "cAdvisor \t http:///$IP_ADDRESS:8080 \t / \t\t /"
 echo -e "Prometheus \t http:///$IP_ADDRESS:9090 \t / \t\t /"
 echo -e "Wazuh Manager \t https://$IP_ADDRESS:3000 \t admin \t\t admin"
 
+docker container ls 
+
 
 
 
