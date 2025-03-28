@@ -72,13 +72,13 @@ section_footer
 
 section_header "Set Up cAdvisor"
 cd cAdvisorDocker
-./set_up_cadvisor
+./set_up_cadvisor.sh
 cd ..
 section_footer
 
 section_header "Set Up Grafana"
 cd GrafanaDocker
-set_up_grafana.sh
+./set_up_grafana.sh
 cd ..
 section_footer
 
