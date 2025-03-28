@@ -1,4 +1,8 @@
 #!/bin/bash
+
+IP_ADDRESS=$(hostname -I | awk '{print $1}')
+
+clear -x
 cat << "EOF"
  __          __             _       _____           _        _ _           
  \ \        / /            | |     |_   _|         | |      | | |          
@@ -9,11 +13,6 @@ cat << "EOF"
                                                                            
                                                                          
 EOF
-if [ $(id -u) -ne 0 ]
-then
-    echo "Please run this script as root or using sudo!"
-    exit 0
-fi
 
 function print_divider () {
     terminal=/dev/pts/1
@@ -30,3 +29,54 @@ function section_header () {
 function section_footer () {
     echo ""
 }
+
+if [ $(id -u) -ne 0 ]
+then
+    echo "Please run this script as root or using sudo!"
+    exit 0
+fi
+
+section_header "Set Up Wazuh Manager"
+WazuhDocker/set_up_manager.sh
+section_footer
+
+section_header "Set Up Wazuh Agent"
+WazuhAgent/set_up_agent.sh -y
+section_footer
+
+section_header "Set Up cAdvisor"
+cAdvisorDocker/set_up_cadvisor
+section_footer
+
+section_header "Set Up Grafana"
+GrafanaDocker/set_up_grafana.sh
+section_footer
+
+clear -x
+
+cat << "EOF"
+ __          __             _       _____           _        _ _           
+ \ \        / /            | |     |_   _|         | |      | | |          
+  \ \  /\  / /_ _ _____   _| |__     | |  _ __  ___| |_ __ _| | | ___ _ __ 
+   \ \/  \/ / _` |_  / | | | '_ \    | | | '_ \/ __| __/ _` | | |/ _ \ '__|
+    \  /\  / (_| |/ /| |_| | | | |  _| |_| | | \__ \ || (_| | | |  __/ |   
+     \/  \/ \__,_/___|\__,_|_| |_| |_____|_| |_|___/\__\__,_|_|_|\___|_|   
+                                                                           
+                                                                         
+EOF
+echo "Everything Installed Succsessfully!"
+echo ""
+echo ""
+echo -e "Name \t\t ADDRESSS \t\t\t User \t\t PASSWORD"
+echo "---------------------------------------------------------------------------------"
+echo -e "Wazuh Manager \t https://$IP_ADDRESS \t\t admin \t\t Secret Password"
+echo -e "cAdvisor \t http:///$IP_ADDRESS:8080 \t / \t\t /"
+echo -e "Prometheus \t http:///$IP_ADDRESS:9090 \t / \t\t /"
+echo -e "Wazuh Manager \t https://$IP_ADDRESS:3000 \t admin \t\t admin"
+
+
+
+
+
+
+
