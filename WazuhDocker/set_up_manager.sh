@@ -42,11 +42,10 @@ echo
 
 sysctl -w vm.max_map_count=262144
 
-
-if grep -q "vm.max_map_count" "$FILE"; then
-    sed -i 's/^vm.max_map_count.*/vm.max_map_count=262144/' "$FILE"
+if grep -q "vm.max_map_count" "$SYSCTL_CONF"; then
+    sed -i 's/^vm.max_map_count.*/vm.max_map_count=262144/' "$SYSCTL_CONF"
 else
-    echo "vm.max_map_count=262144" >> "$FILE"
+    echo "vm.max_map_count=262144" >> "$SYSCTL_CONF"
 fi
 
 echo
