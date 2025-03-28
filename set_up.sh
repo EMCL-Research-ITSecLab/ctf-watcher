@@ -24,6 +24,7 @@ function section_header () {
     print_divider
     echo "${1}..."
     print_divider
+    sleep 1
 }
 
 function section_footer () {
@@ -70,11 +71,15 @@ WazuhAgent/set_up_agent.sh -y
 section_footer
 
 section_header "Set Up cAdvisor"
-cAdvisorDocker/set_up_cadvisor
+cd cAdvisorDocker
+./set_up_cadvisor
+cd ..
 section_footer
 
 section_header "Set Up Grafana"
-GrafanaDocker/set_up_grafana.sh
+cd GrafanaDocker
+set_up_grafana.sh
+cd ..
 section_footer
 
 clear -x
