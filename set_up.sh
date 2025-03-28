@@ -33,7 +33,7 @@ function section_footer () {
 function remove (){
     echo "Remove Wazuh Enviroment"
     clean_docker.sh #Todo: Only remove my containers
-    WazuhAgent/set_up_agent --remove
+    WazuhAgent/set_up_agent.sh --remove
     echo "Everything removed"
 }
 
@@ -45,7 +45,7 @@ fi
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --remove=*)
+    --remove)
       remove
       exit 0
       ;;
