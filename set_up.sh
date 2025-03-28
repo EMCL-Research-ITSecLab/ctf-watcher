@@ -101,6 +101,7 @@ EOF
 echo "Everything Installed Succsessfully!"
 echo ""
 echo ""
+echo "Web Interfaces:"
 echo -e "Name \t\t ADDRESSS \t\t\t User \t\t PASSWORD"
 echo "---------------------------------------------------------------------------------"
 echo -e "Wazuh Manager \t https://$IP_ADDRESS \t\t admin \t\t Secret Password"
@@ -108,7 +109,9 @@ echo -e "cAdvisor \t http:///$IP_ADDRESS:8080 \t / \t\t /"
 echo -e "Prometheus \t http:///$IP_ADDRESS:9090 \t / \t\t /"
 echo -e "Wazuh Manager \t https://$IP_ADDRESS:3000 \t admin \t\t admin"
 
-docker container ls 
+echo ""
+echo "Container:"
+docker container ls --format "table {{.Names}}:\t{{.ID}}:\t {{.Image}}:\t {{.Status}}:"
 
 
 
