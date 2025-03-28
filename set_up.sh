@@ -63,11 +63,15 @@ while [[ $# -gt 0 ]]; do
 done
 
 section_header "Set Up Wazuh Manager"
-WazuhDocker/set_up_manager.sh
+cd WazuhDocker
+./set_up_manager.sh
+cd ..
 section_footer
 
 section_header "Set Up Wazuh Agent"
-WazuhAgent/set_up_agent.sh -y
+cd WazuhAgent
+./set_up_agent.sh -y
+cd ..
 section_footer
 
 section_header "Set Up cAdvisor"
