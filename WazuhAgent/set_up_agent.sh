@@ -193,7 +193,9 @@ echo "Logging UFW: $UFW"
 
 SET_UP_APPROVED="y"
 if [ "$SKIP_CONFIRMATION" == "false" ]; then
-  print "Set up Agent with these settings? [y/yes]"
+  echo ""
+  echo "Set up Agent with these settings? [y/yes]"
+  echo ""
   read SET_UP_APPROVED
 fi
 if [ "$SET_UP_APPROVED" != "y" ] && [ "$SET_UP_APPROVED" != "yes" ]; then
