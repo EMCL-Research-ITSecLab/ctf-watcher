@@ -232,7 +232,7 @@ if [ "$HEIDPI" == "true" ]; then
 fi
 if [ "$UFW" == "true" ]; then
   print_info "Wazuh Agent set up [4/4] Set up UFW"
-  config/ufw_set_up.sh
+  sudo config/ufw_set_up.sh
 fi
 
 if [ "$BASH_LOG" == false ] && [ "$HEIDPI" == false ]  && [ "$UFW" == false ]; then
