@@ -75,11 +75,25 @@ delete_agent(){
     
 }
 
-print()
+function print_info()
 {
 echo ""
-echo $1
-echo
+echo -e "\e[34m[Info]:\e[0m $1"
+echo ""
+}
+
+function print_warning()
+{
+echo ""
+echo -e "\e[33m[Info]:\e[0m $1"
+echo ""
+}
+
+function print_error()
+{
+echo ""
+echo -e "\e[31m[Info]:\e[0m $1"
+echo ""
 }
 
 while [[ $# -gt 0 ]]; do
@@ -170,7 +184,7 @@ echo "AGENT IP: $LOCAL_IP_ADDRESS"
 echo "Manager IP: $MANAGER_IP_ADDRESS"
 
 if [ "$MANAGER_IP_ADDRESS" == "$LOCAL_IP_ADDRESS" ]; then
-  echo -e "\e[33m[Warning]:\e[0m Wazuh manager has same address as wazuh agent. Please provide the correct manager address using --manager. Ignore if manager and agent are on the same system"
+  print_warning "Wazuh manager has same address as wazuh agent. Please provide the correct manager address using --manager. Ignore if manager and agent are on the same system"
 fi
 
 echo "Logging Bash: $BASH_LOG"
@@ -187,40 +201,43 @@ if [ "$SET_UP_APPROVED" != "y" ] && [ "$SET_UP_APPROVED" != "yes" ]; then
   exit 0
 fi
 
-print "Start Agent Setup"
+print_info "Start Agent Setup"
 
-print "Downlaod Agent"
+#####################################################
+print_infno "Wazuh Agent set up [1/4] Download Agent"
+
 eval $CMD_INSTALL
 
-print "Run Agent"
+#####################################################
+print_info "Wazuh Agent set up [2/4] Run Agent"
+
 eval $CMD_RUN
 
-
-print "Agent Installed Succesfully"
-print "Agent Inject Localfiles"
+#####################################################
+print_info "Wazuh Agent set up [3/4] Inject Localfiles"
 
 cat config/localfile_ossec_config >> /var/ossec/etc/ossec.conf
 
 if [ "$BASH_LOG" == "true" ]; then
-  print "Set up Bash Logging"
+  print_info "Wazuh Agent set up [4/4] Set up Bash Logging"
   config/bash_loggin_set_up.sh
 fi
 if [ "$HEIDPI" == "true" ]; then
-  print "Set up heiDPId"
+  print_info "Wazuh Agent set up [4/4] Set up heiDPId"
   config/heiDPI_set_up.sh
 fi
 if [ "$UFW" == "true" ]; then
-  print "Set up UFW"
+  print_info "Wazuh Agent set up [4/4] Set up UFW"
   config/ufw_set_up.sh
 fi
 
 if [ "$BASH_LOG" == false ] && [ "$HEIDPI" == false ]  && [ "$UFW" == false ]; then
-    print "No Logging to set up. Continue"
-else
-    print "Everything set up"
+    print_info "Wazuh Agent set up [4/4] Skipping set up"
 fi
 
-print "Agent setup Completed"
+echo
+echo --------Instalation Finished--------
+echo
 
 
 
