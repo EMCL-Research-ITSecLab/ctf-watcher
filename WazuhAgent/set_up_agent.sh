@@ -226,7 +226,9 @@ if [ "$BASH_LOG" == "true" ]; then
 fi
 if [ "$HEIDPI" == "true" ]; then
   print_info "Wazuh Agent set up [4/4] Set up heiDPId"
+  cd config
   config/heiDPI_set_up.sh
+  cd ..
 fi
 if [ "$UFW" == "true" ]; then
   print_info "Wazuh Agent set up [4/4] Set up UFW"
