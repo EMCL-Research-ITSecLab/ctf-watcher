@@ -116,7 +116,7 @@
 <decoder name="bash_commands1">
   <parent>bash_commands</parent>
   <prematch>\.</prematch> 
-  <regex>User (\S+) @ (\S+) \p\d+\p:\s+\d+\s+(\.+)</regex>
+  <regex>User (\S+) @ (\S+) \p\d+\p:(\.+)</regex>
   <order>User, WD, Command</order>
 </decoder>
 
