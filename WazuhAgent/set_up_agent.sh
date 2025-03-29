@@ -218,7 +218,7 @@ eval $CMD_RUN
 #####################################################
 print_info "Wazuh Agent set up [3/4] Inject Localfiles"
 
-cat config/localfile_ossec_config >> /var/ossec/etc/ossec.conf
+cat config/localfile_ossec_config | sudo tee -a /var/ossec/etc/ossec.conf > /dev/null
 
 if [ "$BASH_LOG" == "true" ]; then
   print_info "Wazuh Agent set up [4/4] Set up Bash Logging"
