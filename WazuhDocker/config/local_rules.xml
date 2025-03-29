@@ -4,51 +4,8 @@
 <!-- Modify it at your will. -->
 <!-- Copyright (C) 2015, Wazuh Inc. -->
 
-<!-- Example -->
-<group name="local,syslog,sshd,">
 
-  <!--
-  Dec 10 01:02:02 host sshd[1234]: Failed none for root from 1.1.1.1 port 1066 ssh2
-  -->
-  <rule id="100001" level="5">
-    <if_sid>5716</if_sid>
-    <srcip>1.1.1.1</srcip>
-    <description>sshd: authentication failed from IP 1.1.1.1.</description>
-    <group>authentication_failed,pci_dss_10.2.4,pci_dss_10.2.5,</group>
-  </rule>
-
-</group>
-
-<group name="firewall,">
-  <rule id="104102" level="5">
-    <if_sid>4100</if_sid>
-    <action>UFW BLOCK</action>
-    <description>Firewall block event.</description>
-    <group>firewall_drop,pci_dss_1.4,gpg13_4.12,gdpr_IV_35.7.d,hipaa_164.312.a.1,nist_800_53_SC.7,tsc_CC6.7,tsc_CC6.8,</group>
-  </rule>
-
-  <rule id="104151" level="10" frequency="18" timeframe="45" ignore="240">
-    <if_matched_sid>104102"</if_matched_sid>
-    <same_source_ip />
-    <description>Multiple Firewall block events from same source.</description>
-    <group>multiple_drops,pci_dss_1.4,pci_dss_10.6.1,gpg13_4.12,gdpr_IV_35.7.d,hipaa_164.312.a.1,hipaa_164.312.b,nist_800_53_SC.7,nist_800_53_AU.6,tsc_CC6.7,tsc_CC6.8,tsc_CC7.2,tsc_CC7.3,</group>
-  </rule>
-
-</group>
-
-<group name="hei_dpi,">
-  <rule id="100011" level="3">
-    <decoded_as>json</decoded_as>
-    <field name="flow_event_id">\.*</field>
-    <description>heiDPI flow event.</description>
-  </rule>
-  <rule id="100012" level="3">
-    <decoded_as>json</decoded_as>
-    <field name="packet_event_id">\.*</field>
-    <description>heiDPI packet event.</description>
-  </rule>
-</group>
-
+<!-- -------------------------------------------------------------------------------- Perfomance -->
 <group name="performance_metric,">
 
 <!-- CPU, Memory and Disk usage -->
@@ -100,6 +57,7 @@
 </rule>
 </group>
 
+<!-- ------------------------------------------------------------------------------ Active User -->
 <group name="active_user">
 
 <!-- active user check -->
@@ -116,6 +74,19 @@
 
 </group>
 
+<!-- ------------------------------------------------------------------------------------- SSH -->
+<group name="local,syslog,sshd,">
+
+  <rule id="100001" level="5">
+    <if_sid>5716</if_sid>
+    <srcip>1.1.1.1</srcip>
+    <description>sshd: authentication failed from IP 1.1.1.1.</description>
+    <group>authentication_failed,pci_dss_10.2.4,pci_dss_10.2.5,</group>
+  </rule>
+
+</group>
+
+<!-- --------------------------------------------------------------------------------- Bash Log -->
 <group name="bash_logs">
 
 <!-- bash log-->
@@ -126,6 +97,21 @@
 
 </group>
 
+<!-- ---------------------------------------------------------------------------------- heiDPId -->
+<group name="hei_dpi,">
+  <rule id="100011" level="3">
+    <decoded_as>json</decoded_as>
+    <field name="flow_event_id">\.*</field>
+    <description>heiDPI flow event.</description>
+  </rule>
+  <rule id="100012" level="3">
+    <decoded_as>json</decoded_as>
+    <field name="packet_event_id">\.*</field>
+    <description>heiDPI packet event.</description>
+  </rule>
+</group>
+
+<!-- -------------------------------------------------------------------------------------- UFW -->
 <group name="ufw_status">
 
 <!-- ufw_status-->
@@ -136,9 +122,27 @@
 
 </group>
 
+<group name="firewall,">
+  <rule id="104102" level="5">
+    <if_sid>4100</if_sid>
+    <action>UFW BLOCK</action>
+    <description>Firewall block event.</description>
+    <group>firewall_drop,pci_dss_1.4,gpg13_4.12,gdpr_IV_35.7.d,hipaa_164.312.a.1,nist_800_53_SC.7,tsc_CC6.7,tsc_CC6.8,</group>
+  </rule>
 
-<!-- OpenVPN-->
+  <rule id="104151" level="10" frequency="18" timeframe="45" ignore="240">
+    <if_matched_sid>104102"</if_matched_sid>
+    <same_source_ip />
+    <description>Multiple Firewall block events from same source.</description>
+    <group>multiple_drops,pci_dss_1.4,pci_dss_10.6.1,gpg13_4.12,gdpr_IV_35.7.d,hipaa_164.312.a.1,hipaa_164.312.b,nist_800_53_SC.7,nist_800_53_AU.6,tsc_CC6.7,tsc_CC6.8,tsc_CC7.2,tsc_CC7.3,</group>
+  </rule>
+
+</group>
+
+<!-- -------------------------------------------------------------------------------------- OpenVPN -->
 <group name="Openvpnas">
+
+  <!-- OpenVPN-->
   <rule id="100701" level="0" noalert="3">
     <decoded_as>openvpnas_decoder</decoded_as>
     <description>OpenVPN access server messages grouped</description>
