@@ -145,7 +145,7 @@
               "type": "raw_data"
             }
           ],
-          "query": "rule.id:100054",
+          "query": "rule.id:100100",
           "refId": "A",
           "timeField": "@timestamp",
           "datasource": {
@@ -329,7 +329,7 @@
               "type": "raw_data"
             }
           ],
-          "query": "rule.id:100301",
+          "query": "rule.id:100600",
           "refId": "A",
           "timeField": "@timestamp",
           "datasource": {
@@ -511,7 +511,7 @@
               "type": "raw_data"
             }
           ],
-          "query": "rule.id:100102",
+          "query": "rule.id:100202",
           "refId": "A",
           "timeField": "@timestamp",
           "datasource": {
@@ -691,7 +691,7 @@
               "type": "raw_data"
             }
           ],
-          "query": "rule.id:100101\n",
+          "query": "rule.id:100201\n",
           "refId": "A",
           "timeField": "@timestamp",
           "datasource": {
@@ -1018,7 +1018,7 @@
               "type": "raw_data"
             }
           ],
-          "query": "rule.id:100201 -location:journald",
+          "query": "rule.id:100401 -location:journald",
           "refId": "A",
           "timeField": "@timestamp",
           "datasource": {
@@ -1206,7 +1206,7 @@
               "type": "raw_data"
             }
           ],
-          "query": "rule.id:100012",
+          "query": "rule.id:100502",
           "refId": "A",
           "timeField": "@timestamp",
           "datasource": {
@@ -1592,7 +1592,7 @@
               "type": "logs"
             }
           ],
-          "query": "rule.id:100011",
+          "query": "rule.id:100501",
           "refId": "A",
           "timeField": "@timestamp",
           "datasource": {
@@ -2162,7 +2162,7 @@
               "type": "logs"
             }
           ],
-          "query": "rule.id:104102",
+          "query": "rule.id:100601",
           "refId": "A",
           "timeField": "@timestamp",
           "datasource": {
@@ -2402,7 +2402,7 @@
               "type": "raw_data"
             }
           ],
-          "query": "rule.id:100011 AND longitude",
+          "query": "rule.id:100501 AND longitude",
           "refId": "A",
           "timeField": "@timestamp",
           "datasource": {
