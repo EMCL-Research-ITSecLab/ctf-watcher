@@ -37,12 +37,12 @@
 </group>
 
 <group name="hei_dpi,">
-  <rule id="100011" level="1">
+  <rule id="100011" level="3">
     <decoded_as>json</decoded_as>
     <field name="flow_event_id">\.*</field>
     <description>heiDPI flow event.</description>
   </rule>
-  <rule id="100012" level="1">
+  <rule id="100012" level="3">
     <decoded_as>json</decoded_as>
     <field name="packet_event_id">\.*</field>
     <description>heiDPI packet event.</description>
@@ -103,13 +103,13 @@
 <group name="active_user">
 
 <!-- active user check -->
-<rule id="100101" level="1">
+<rule id="100101" level="3">
   <decoded_as>current_active_users</decoded_as>
   <description>Active user check</description>
 </rule>
 
 <!-- active user number -->
-<rule id="100102" level="1">
+<rule id="100102" level="3">
   <decoded_as>current_active_user_number</decoded_as>
   <description>Active user number check</description>
 </rule>
@@ -119,7 +119,7 @@
 <group name="bash_logs">
 
 <!-- bash log-->
-<rule id="100201" level="1">
+<rule id="100201" level="3">
   <decoded_as>bash_commands</decoded_as>
   <description>Bash command used</description>
 </rule>
@@ -129,7 +129,7 @@
 <group name="ufw_status">
 
 <!-- ufw_status-->
-<rule id="100301" level="1">
+<rule id="100301" level="3">
   <decoded_as>ufw_status</decoded_as>
   <description>UFW Status Check</description>
 </rule>
@@ -139,7 +139,7 @@
 
 <!-- OpenVPN-->
 <group name="Openvpnas">
-  <rule id="100701" level="0" noalert="1">
+  <rule id="100701" level="0" noalert="3">
     <decoded_as>openvpnas_decoder</decoded_as>
     <description>OpenVPN access server messages grouped</description>
   </rule>
