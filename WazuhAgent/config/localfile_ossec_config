@@ -1,4 +1,5 @@
 <ossec_config>
+
   <localfile>
     <log_format>journald</log_format>
     <location>journald</location>
@@ -94,9 +95,9 @@
   </localfile>
 
 <!-- OpenVPN -->
- <localfile>
+  <localfile>
     <log_format>syslog</log_format>
     <location>/var/log/openvpnas.log</location>
   </localfile>
 
-
+</ossec_config>
