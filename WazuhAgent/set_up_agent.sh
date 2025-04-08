@@ -167,13 +167,13 @@ while [[ $# -gt 0 ]]; do
   shift
 done
 
-CMD_INSTALL_RPM_AMD="curl -o wazuh-agent-4.11.0-1.x86_64.rpm https://packages.wazuh.com/4.x/yum/wazuh-agent-4.11.0-1.x86_64.rpm && sudo WAZUH_MANAGER='"$MANAGER_IP_ADDRESS"' WAZUH_AGENT_NAME='"$AGENT_NAME"' rpm -ihv wazuh-agent-4.11.0-1.x86_64.rpm"
-CMD_INSTALL_RPM_AARCH="curl -o wazuh-agent-4.11.0-1.aarch64.rpm https://packages.wazuh.com/4.x/yum/wazuh-agent-4.11.0-1.aarch64.rpm && sudo WAZUH_MANAGER='"$MANAGER_IP_ADDRESS"' WAZUH_AGENT_NAME='"$AGENT_NAME"' rpm -ihv wazuh-agent-4.11.0-1.aarch64.rpm"
-CMD_INSTALL_DEB_AMD="wget https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.11.0-1_amd64.deb && sudo WAZUH_MANAGER='"$MANAGER_IP_ADDRESS"' WAZUH_AGENT_NAME='"$AGENT_NAME"' dpkg -i ./wazuh-agent_4.11.0-1_amd64.deb"
-CMD_INSTALL_DEB_AARCH="wget https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.11.0-1_arm64.deb && sudo WAZUH_MANAGER='"$MANAGER_IP_ADDRESS"' WAZUH_AGENT_NAME='"$AGENT_NAME"' dpkg -i ./wazuh-agent_4.11.0-1_arm64.deb"
-CMD_INSTALL_WIN="Invoke-WebRequest -Uri https://packages.wazuh.com/4.x/windows/wazuh-agent-4.11.0-1.msi -OutFile $env:tmp\wazuh-agent; msiexec.exe /i $env:tmp\wazuh-agent /q WAZUH_MANAGER='"$MANAGER_IP_ADDRESS"' WAZUH_AGENT_NAME='"$AGENT_NAME"' "
-CMD_INSTALL_MAC_INTEL="curl -so wazuh-agent.pkg https://packages.wazuh.com/4.x/macos/wazuh-agent-4.11.0-1.intel64.pkg && echo 'WAZUH_MANAGER=\""$MANAGER_IP_ADDRESS"\" && WAZUH_AGENT_NAME=\""$AGENT_NAME"\"' > /tmp/wazuh_envs && sudo installer -pkg ./wazuh-agent.pkg -target /"
-CMD_INSTALL_MAC_SILLICON="curl -so wazuh-agent.pkg https://packages.wazuh.com/4.x/macos/wazuh-agent-4.11.0-1.arm64.pkg && echo 'WAZUH_MANAGER=\""$MANAGER_IP_ADDRESS"\" && WAZUH_AGENT_NAME=\""$AGENT_NAME"\"' > /tmp/wazuh_envs && sudo installer -pkg ./wazuh-agent.pkg -target /"
+CMD_INSTALL_RPM_AMD="curl -o wazuh-agent-4.11.1-1.x86_64.rpm https://packages.wazuh.com/4.x/yum/wazuh-agent-4.11.1-1.x86_64.rpm && sudo WAZUH_MANAGER='"$MANAGER_IP_ADDRESS"' WAZUH_AGENT_NAME='"$AGENT_NAME"' rpm -ihv wazuh-agent-4.11.1-1.x86_64.rpm"
+CMD_INSTALL_RPM_AARCH="curl -o wazuh-agent-4.11.1-1.aarch64.rpm https://packages.wazuh.com/4.x/yum/wazuh-agent-4.11.1-1.aarch64.rpm && sudo WAZUH_MANAGER='"$MANAGER_IP_ADDRESS"' WAZUH_AGENT_NAME='"$AGENT_NAME"' rpm -ihv wazuh-agent-4.11.1-1.aarch64.rpm"
+CMD_INSTALL_DEB_AMD="wget https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.11.1-1_amd64.deb && sudo WAZUH_MANAGER='"$MANAGER_IP_ADDRESS"' WAZUH_AGENT_NAME='"$AGENT_NAME"' dpkg -i ./wazuh-agent_4.11.1-1_amd64.deb"
+CMD_INSTALL_DEB_AARCH="wget https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.11.1-1_arm64.deb && sudo WAZUH_MANAGER='"$MANAGER_IP_ADDRESS"' WAZUH_AGENT_NAME='"$AGENT_NAME"' dpkg -i ./wazuh-agent_4.11.1-1_arm64.deb"
+CMD_INSTALL_WIN="Invoke-WebRequest -Uri https://packages.wazuh.com/4.x/windows/wazuh-agent-4.11.1-1.msi -OutFile $env:tmp\wazuh-agent; msiexec.exe /i $env:tmp\wazuh-agent /q WAZUH_MANAGER='"$MANAGER_IP_ADDRESS"' WAZUH_AGENT_NAME='"$AGENT_NAME"' "
+CMD_INSTALL_MAC_INTEL="curl -so wazuh-agent.pkg https://packages.wazuh.com/4.x/macos/wazuh-agent-4.11.1-1.intel64.pkg && echo 'WAZUH_MANAGER=\""$MANAGER_IP_ADDRESS"\" && WAZUH_AGENT_NAME=\""$AGENT_NAME"\"' > /tmp/wazuh_envs && sudo installer -pkg ./wazuh-agent.pkg -target /"
+CMD_INSTALL_MAC_SILLICON="curl -so wazuh-agent.pkg https://packages.wazuh.com/4.x/macos/wazuh-agent-4.11.1-1.arm64.pkg && echo 'WAZUH_MANAGER=\""$MANAGER_IP_ADDRESS"\" && WAZUH_AGENT_NAME=\""$AGENT_NAME"\"' > /tmp/wazuh_envs && sudo installer -pkg ./wazuh-agent.pkg -target /"
 
 CMD_INSTALL="$CMD_INSTALL_DEB_AMD"
 
