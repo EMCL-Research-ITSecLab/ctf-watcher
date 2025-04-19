@@ -1,6 +1,8 @@
 #!/bin/bash
 
 IP_ADDRESS=$(hostname -I | awk '{print $1}')
+RAM_MIN=8388608
+RAM=$(awk '/MemTotal/ {print $2}' /proc/meminfo)
 
 clear -x
 cat << "EOF"
@@ -61,6 +63,20 @@ while [[ $# -gt 0 ]]; do
   esac
   shift
 done
+
+if [ $RAM -le $RAM_MIN ]; then
+    echo "Not Enough Memory!"
+    echo "MINIMUM: $RAM_MIN"
+    echo "Current: $RAM"
+    echo ""
+    echo "Ignoring this warnig can cause a broken installation"
+    echo "Ignore warning? [y/yes]"
+    read SET_UP_APPROVED
+    if [ "$SET_UP_APPROVED" != "y" ] && [ "$SET_UP_APPROVED" != "yes" ]; then
+        print "Setup Aborted"
+        exit 0
+    fi
+ fi
 
 section_header "Set Up Wazuh Manager"
 cd WazuhDocker
