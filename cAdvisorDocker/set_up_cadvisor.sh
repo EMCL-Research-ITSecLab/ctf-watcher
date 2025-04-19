@@ -11,6 +11,7 @@ sudo docker run \
   --publish=8080:8080 \
   --detach=true \
   --name=cadvisor \
+  --restart unless-stopped \
   --privileged \
   --device=/dev/kmsg \
   gcr.io/cadvisor/cadvisor:$VERSION
