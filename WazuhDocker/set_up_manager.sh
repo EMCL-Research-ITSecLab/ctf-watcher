@@ -5,25 +5,6 @@ IP_ADDRESS=$(hostname -I | awk '{print $1}')
 RAM_MIN=8388608
 RAM=$(awk '/MemTotal/ {print $2}' /proc/meminfo)
 
-if [ $(id -u) -ne 0 ]; then
-    echo "Please run this script as root or using sudo!"
-    exit 0
-fi
-
-if [ $RAM -le $RAM_MIN ]; then
-    echo "Not Enough Memory!"
-    echo "MINIMUM: $RAM_MIN"
-    echo "Current: $RAM"
-    echo ""
-    echo "Ignoring this warnig can cause a broken installation"
-    echo "Ignore warning? [y/yes]"
-    read SET_UP_APPROVED
-    if [ "$SET_UP_APPROVED" != "y" ] && [ "$SET_UP_APPROVED" != "yes" ]; then
-        print "Setup Aborted"
-        exit 0
-    fi
- fi
-
 function print_info()
 {
 echo ""
@@ -44,6 +25,27 @@ echo ""
 echo -e "\e[31m[Info]:\e[0m $1"
 echo ""
 }
+
+
+if [ $(id -u) -ne 0 ]; then
+    echo "Please run this script as root or using sudo!"
+    exit 0
+fi
+
+if [ $RAM -le $RAM_MIN ]; then
+    echo "Not Enough Memory!"
+    echo "MINIMUM: $RAM_MIN"
+    echo "Current: $RAM"
+    echo ""
+    echo "Ignoring this warnig can cause a broken installation"
+    echo "Ignore warning? [y/yes]"
+    read SET_UP_APPROVED
+    if [ "$SET_UP_APPROVED" != "y" ] && [ "$SET_UP_APPROVED" != "yes" ]; then
+        print_info "Setup Aborted"
+        exit 0
+    fi
+ fi
+
 
 #####################################################
 print_info "Wazuh Manager set up [1/6] Set Map Count"
