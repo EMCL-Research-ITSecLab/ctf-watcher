@@ -154,7 +154,7 @@ sed -i "s/<cadvisor_ip>/$CADVISOR_IP_ADDRESS/g" config/cadvisor_datasource.json
 
 print "Run Docker Grafana Dashbaord"
 
-docker run -d -p 3000:3000 --name=grafana grafana/grafana-enterprise
+docker run -d --restart unless-stopped -p 3000:3000 --name=grafana grafana/grafana-enterprise
 
 wait_for_grafana
 
