@@ -98,7 +98,7 @@ section_footer
 
 section_header "Set Up Grafana"
 cd GrafanaDocker
-./set_up_grafana.sh
+./set_up_grafana.sh -y
 cd ..
 section_footer
 
