@@ -73,7 +73,7 @@ if [ $RAM -le $RAM_MIN ]; then
     echo "Ignore warning? [y/yes]"
     read SET_UP_APPROVED
     if [ "$SET_UP_APPROVED" != "y" ] && [ "$SET_UP_APPROVED" != "yes" ]; then
-        print "Setup Aborted"
+        section_header "Setup Aborted"
         exit 0
     fi
  fi
