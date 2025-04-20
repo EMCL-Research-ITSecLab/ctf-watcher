@@ -84,24 +84,20 @@ Incomplete list of Grafana Dashboard Features
 3) All commands executed by users. Filterable by user. Sudo commands are highlighted.
 
 ### SSH
-1) A life graph tracking the number of successful, unsuccessful and suspicious ssh requests
+1) A life graph tracking the number of successful and unsuccessful  ssh requests
 
-### UFW
+### Firewall
 1) A list of all active UFW Rules
 2) A List of blocked UFW Events
 
-### heiDPId
+### Network Flow
 1) A list of heiDPId flow events. Traffic outside is highlighted.
 2) A list of heiDPId packed events. Traffic outside is highlighted.
 3) Traffic outside is visualized and pinpointed on a world map.
 
 ## Additional Wazuh Alerts
 
-The added Wazuh Alerts. These can be further extended as described in the [Wazuh Documentation](https://documentation.wazuh.com/current/user-manual/ruleset/rules/custom.html).
-Note that the mentioned files and commands must be altered and executed inside the corresponding docker container. You can easily work inside a container with 
-```
-docker exec -it <container_id_or_name>
-```
+The custom Wazuh Alerts used. 
 ### Performance
 
 | Description      | Rule ID      | Level |
@@ -157,8 +153,21 @@ docker exec -it <container_id_or_name>
 | OpenVPN access server messages grouped &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 100701 | 1 |
 | OpenVPN remote connection established | 100702 | 3 |
 
+## Modify the project
 
+If you want to make changes to the setup change the following files:
+### Wazuh
+Custom Wazuh Rules can be creates as described in the [Wazuh Documentation](https://documentation.wazuh.com/current/user-manual/ruleset/rules/custom.html),
+if you only want to change them in a running setup keep in mind that the mentioned files and commands must be altered and executed inside the corresponding docker container. You can easily work inside a container with 
+```
+docker exec -it <container_id_or_name>
+```
+Else, modify [local_file_ossec_conf](https://github.com/FeDaas/Master-Practical-Evaluating-XDR-applications/blob/main/WazuhAgent/config/localfile_ossec_config), [local_decoder.xml](https://github.com/FeDaas/Master-Practical-Evaluating-XDR-applications/blob/main/WazuhDocker/config/local_decoder.xml) and [local_rules.xml](https://github.com/FeDaas/Master-Practical-Evaluating-XDR-applications/blob/main/WazuhDocker/config/local_rules.xml) and use this project as usual.
 
+### Grafana
+Simply modify the dashboard via the Grafana UI.\
+If you want to use your custom dahsboard in this project export it via the Grafana UI. Make sure to use the 'Export the dashboard to use in another instance' setting and encase the output in a dashboard key: ```{"dashboard":<outuput>}```\
+Then override the [wazuh_dashboard.json](https://github.com/FeDaas/Master-Practical-Evaluating-XDR-applications/blob/main/GrafanaDocker/config/wazuh_dashboard.json) and use this project as usual.
 
 
 
