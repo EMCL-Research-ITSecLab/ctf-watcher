@@ -17,12 +17,12 @@
 
   <localfile>
     <log_format>json</log_format>
-    <location>/var/lib/docker/volumes/heiDPI_var_log/_data/flow_event.json</location>
+    <location>/var/lib/docker/volumes/heidpi_var_log/_data/flow_event.json</location>
   </localfile>
 
   <localfile>
     <log_format>json</log_format>
-    <location>/var/lib/docker/volumes/heiDPI_var_log/_data/packet_event.json</location>
+    <location>/var/lib/docker/volumes/heidpi_var_log/_data/packet_event.json</location>
   </localfile>
 
 <!--Bash Command Log -->
