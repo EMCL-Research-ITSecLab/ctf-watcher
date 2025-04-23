@@ -206,7 +206,7 @@ fi
 print_info "Start Agent Setup"
 
 #####################################################
-print_infno "Wazuh Agent set up [1/4] Download Agent"
+print_info "Wazuh Agent set up [1/4] Download Agent"
 
 eval $CMD_INSTALL
 
