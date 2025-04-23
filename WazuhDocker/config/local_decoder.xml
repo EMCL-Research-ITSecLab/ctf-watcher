@@ -131,6 +131,17 @@
   <order>To, Action, From</order>
 </decoder>
 
+<!-- Agents -->
+<decoder name="current_agents">
+     <program_name>current_agents</program_name>
+</decoder>
+<decoder name="current_agents1">
+  <parent>current_agents</parent>
+  <prematch></prematch>
+  <regex offset="after_prematch">D: (\d+), Name: (\S+), IP: (\S+)</regex>
+  <order>ID, Name, IP</order>
+</decoder>
+
 <!-- OpenVPN -->
 <decoder name="openvpnas_decoder">
     <prematch type="pcre2">\[OVPN \d+\] </prematch>
