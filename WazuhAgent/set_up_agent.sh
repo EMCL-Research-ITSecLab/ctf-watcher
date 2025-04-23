@@ -48,7 +48,7 @@ Usage: set_up_agent.sh [OPTIONS]
     --use_ufw=<true/false>          [Optional] Set if UFW should be set up and logged
                                     [Default] = true
 
-    --os=<                          [Optional] Set the os the Agent should run on. Supportet os are:
+    --os=<                          [Optional] Set the os the Agent should run on. Supported os are:
           rpm_amd/                     Linux RPM amd64
           rpm_aarch/                   Linux RPM aarch64
           deb_amd/                     Linux DEB amd64
@@ -58,6 +58,8 @@ Usage: set_up_agent.sh [OPTIONS]
           mac_sillicon                 macOS Apple silicon
           >
                                     [Default] = Linux DEB amd64
+
+    --docker=<container_id/name>    [Optional] Set Up the Agent inside the docker container
 
     --remove                        [Optional] Remove the installed Wazuh Agent
 
@@ -98,6 +100,35 @@ function print_error()
 echo ""
 echo -e "\e[31m[Info]:\e[0m $1"
 echo ""
+}
+
+function install_on_docker()
+{
+CONTAINER_NAME=$(docker inspect --format '{{.Name}}' $1 | cut -c2-)
+
+print_info "Set Up agent in Container: $CONTAINER_NAME"
+docker exec $1 mkdir -p /wazuh-agent
+docker cp config/container_requirements_set_up.sh $1:/wazuh
+docker cp config/bash_loggin_set_up.sh $1:/wazuh
+docker cp config/localfile_ossec_config $1:/wazuh
+docker cp config/localfile_ossec_config_ufw_status $1:/wazuh
+
+print_info "Set Up Requirements [1/4]"
+docker exec -w /wazuh -i $1 bash < container_requirements_set_up.sh
+
+print_info "Install and Run Agent [2/4]"
+docker exec -w /wazuh-agent $1 wget https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.11.1-1_amd64.deb && sudo WAZUH_MANAGER='"$MANAGER_IP_ADDRESS"' WAZUH_AGENT_NAME='ag-"$CONTAINER_NAME"' dpkg -i ./wazuh-agent_4.11.1-1_amd64.deb
+docker exec -w /wazuh-agent $1 "$CMD_RUN_LINUX"
+
+print_info "Inject Localfiles [3/4]"
+docker exec -w /wazuh-agent $1 sudo sh -c "cat localfile_ossec_config >> /var/ossec/etc/ossec.conf"
+docker exec -w /wazuh-agent $1 sudo sh -c "cat localfile_ossec_config_ufw_status >> /var/ossec/etc/ossec.conf"
+
+print_info "Set Up Bash logging [4/4]"
+docker exec -w /wazuh -i $1 bash < bash_loggin_set_up.sh
+
+print_info "Agent Set Up completed"
+docker exec -i $1 sudo systemctl status wazuh-agent
 }
 
 while [[ $# -gt 0 ]]; do
@@ -157,6 +188,10 @@ while [[ $# -gt 0 ]]; do
       ;;
     --remove)
       delete_agent
+      exit 0
+      ;;
+    --docker=*)
+      install_on_docker "${1#*=}"
       exit 0
       ;;
     -y|--yes)
