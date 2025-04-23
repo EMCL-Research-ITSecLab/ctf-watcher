@@ -127,6 +127,17 @@
 
 </group>
 
+<!-- Wazuh -->
+<group name="agent">
+
+<!-- agent-->
+<rule id="100801" level="3">
+  <decoded_as>current_agents</decoded_as>
+  <description>Agent Status Check</description>
+</rule>
+
+</group>
+
 <!-- OpenVPN -->
 <group name="Openvpnas">
 
