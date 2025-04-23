@@ -3,6 +3,7 @@
 MANAGER_IP_ADDRESS=$(hostname -I | awk '{print $1}')
 LOCAL_IP_ADDRESS=$(hostname -I | awk '{print $1}')
 AGENT_NAME="Agent_"$LOCAL_IP_ADDRESS""
+SYSTEM_HEALTH="true"
 BASH_LOG="true"
 HEIDPI="true"
 UFW="true"
@@ -29,22 +30,25 @@ set_up_agent.sh -h
 
 Usage: set_up_agent.sh [OPTIONS]
 
-    --manager=<ip_address>         [Optional] Set the Wazuh Manager ip address this Agent should report to.
-                                   [Default] = localhost
+    --manager=<ip_address>          [Optional] Set the Wazuh Manager ip address this Agent should report to.
+                                    [Default] = localhost
 
-    --name=<name>                  [Optional] Set a custom Wazuh Agent name. This name must be unique.
-                                   [Default] = Agent_<localhost>
-        
-    --use_bash_log=<true/false>    [Optional] Set if bash commands should be logged
-                                   [Default] = true
+    --name=<name>                   [Optional] Set a custom Wazuh Agent name. This name must be unique.
+                                    [Default] = Agent_<localhost>
 
-    --use_heidpi=<true/false>      [Optional] Set if heiDPId should be installed, set up and logged
-                                   [Default] = true
+   --use_system_health=<true/false> [Optional] Set if system health should be logged
+                                    [Default] = true
+    
+    --use_bash_log=<true/false>     [Optional] Set if bash commands should be logged
+                                    [Default] = true
 
-    --use_ufw=<true/false>         [Optional] Set if UFW should be set up and logged
-                                   [Default] = true
+    --use_heidpi=<true/false>       [Optional] Set if heiDPId should be installed, set up and logged
+                                    [Default] = true
 
-    --os=<                         [Optional] Set the os the Agent should run on. Supportet os are:
+    --use_ufw=<true/false>          [Optional] Set if UFW should be set up and logged
+                                    [Default] = true
+
+    --os=<                          [Optional] Set the os the Agent should run on. Supportet os are:
           rpm_amd/                     Linux RPM amd64
           rpm_aarch/                   Linux RPM aarch64
           deb_amd/                     Linux DEB amd64
@@ -53,13 +57,13 @@ Usage: set_up_agent.sh [OPTIONS]
           mac_intel/                   macOS intel
           mac_sillicon                 macOS Apple silicon
           >
-                                   [Default] = Linux DEB amd64
+                                    [Default] = Linux DEB amd64
 
-    --remove                       [Optional] Remove the installed Wazuh Agent
+    --remove                        [Optional] Remove the installed Wazuh Agent
 
-    -y, --yes                      [Optional] Skip Setup Confirmation
+    -y, --yes                       [Optional] Skip Setup Confirmation
 
-    -h, --help                     [Optional] Show this help."
+    -h, --help                      [Optional] Show this help."
 
 delete_agent(){
     echo "Remove Wazuh Agent"
@@ -103,7 +107,10 @@ while [[ $# -gt 0 ]]; do
       ;;
     --name=*)
       AGENT_NAME="${1#*=}"
-      ;; 
+      ;;
+      --use_system_health=*)
+      SYSTEM_HEALTH="${1#*=}"
+      ;;
     --use_bash_log=*)
       BASH_LOG="${1#*=}"
       ;;
@@ -220,9 +227,15 @@ print_info "Wazuh Agent set up [3/4] Inject Localfiles"
 
 cat config/localfile_ossec_config | sudo tee -a /var/ossec/etc/ossec.conf > /dev/null
 
+if [ "$SYSTEM_HEALTH" == "true" ]; then
+  print_info "Wazuh Agent set up [4/4] Set up System Health Logging"
+  config/bash_loggin_set_up.sh
+  cat config/localfile_ossec_config_ufw_status | sudo tee -a /var/ossec/etc/ossec.conf > /dev/null
+fi
 if [ "$BASH_LOG" == "true" ]; then
   print_info "Wazuh Agent set up [4/4] Set up Bash Logging"
   config/bash_loggin_set_up.sh
+  cat config/localfile_ossec_config_ufw_status | sudo tee -a /var/ossec/etc/ossec.conf > /dev/null
 fi
 if [ "$HEIDPI" == "true" ]; then
   print_info "Wazuh Agent set up [4/4] Set up heiDPId"
@@ -235,12 +248,12 @@ if [ "$UFW" == "true" ]; then
   sudo config/ufw_set_up.sh
 fi
 
-if [ "$BASH_LOG" == false ] && [ "$HEIDPI" == false ]  && [ "$UFW" == false ]; then
+if [ "$BASH_LOG" == false ] && [ "$HEIDPI" == false ]  && [ "$UFW" == false ] && [ "$SYSTEM_HEALTH" == false ]; then
     print_info "Wazuh Agent set up [4/4] Skipping set up"
 fi
 
 echo
-echo --------Instalation Finished--------
+echo "--------Instalation Finished--------"
 echo
 
 
