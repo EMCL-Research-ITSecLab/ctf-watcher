@@ -25,8 +25,15 @@ sudo ./config/bash_loggin_set_up.sh
 sudo ./config/heiDPI_set_up.sh
 sudo ./config/ufw_set_up.sh
 ```
+### Set Up Inside Docker Container 
+The Agent can also be set up inside a docker container.
+```
+set_up_agent.sh --manager=<manager_ip_address> --docker=<container_id/container_name>
+```
+The ```--docker``` flag ignores other settings flags and only installs and sets up the base agent, user, and bash command logging.
 
 
+### Help
 To get all the available script options, use the -h or --help option:
 ```
 set_up_agent.sh -h
@@ -51,16 +58,18 @@ Usage: set_up_agent.sh [OPTIONS]
     --use_ufw=<true/false>          [Optional] Set if UFW should be set up and logged
                                     [Default] = true
 
-    --os=<                          [Optional] Set the OS the Agent should run on. Supported OSs are:
-          rpm_amd/                     Linux RPM amd64                (Not tested)
-          rpm_aarch/                   Linux RPM aarch64              (Not tested)
-          deb_amd/                     Linux DEB amd64                (Not tested)
-          deb_aarch/                   Linux DEB aarch64              (Full functionality)
-          win/                         Windows MSI 32/64 bits         (Only base functinality)
-          mac_intel/                   macOS intel                    (Only base functinality)
-          mac_sillicon                 macOS Apple silicon            (Only base functinality)
+    --os=<                          [Optional] Set the os the Agent should run on. Supported os are:
+          rpm_amd/                     Linux RPM amd64
+          rpm_aarch/                   Linux RPM aarch64
+          deb_amd/                     Linux DEB amd64
+          deb_aarch/                   Linux DEB aarch64
+          win/                         Windows MSI 32/64 bits
+          mac_intel/                   macOS intel
+          mac_sillicon                 macOS Apple silicon
           >
                                     [Default] = Linux DEB amd64
+
+    --docker=<container_id/name>    [Optional] Set Up the Agent inside the docker container
 
     --remove                        [Optional] Remove the installed Wazuh Agent
 
