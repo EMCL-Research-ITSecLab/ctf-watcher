@@ -22,3 +22,4 @@
      <out_format>$(timestamp) $(hostname) current_agents: $(log)</out_format>
      <frequency>30</frequency>
   </localfile>
+</ossec_config>
