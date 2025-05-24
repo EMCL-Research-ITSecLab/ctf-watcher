@@ -1,1 +1,8 @@
-
+<!-- Current Active User Full Inside Container-->
+  <localfile>
+     <log_format>command</log_format>
+     <command>docker ps -q | xargs -I {} docker exec {} w -h | awk '{print $1,$2,$3,$4}'</command>
+     <alias>current_active_users</alias>
+     <out_format>$(timestamp) $(hostname) current_active_users: $(log)</out_format>
+     <frequency>30</frequency>
+  </localfile>
