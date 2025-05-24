@@ -271,7 +271,7 @@ cat config/localfile_ossec_config | sudo tee -a /var/ossec/etc/ossec.conf > /dev
 if [ "$SYSTEM_HEALTH" == "true" ]; then
   print_info "Wazuh Agent set up [4/4] Set up System Health Logging"
   config/bash_loggin_set_up.sh
-  cat config/localfile_ossec_config_ufw_status | sudo tee -a /var/ossec/etc/ossec.conf > /dev/null
+  cat config/localfile_ossec_config_system_health | sudo tee -a /var/ossec/etc/ossec.conf > /dev/null
 fi
 if [ "$BASH_LOG" == "true" ]; then
   print_info "Wazuh Agent set up [4/4] Set up Bash Logging"
@@ -291,6 +291,7 @@ fi
 if [ "$CONTAINER_LOGGING" == "true" ]; then
   print_info "Wazuh Agent set up [4/4] Set up Container Logging"
   sudo config/container_logging_set_up.sh
+  cat config/localfile_ossec_config_container_logging | sudo tee -a /var/ossec/etc/ossec.conf > /dev/null
 fi
 
 if [ "$BASH_LOG" == false ] && [ "$HEIDPI" == false ]  && [ "$UFW" == false ] && [ "$SYSTEM_HEALTH" == false ]; then
