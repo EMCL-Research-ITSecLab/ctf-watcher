@@ -37,21 +37,23 @@ This is used in container logging where each container writes its bash logs into
 ## Logging Containers from the host
 Container logging allows the Agent to supervise users inside containers.
 
-By default, the Agent logs the container's name as its ID. If you want to log its given name, provide it to the container as the environment variable `ENV_CONTAINER_NAME`.
-
-```
-docker run --name <container_name> -e ENV_CONTAINER_NAME="<container_name>" -d <image_name>
-```
-After set up the container will write its bash logs into `/var/log/commands.log` and `wazuh-agent/commands.log`.
+After the setup, the container will write its bash logs into `/var/log/commands.log` and `wazuh-agent/commands.log`.
 The  `/var/log/commands.log` file is the log for all containers and is read by the Wazuh Agent.
-The `wazuh-agent/commands.log` file only logs the containers own bash commands and is intendet for futher custom analysis.
-They need to be bind to be read by the agent and to be accessable on the host.
+The `wazuh-agent/commands.log` file only logs the container's own bash commands and is intended for further custom analysis.
+They need to be bound to the host to be read by the agent and to be locally accessible.
 ```
 docker run -d \
   -v /var/log/commands.log:/var/log/commands.log \
   -v <path_to_private_log>:wazuh-agent/commands.log \
    <image_name>
 ```
+
+By default, the Agent logs the container's name as its ID. If you want to log its given name, provide it to the container as the environment variable `ENV_CONTAINER_NAME`.
+
+```
+docker run --name <container_name> -e ENV_CONTAINER_NAME="<container_name>" -d <image_name>
+```
+
 
 
 ## Set Up Inside Docker Container 
