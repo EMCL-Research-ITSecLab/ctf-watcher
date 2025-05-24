@@ -4,7 +4,7 @@ You can manually set up a Wazuh Agent or install it on a different machine by ru
 set_up_agent.sh
 ```
 
-If the Wazuh Manager is on a different address you need to provide it
+If the Wazuh Manager is on a different address, you need to provide it
 ```
 set_up_agent.sh --manager=<manager_ip_address>
 ```
@@ -17,30 +17,59 @@ but must be unique.
 
 Some logging features can be disabled 
 ```
-set_up_agent.sh --use_system_health=false --use_bash_log=false --use_heidpi=false --use_use_ufw=false
+set_up_agent.sh \
+--use_system_health=false \
+--use_bash_log=false \
+--use_heidpi=false \
+--use_use_ufw=false \
+--use_container_logging=false
 ```
 These can also be manually set up after the Agent is installed by running their corresponding script
 ```
-sudo ./config/bash_loggin_set_up.sh
+sudo ./config/bash_loggin_set_up.sh --privat_log=<path_to_private_log>
 sudo ./config/heiDPI_set_up.sh
 sudo ./config/ufw_set_up.sh
+sudo ./config/container_logging_set_up.sh
 ```
-### Set Up Inside Docker Container 
-The Agent can also be set up inside a docker container.
+Bash logging can also write its logs into a private log file, in addition to `/var/log/commands.log`.
+This is used in container logging where each container writes its bash logs into a global and a local file.
+
+## Logging Containers from the host
+Container logging allows the Agent to supervise users inside containers.
+
+By default, the Agent logs the container's name as its ID. If you want to log its given name, provide it to the container as the environment variable `ENV_CONTAINER_NAME`.
+
+```
+docker run --name <container_name> -e ENV_CONTAINER_NAME="<container_name>" -d <image_name>
+```
+After set up the container will write its bash logs into `/var/log/commands.log` and `wazuh-agent/commands.log`.
+The  `/var/log/commands.log` file is the log for all containers and is read by the Wazuh Agent.
+The `wazuh-agent/commands.log` file only logs the containers own bash commands and is intendet for futher custom analysis.
+They need to be bind to be read by the agent and to be accessable on the host.
+```
+docker run -d \
+  -v /var/log/commands.log:/var/log/commands.log \
+  -v <path_to_private_log>:wazuh-agent/commands.log \
+   <image_name>
+```
+
+
+## Set Up Inside Docker Container 
+The Agent can also be set up inside a Docker container.
 ```
 set_up_agent.sh --manager=<manager_ip_address> --docker=<container_id/container_name>
 ```
 The ```--docker``` flag ignores other settings flags and only installs and sets up the base agent, user, and bash command logging.
 
 
-### Help
+## Help
 To get all the available script options, use the -h or --help option:
 ```
 set_up_agent.sh -h
 
 Usage: set_up_agent.sh [OPTIONS]
 
-    --manager=<ip_address>          [Optional] Set the Wazuh Manager ip address this Agent should report to.
+    --manager=<ip_address>          [Optional] Set the Wazuh Manager IP address this Agent should report to.
                                     [Default] = localhost
 
     --name=<name>                   [Optional] Set a custom Wazuh Agent name. This name must be unique.
@@ -52,7 +81,7 @@ Usage: set_up_agent.sh [OPTIONS]
     --use_bash_log=<true/false>     [Optional] Set if bash commands should be logged
                                     [Default] = true
 
-    --use_heidpi=<true/false>       [Optional] Set if heiDPId should be installed, set up and logged
+    --use_heidpi=<true/false>       [Optional] Set if heiDPId should be installed, set up, and logged
                                     [Default] = true
 
     --use_ufw=<true/false>          [Optional] Set if UFW should be set up and logged
@@ -69,7 +98,7 @@ Usage: set_up_agent.sh [OPTIONS]
           >
                                     [Default] = Linux DEB amd64
 
-    --docker=<container_id/name>    [Optional] Set Up the Agent inside the docker container
+    --docker=<container_id/name>    [Optional] Set Up the Agent inside the Docker container
 
     --remove                        [Optional] Remove the installed Wazuh Agent
 
