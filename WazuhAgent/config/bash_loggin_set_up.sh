@@ -2,8 +2,12 @@
 
 GLOBAL_BASHRC="/etc/bash.bashrc"
 COMMAND_LOG_BASH="
+
+CONTAINER_NAME="${ENV_CONTAINER_NAME}"
+if [ -z "$CONTAINER_NAME" ]; then CONTAINER_NAME=$(hostname); fi
+
 # log last bash command to local6.debug which is located in /var/log/commands.log
-export PROMPT_COMMAND='RETRN_VAL=\$?;logger -t bash_commands -p local6.debug \"User \$(whoami) @ \$(pwd) [$$]: \$(history 1 | sed \"s/^[ ]*[0-9]\+[ ]*//\" )\"'
+export PROMPT_COMMAND='RETRN_VAL=\$?;logger -t bash_commands -p local6.debug \"Container $CONTAINER_NAME User \$(whoami) @ \$(pwd) [$$]: \$(history 1 | sed \"s/^[ ]*[0-9]\+[ ]*//\" )\"'
 "
 PATH_BASH_CONF="/etc/rsyslog.d/bash.conf"
 LOG_DESTINATION="local6.* /var/log/commands.log"
