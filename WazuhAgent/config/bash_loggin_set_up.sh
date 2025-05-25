@@ -11,6 +11,13 @@ while [[ $# -gt 0 ]]; do
     --privat_log=*)
       PRIVAT_LOG="${1#*=}"
       ;;
+    *)
+      echo "Unknown option: $1"
+      exit 1
+      ;;
+  esac
+  shift
+done
 
 if [ -z "$CONTAINER_NAME" ]; then CONTAINER_NAME=$(hostname); fi
 
@@ -34,7 +41,7 @@ source "$GLOBAL_BASHRC"
 
 echo "$LOG_DESTINATION" >> "$PATH_BASH_CONF"
 
-if [ -n "$PRIVATE_LOG" ]; then
+if [ -n "$PRIVAT_LOG" ]; then
   echo "local6.* $PRIVATE_LOG" >> "$PATH_BASH_CONF"
 fi
 
