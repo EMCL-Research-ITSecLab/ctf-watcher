@@ -7,7 +7,7 @@ SYSTEM_HEALTH="true"
 BASH_LOG="true"
 HEIDPI="true"
 UFW="true"
-CONTAINER_LOGGING= "true"
+CONTAINER_LOGGING="true"
 
 OS_RPM_AMD="Linux RPM amd64"
 OS_RPM_AARCH="Linux RPM aarch64"
@@ -235,9 +235,11 @@ if [ "$MANAGER_IP_ADDRESS" == "$LOCAL_IP_ADDRESS" ]; then
   print_warning "Wazuh manager has same address as wazuh agent. Please provide the correct manager address using --manager. Ignore if manager and agent are on the same system"
 fi
 
+echo "Logging System Health: $SYSTEM_HEALTH"
 echo "Logging Bash: $BASH_LOG"
 echo "Logging heiDPI: $HEIDPI"
 echo "Logging UFW: $UFW"
+echo "Logging inside Containers: $CONTAINER_LOGGING" 
 
 SET_UP_APPROVED="y"
 if [ "$SKIP_CONFIRMATION" == "false" ]; then
@@ -294,7 +296,7 @@ if [ "$CONTAINER_LOGGING" == "true" ]; then
   cat config/localfile_ossec_config_container_logging | sudo tee -a /var/ossec/etc/ossec.conf > /dev/null
 fi
 
-if [ "$BASH_LOG" == false ] && [ "$HEIDPI" == false ]  && [ "$UFW" == false ] && [ "$SYSTEM_HEALTH" == false ]; then
+if [ "$BASH_LOG" == "false" ] && [ "$HEIDPI" == "false" ]  && [ "$UFW" == "false" ] && [ "$SYSTEM_HEALTH" == "false" ]; then
     print_info "Wazuh Agent set up [4/4] Skipping set up"
 fi
 
