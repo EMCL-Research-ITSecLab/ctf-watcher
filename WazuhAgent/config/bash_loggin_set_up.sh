@@ -30,7 +30,7 @@ export PROMPT_COMMAND='RETRN_VAL=\$?;logger -t bash_commands -p local6.debug \"C
 if [ -e "$GLOBAL_BASHRC" ]; then
   :
 else
-  echo -e "\033[31m[ERROR]:\033[0m  $CONTAINER_NAME: Bash logging set up \033[31m[FAILURE]:\033[0m. Bashrc not found in $GLOBAL_BASHRC. Please enter the correct path in 'WazuhDocker/config/bash_loggin_set_up.sh'"
+  echo -e "\033[31m[ERROR]:\033[0m $CONTAINER_NAME: Bash logging set up \033[31m[FAILURE]\033[0m. Bashrc not found in $GLOBAL_BASHRC. Please enter the correct path in 'WazuhDocker/config/bash_loggin_set_up.sh'"
   exit 0
 fi
 
@@ -47,6 +47,6 @@ fi
 
 systemctl restart rsyslog
 
-echo -e "\e[34m[Info]:\e[0m  $CONTAINER_NAME: Bash logging set up \033[32m[SUCCESS]\033[0m"
+echo -e "\e[34m[Info]:\e[0m $CONTAINER_NAME: Bash logging set up \033[32m[SUCCESS]\033[0m"
 
 
