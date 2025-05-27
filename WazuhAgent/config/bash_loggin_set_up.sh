@@ -47,6 +47,6 @@ fi
 
 systemctl restart rsyslog
 
-echo -e "\e[34m[Info]:\e[0m  $CONTAINER_NAME: Bash logging set up \033[32m[SUCCESS]:\033[0m"
+echo -e "\e[34m[Info]:\e[0m  $CONTAINER_NAME: Bash logging set up \033[32m[SUCCESS]\033[0m"
 
 
