@@ -42,7 +42,7 @@ source "$GLOBAL_BASHRC"
 echo "$LOG_DESTINATION" >> "$PATH_BASH_CONF"
 
 if [ -n "$PRIVAT_LOG" ]; then
-  echo "local6.* $PRIVATE_LOG" >> "$PATH_BASH_CONF"
+  echo "local6.* $PRIVAT_LOG" >> "$PATH_BASH_CONF"
 fi
 
 systemctl restart rsyslog
