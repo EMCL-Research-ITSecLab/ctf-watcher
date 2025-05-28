@@ -278,7 +278,7 @@ fi
 if [ "$BASH_LOG" == "true" ]; then
   print_info "Wazuh Agent set up [4/4] Set up Bash Logging"
   config/bash_loggin_set_up.sh
-  cat config/localfile_ossec_config_ufw_status | sudo tee -a /var/ossec/etc/ossec.conf > /dev/null
+  
 fi
 if [ "$HEIDPI" == "true" ]; then
   print_info "Wazuh Agent set up [4/4] Set up heiDPId"
@@ -289,6 +289,7 @@ fi
 if [ "$UFW" == "true" ]; then
   print_info "Wazuh Agent set up [4/4] Set up UFW"
   sudo config/ufw_set_up.sh
+  cat config/localfile_ossec_config_ufw_status | sudo tee -a /var/ossec/etc/ossec.conf > /dev/null
 fi
 if [ "$CONTAINER_LOGGING" == "true" ]; then
   print_info "Wazuh Agent set up [4/4] Set up Container Logging"
