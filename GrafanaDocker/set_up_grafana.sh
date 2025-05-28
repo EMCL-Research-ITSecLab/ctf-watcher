@@ -51,7 +51,7 @@ is_grafana_responding()
   fi
 }
 wait_for_grafana() {
-  print "Wait for Grafana. If this takes longer than a minute something went wrong and the programm exits"
+  print "Wait for Grafana to be set up. If this lasts too long, something went wrong and the program exits."
   local wait_time_ds=600
   local current=0
   local progress
