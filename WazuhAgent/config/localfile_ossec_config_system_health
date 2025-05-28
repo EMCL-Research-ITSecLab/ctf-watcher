@@ -1,3 +1,4 @@
+<ossec_config>
 <!-- CPU, memory, disk metric -->
   <localfile>
      <log_format>full_command</log_format>
@@ -33,3 +34,4 @@
      <out_format>$(timestamp) $(hostname) disk_check: $(log)</out_format>
      <frequency>30</frequency>
   </localfile>
+</ossec_config>
