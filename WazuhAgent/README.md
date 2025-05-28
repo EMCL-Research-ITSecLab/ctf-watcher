@@ -21,7 +21,7 @@ set_up_agent.sh \
 --use_system_health=false \
 --use_bash_log=false \
 --use_heidpi=false \
---use_use_ufw=false \
+--use_ufw=false \
 --use_container_logging=false
 ```
 These can also be manually set up after the Agent is installed by running their corresponding script
