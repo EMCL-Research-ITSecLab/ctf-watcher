@@ -52,7 +52,7 @@ is_grafana_responding()
 }
 wait_for_grafana() {
   print "Wait for Grafana to be set up. If this lasts too long, something went wrong and the program exits."
-  local wait_time_ds=600
+  local wait_time_ds=2400
   local current=0
   local progress
   local start_time=$(date +%s)  
