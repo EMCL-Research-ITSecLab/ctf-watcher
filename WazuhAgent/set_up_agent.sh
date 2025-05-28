@@ -272,7 +272,6 @@ cat config/localfile_ossec_config | sudo tee -a /var/ossec/etc/ossec.conf > /dev
 
 if [ "$SYSTEM_HEALTH" == "true" ]; then
   print_info "Wazuh Agent set up [4/4] Set up System Health Logging"
-  config/bash_loggin_set_up.sh
   cat config/localfile_ossec_config_system_health | sudo tee -a /var/ossec/etc/ossec.conf > /dev/null
 fi
 if [ "$BASH_LOG" == "true" ]; then
