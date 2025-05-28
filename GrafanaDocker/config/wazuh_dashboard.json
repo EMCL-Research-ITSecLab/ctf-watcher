@@ -47,7 +47,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "11.6.0"
+      "version": "12.0.1"
     },
     {
       "type": "panel",
@@ -91,7 +91,7 @@
   "links": [],
   "panels": [
     {
-      "collapsed": false,
+      "collapsed": true,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -99,1237 +99,1238 @@
         "y": 0
       },
       "id": 23,
-      "panels": [],
+      "panels": [
+        {
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "${DS_WAZUH-2}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "fieldMinMax": false,
+              "mappings": [],
+              "max": 100,
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "%"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 10,
+            "w": 5,
+            "x": 0,
+            "y": 1
+          },
+          "id": 6,
+          "options": {
+            "minVizHeight": 75,
+            "minVizWidth": 75,
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "first"
+              ],
+              "fields": "/^CPU$/",
+              "values": false
+            },
+            "showThresholdLabels": true,
+            "showThresholdMarkers": true,
+            "sizing": "auto"
+          },
+          "pluginVersion": "12.0.1",
+          "targets": [
+            {
+              "alias": "",
+              "bucketAggs": [],
+              "datasource": {
+                "type": "elasticsearch",
+                "uid": "${DS_WAZUH-2}"
+              },
+              "metrics": [
+                {
+                  "id": "1",
+                  "settings": {
+                    "size": "500"
+                  },
+                  "type": "raw_data"
+                }
+              ],
+              "query": "rule.id:100100",
+              "refId": "A",
+              "timeField": "@timestamp"
+            }
+          ],
+          "title": "CPU Usage",
+          "transformations": [
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  "data.disk_usage_%": false,
+                  "data.memory_usage_%": false,
+                  "rule.firedtimes": true,
+                  "rule.level": true
+                },
+                "includeByName": {},
+                "indexByName": {
+                  "@timestamp": 0,
+                  "_id": 1,
+                  "_index": 2,
+                  "_type": 3,
+                  "agent.id": 4,
+                  "agent.name": 5,
+                  "data.cpu_usage_%": 6,
+                  "data.disk_usage_%": 8,
+                  "data.memory_usage_%": 7,
+                  "decoder.name": 9,
+                  "decoder.parent": 10,
+                  "full_log": 11,
+                  "highlight": 12,
+                  "id": 13,
+                  "input.type": 14,
+                  "location": 15,
+                  "manager.name": 16,
+                  "predecoder.hostname": 17,
+                  "predecoder.program_name": 18,
+                  "predecoder.timestamp": 19,
+                  "rule.description": 20,
+                  "rule.firedtimes": 21,
+                  "rule.groups": 22,
+                  "rule.id": 23,
+                  "rule.level": 24,
+                  "rule.mail": 25,
+                  "sort": 26,
+                  "timestamp": 27
+                },
+                "renameByName": {
+                  "data.cpu_usage_%": "CPU",
+                  "data.disk_usage_%": "Disk",
+                  "data.memory_usage_%": "Memory"
+                }
+              }
+            },
+            {
+              "id": "convertFieldType",
+              "options": {
+                "conversions": [
+                  {
+                    "destinationType": "number",
+                    "targetField": "data.cpu_usage_%"
+                  },
+                  {
+                    "destinationType": "number",
+                    "targetField": "data.memory_usage_%"
+                  },
+                  {
+                    "destinationType": "number",
+                    "targetField": "data.disk_usage_%"
+                  }
+                ],
+                "fields": {}
+              }
+            }
+          ],
+          "transparent": true,
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "${DS_WAZUH-2}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "fieldMinMax": false,
+              "mappings": [],
+              "max": 7.4,
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 6
+                  }
+                ]
+              },
+              "unit": "GB"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 5,
+            "w": 8,
+            "x": 5,
+            "y": 1
+          },
+          "id": 16,
+          "options": {
+            "displayMode": "lcd",
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": false
+            },
+            "maxVizHeight": 300,
+            "minVizHeight": 224,
+            "minVizWidth": 8,
+            "namePlacement": "auto",
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "/^Memory Used GB$/",
+              "values": false
+            },
+            "showUnfilled": true,
+            "sizing": "auto",
+            "valueMode": "color"
+          },
+          "pluginVersion": "12.0.1",
+          "targets": [
+            {
+              "alias": "",
+              "bucketAggs": [],
+              "datasource": {
+                "type": "elasticsearch",
+                "uid": "${DS_WAZUH-2}"
+              },
+              "metrics": [
+                {
+                  "id": "1",
+                  "settings": {
+                    "size": "500"
+                  },
+                  "type": "raw_data"
+                }
+              ],
+              "query": "rule.id:100105",
+              "refId": "A",
+              "timeField": "@timestamp"
+            }
+          ],
+          "title": "Memory Used",
+          "transformations": [
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {},
+                "includeByName": {},
+                "indexByName": {},
+                "renameByName": {
+                  "agent.name": "",
+                  "data.memory_available_bytes": "Memory Free",
+                  "data.memory_used_bytes": "Memory Used"
+                }
+              }
+            },
+            {
+              "id": "convertFieldType",
+              "options": {
+                "conversions": [
+                  {
+                    "destinationType": "number",
+                    "targetField": "data.memory_available_bytes"
+                  },
+                  {
+                    "destinationType": "number",
+                    "targetField": "data.memory_used_bytes"
+                  }
+                ],
+                "fields": {}
+              }
+            },
+            {
+              "id": "calculateField",
+              "options": {
+                "alias": "Memory Used GB",
+                "binary": {
+                  "left": {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "Memory Used"
+                    }
+                  },
+                  "operator": "/",
+                  "right": {
+                    "fixed": "1073741824"
+                  }
+                },
+                "mode": "binary",
+                "reduce": {
+                  "reducer": "sum"
+                },
+                "replaceFields": false
+              }
+            },
+            {
+              "id": "calculateField",
+              "options": {
+                "alias": "Memory Total",
+                "binary": {
+                  "left": {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "Memory Used"
+                    }
+                  },
+                  "right": {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "Memory Free"
+                    }
+                  }
+                },
+                "mode": "binary",
+                "reduce": {
+                  "reducer": "sum"
+                }
+              }
+            },
+            {
+              "id": "calculateField",
+              "options": {
+                "alias": "Memory Total GB",
+                "binary": {
+                  "left": {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "Memory Total"
+                    }
+                  },
+                  "operator": "/",
+                  "right": {
+                    "fixed": "1073741824"
+                  }
+                },
+                "mode": "binary",
+                "reduce": {
+                  "reducer": "sum"
+                }
+              }
+            },
+            {
+              "id": "calculateField",
+              "options": {
+                "alias": "Memory Free GB",
+                "binary": {
+                  "left": {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "Memory Free"
+                    }
+                  },
+                  "operator": "/",
+                  "right": {
+                    "fixed": "1073741824"
+                  }
+                },
+                "mode": "binary",
+                "reduce": {
+                  "reducer": "sum"
+                }
+              }
+            }
+          ],
+          "transparent": true,
+          "type": "bargauge"
+        },
+        {
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "${DS_WAZUH-2}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "decgbytes"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 5,
+            "w": 2,
+            "x": 13,
+            "y": 1
+          },
+          "id": 30,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "percentChangeColorMode": "standard",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "/^Total GB$/",
+              "values": false
+            },
+            "showPercentChange": false,
+            "textMode": "auto",
+            "wideLayout": true
+          },
+          "pluginVersion": "12.0.1",
+          "targets": [
+            {
+              "alias": "",
+              "bucketAggs": [],
+              "datasource": {
+                "type": "elasticsearch",
+                "uid": "${DS_WAZUH-2}"
+              },
+              "metrics": [
+                {
+                  "id": "1",
+                  "settings": {
+                    "size": "500"
+                  },
+                  "type": "raw_data"
+                }
+              ],
+              "query": "rule.id:100105",
+              "refId": "A",
+              "timeField": "@timestamp"
+            }
+          ],
+          "title": "Total Memory",
+          "transformations": [
+            {
+              "id": "convertFieldType",
+              "options": {
+                "conversions": [
+                  {
+                    "destinationType": "number",
+                    "targetField": "data.memory_available_bytes"
+                  },
+                  {
+                    "destinationType": "number",
+                    "targetField": "data.memory_used_bytes"
+                  }
+                ],
+                "fields": {}
+              }
+            },
+            {
+              "id": "calculateField",
+              "options": {
+                "alias": "total bytes",
+                "binary": {
+                  "left": {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "data.memory_available_bytes"
+                    }
+                  },
+                  "right": {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "data.memory_used_bytes"
+                    }
+                  }
+                },
+                "mode": "binary",
+                "reduce": {
+                  "reducer": "sum"
+                }
+              }
+            },
+            {
+              "id": "calculateField",
+              "options": {
+                "alias": "Total GB",
+                "binary": {
+                  "left": {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "total bytes"
+                    }
+                  },
+                  "operator": "/",
+                  "right": {
+                    "fixed": "1073741824"
+                  }
+                },
+                "mode": "binary",
+                "reduce": {
+                  "reducer": "sum"
+                }
+              }
+            }
+          ],
+          "transparent": true,
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "${DS_WAZUH-2}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "barWidthFactor": 0.6,
+                "drawStyle": "line",
+                "fillOpacity": 5,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineWidth": 2,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 10,
+            "w": 9,
+            "x": 15,
+            "y": 1
+          },
+          "id": 17,
+          "options": {
+            "legend": {
+              "calcs": [
+                "mean"
+              ],
+              "displayMode": "table",
+              "placement": "right",
+              "showLegend": true
+            },
+            "tooltip": {
+              "hideZeros": false,
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "12.0.1",
+          "targets": [
+            {
+              "alias": "",
+              "bucketAggs": [],
+              "datasource": {
+                "type": "elasticsearch",
+                "uid": "${DS_WAZUH-2}"
+              },
+              "metrics": [
+                {
+                  "id": "1",
+                  "settings": {
+                    "size": "1000"
+                  },
+                  "type": "raw_data"
+                }
+              ],
+              "query": "rule.id:100104",
+              "refId": "A",
+              "timeField": "@timestamp"
+            }
+          ],
+          "title": "Load Average",
+          "transformations": [
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  "rule.firedtimes": true,
+                  "rule.level": true,
+                  "rule.mail": true
+                },
+                "includeByName": {},
+                "indexByName": {
+                  "@timestamp": 0,
+                  "_id": 1,
+                  "_index": 2,
+                  "_type": 3,
+                  "agent.id": 4,
+                  "agent.ip": 5,
+                  "agent.name": 6,
+                  "data.15mins_loadAverage": 9,
+                  "data.1min_loadAverage": 7,
+                  "data.5mins_loadAverage": 8,
+                  "decoder.name": 10,
+                  "decoder.parent": 11,
+                  "full_log": 12,
+                  "highlight": 13,
+                  "id": 14,
+                  "input.type": 15,
+                  "location": 16,
+                  "manager.name": 17,
+                  "predecoder.hostname": 18,
+                  "predecoder.program_name": 19,
+                  "predecoder.timestamp": 20,
+                  "rule.description": 21,
+                  "rule.firedtimes": 22,
+                  "rule.groups": 23,
+                  "rule.id": 24,
+                  "rule.level": 25,
+                  "rule.mail": 26,
+                  "sort": 27,
+                  "timestamp": 28
+                },
+                "renameByName": {
+                  "agent.name": "",
+                  "data.15mins_loadAverage": "15min Load Avg.",
+                  "data.1min_loadAverage": "1min Load Avg.",
+                  "data.5mins_loadAverage": "5min Load Avg."
+                }
+              }
+            },
+            {
+              "id": "convertFieldType",
+              "options": {
+                "conversions": [
+                  {
+                    "destinationType": "number",
+                    "targetField": "data.15mins_loadAverage"
+                  },
+                  {
+                    "destinationType": "number",
+                    "targetField": "data.1min_loadAverage"
+                  },
+                  {
+                    "destinationType": "number",
+                    "targetField": "data.5mins_loadAverage"
+                  }
+                ],
+                "fields": {}
+              }
+            }
+          ],
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "${DS_WAZUH-2}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "max": 19.2,
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 15.7
+                  }
+                ]
+              },
+              "unit": "decgbytes"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 5,
+            "w": 8,
+            "x": 5,
+            "y": 101
+          },
+          "id": 15,
+          "options": {
+            "displayMode": "lcd",
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": false
+            },
+            "maxVizHeight": 300,
+            "minVizHeight": 16,
+            "minVizWidth": 8,
+            "namePlacement": "auto",
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "firstNotNull"
+              ],
+              "fields": "/^Used GB$/",
+              "values": false
+            },
+            "showUnfilled": true,
+            "sizing": "auto",
+            "valueMode": "color"
+          },
+          "pluginVersion": "12.0.1",
+          "targets": [
+            {
+              "alias": "",
+              "bucketAggs": [],
+              "datasource": {
+                "type": "elasticsearch",
+                "uid": "${DS_WAZUH-2}"
+              },
+              "metrics": [
+                {
+                  "id": "1",
+                  "settings": {
+                    "size": "500"
+                  },
+                  "type": "raw_data"
+                }
+              ],
+              "query": "100106",
+              "refId": "A",
+              "timeField": "@timestamp"
+            }
+          ],
+          "title": "Disk Space Used ",
+          "transformations": [
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  "manager.name": true,
+                  "predecoder.hostname": true,
+                  "predecoder.program_name": true,
+                  "predecoder.timestamp": true,
+                  "rule.firedtimes": true,
+                  "rule.groups": true,
+                  "rule.id": true,
+                  "rule.level": true,
+                  "rule.mail": true,
+                  "sort": true,
+                  "timestamp": true
+                },
+                "includeByName": {},
+                "indexByName": {
+                  "@timestamp": 0,
+                  "_id": 1,
+                  "_index": 2,
+                  "_type": 3,
+                  "agent.id": 4,
+                  "agent.ip": 5,
+                  "agent.name": 6,
+                  "data.disk_free_bytes": 8,
+                  "data.disk_used_bytes": 7,
+                  "decoder.name": 9,
+                  "decoder.parent": 10,
+                  "full_log": 11,
+                  "highlight": 12,
+                  "id": 13,
+                  "input.type": 14,
+                  "location": 15,
+                  "manager.name": 16,
+                  "predecoder.hostname": 17,
+                  "predecoder.program_name": 18,
+                  "predecoder.timestamp": 19,
+                  "rule.description": 20,
+                  "rule.firedtimes": 21,
+                  "rule.groups": 22,
+                  "rule.id": 23,
+                  "rule.level": 24,
+                  "rule.mail": 25,
+                  "sort": 26,
+                  "timestamp": 27
+                },
+                "renameByName": {
+                  "data.disk_free_bytes": "Free Bytes",
+                  "data.disk_used_bytes": "Used Bytes"
+                }
+              }
+            },
+            {
+              "id": "convertFieldType",
+              "options": {
+                "conversions": [
+                  {
+                    "destinationType": "number",
+                    "targetField": "data.disk_free_bytes"
+                  },
+                  {
+                    "destinationType": "number",
+                    "targetField": "data.disk_used_bytes"
+                  }
+                ],
+                "fields": {}
+              }
+            },
+            {
+              "id": "calculateField",
+              "options": {
+                "alias": "Total Bytes",
+                "binary": {
+                  "left": {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "Used Bytes"
+                    }
+                  },
+                  "right": {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "Free Bytes"
+                    }
+                  }
+                },
+                "mode": "binary",
+                "reduce": {
+                  "reducer": "sum"
+                }
+              }
+            },
+            {
+              "id": "calculateField",
+              "options": {
+                "alias": "Used GB",
+                "binary": {
+                  "left": {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "Used Bytes"
+                    }
+                  },
+                  "operator": "/",
+                  "right": {
+                    "fixed": "1073741824"
+                  }
+                },
+                "mode": "binary",
+                "reduce": {
+                  "reducer": "sum"
+                }
+              }
+            },
+            {
+              "id": "calculateField",
+              "options": {
+                "alias": "Total GB",
+                "binary": {
+                  "left": {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "Total Bytes"
+                    }
+                  },
+                  "operator": "/",
+                  "right": {
+                    "fixed": "1073741824"
+                  }
+                },
+                "mode": "binary",
+                "reduce": {
+                  "reducer": "sum"
+                }
+              }
+            }
+          ],
+          "transparent": true,
+          "type": "bargauge"
+        },
+        {
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "${DS_WAZUH-2}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "decgbytes"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 5,
+            "w": 2,
+            "x": 13,
+            "y": 101
+          },
+          "id": 29,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "percentChangeColorMode": "standard",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "/^Total Disk Space$/",
+              "values": false
+            },
+            "showPercentChange": false,
+            "textMode": "auto",
+            "wideLayout": true
+          },
+          "pluginVersion": "12.0.1",
+          "targets": [
+            {
+              "alias": "",
+              "bucketAggs": [],
+              "datasource": {
+                "type": "elasticsearch",
+                "uid": "${DS_WAZUH-2}"
+              },
+              "metrics": [
+                {
+                  "id": "1",
+                  "settings": {
+                    "size": "500"
+                  },
+                  "type": "raw_data"
+                }
+              ],
+              "query": "rule.id:100106",
+              "refId": "A",
+              "timeField": "@timestamp"
+            }
+          ],
+          "title": "Total Disk Space",
+          "transformations": [
+            {
+              "id": "convertFieldType",
+              "options": {
+                "conversions": [
+                  {
+                    "destinationType": "number",
+                    "targetField": "data.disk_free_bytes"
+                  },
+                  {
+                    "destinationType": "number",
+                    "targetField": "data.disk_used_bytes"
+                  }
+                ],
+                "fields": {}
+              }
+            },
+            {
+              "id": "calculateField",
+              "options": {
+                "alias": "Total Bytes",
+                "binary": {
+                  "left": {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "data.disk_free_bytes"
+                    }
+                  },
+                  "right": {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "data.disk_used_bytes"
+                    }
+                  }
+                },
+                "mode": "binary",
+                "reduce": {
+                  "reducer": "sum"
+                }
+              }
+            },
+            {
+              "id": "calculateField",
+              "options": {
+                "alias": "Total Disk Space",
+                "binary": {
+                  "left": {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "Total Bytes"
+                    }
+                  },
+                  "operator": "/",
+                  "right": {
+                    "fixed": "1073741824"
+                  }
+                },
+                "mode": "binary",
+                "reduce": {
+                  "reducer": "sum"
+                }
+              }
+            }
+          ],
+          "transparent": true,
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "${DS_WAZUH-2}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisGridShow": true,
+                "axisLabel": "",
+                "axisPlacement": "left",
+                "barAlignment": 0,
+                "barWidthFactor": 0.6,
+                "drawStyle": "line",
+                "fillOpacity": 5,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineStyle": {
+                  "fill": "solid"
+                },
+                "lineWidth": 2,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "fieldMinMax": false,
+              "mappings": [],
+              "max": 100,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 70
+                  }
+                ]
+              },
+              "unit": "%"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 10,
+            "w": 24,
+            "x": 0,
+            "y": 106
+          },
+          "id": 12,
+          "options": {
+            "legend": {
+              "calcs": [
+                "last"
+              ],
+              "displayMode": "table",
+              "placement": "right",
+              "showLegend": true
+            },
+            "tooltip": {
+              "hideZeros": false,
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "12.0.1",
+          "targets": [
+            {
+              "alias": "",
+              "bucketAggs": [],
+              "datasource": {
+                "type": "elasticsearch",
+                "uid": "${DS_WAZUH-2}"
+              },
+              "metrics": [
+                {
+                  "id": "1",
+                  "settings": {
+                    "size": "1500"
+                  },
+                  "type": "raw_data"
+                }
+              ],
+              "query": "rule.id:100100",
+              "refId": "A",
+              "timeField": "@timestamp"
+            }
+          ],
+          "title": "System Usage",
+          "transformations": [
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  "rule.firedtimes": true,
+                  "rule.level": true,
+                  "rule.mail": true
+                },
+                "includeByName": {},
+                "indexByName": {
+                  "@timestamp": 0,
+                  "_id": 1,
+                  "_index": 2,
+                  "_type": 3,
+                  "agent.id": 4,
+                  "agent.ip": 5,
+                  "agent.name": 6,
+                  "data.cpu_usage_%": 7,
+                  "data.disk_usage_%": 9,
+                  "data.memory_usage_%": 8,
+                  "decoder.name": 10,
+                  "decoder.parent": 11,
+                  "full_log": 12,
+                  "highlight": 13,
+                  "id": 14,
+                  "input.type": 15,
+                  "location": 16,
+                  "manager.name": 17,
+                  "predecoder.hostname": 18,
+                  "predecoder.program_name": 19,
+                  "predecoder.timestamp": 20,
+                  "rule.description": 21,
+                  "rule.firedtimes": 22,
+                  "rule.groups": 23,
+                  "rule.id": 24,
+                  "rule.level": 25,
+                  "rule.mail": 26,
+                  "sort": 27,
+                  "timestamp": 28
+                },
+                "renameByName": {
+                  "data.cpu_usage_%": "Cpu Usage",
+                  "data.disk_usage_%": "Disk Usage",
+                  "data.memory_usage_%": "Memory Usage"
+                }
+              }
+            },
+            {
+              "id": "convertFieldType",
+              "options": {
+                "conversions": [
+                  {
+                    "destinationType": "number",
+                    "targetField": "data.cpu_usage_%"
+                  },
+                  {
+                    "destinationType": "number",
+                    "targetField": "data.disk_usage_%"
+                  },
+                  {
+                    "destinationType": "number",
+                    "targetField": "data.memory_usage_%"
+                  }
+                ],
+                "fields": {}
+              }
+            }
+          ],
+          "type": "timeseries"
+        }
+      ],
       "title": "Server Health",
       "type": "row"
-    },
-    {
-      "datasource": {
-        "type": "elasticsearch",
-        "uid": "${DS_WAZUH-2}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "fieldMinMax": false,
-          "mappings": [],
-          "max": 100,
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "%"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 10,
-        "w": 5,
-        "x": 0,
-        "y": 1
-      },
-      "id": 6,
-      "options": {
-        "minVizHeight": 75,
-        "minVizWidth": 75,
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "first"
-          ],
-          "fields": "/^CPU$/",
-          "values": false
-        },
-        "showThresholdLabels": true,
-        "showThresholdMarkers": true,
-        "sizing": "auto"
-      },
-      "pluginVersion": "11.6.0",
-      "targets": [
-        {
-          "alias": "",
-          "bucketAggs": [],
-          "datasource": {
-            "type": "elasticsearch",
-            "uid": "${DS_WAZUH-2}"
-          },
-          "metrics": [
-            {
-              "id": "1",
-              "settings": {
-                "size": "500"
-              },
-              "type": "raw_data"
-            }
-          ],
-          "query": "rule.id:100100",
-          "refId": "A",
-          "timeField": "@timestamp"
-        }
-      ],
-      "title": "CPU Usage",
-      "transformations": [
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": {
-              "data.disk_usage_%": false,
-              "data.memory_usage_%": false,
-              "rule.firedtimes": true,
-              "rule.level": true
-            },
-            "includeByName": {},
-            "indexByName": {
-              "@timestamp": 0,
-              "_id": 1,
-              "_index": 2,
-              "_type": 3,
-              "agent.id": 4,
-              "agent.name": 5,
-              "data.cpu_usage_%": 6,
-              "data.disk_usage_%": 8,
-              "data.memory_usage_%": 7,
-              "decoder.name": 9,
-              "decoder.parent": 10,
-              "full_log": 11,
-              "highlight": 12,
-              "id": 13,
-              "input.type": 14,
-              "location": 15,
-              "manager.name": 16,
-              "predecoder.hostname": 17,
-              "predecoder.program_name": 18,
-              "predecoder.timestamp": 19,
-              "rule.description": 20,
-              "rule.firedtimes": 21,
-              "rule.groups": 22,
-              "rule.id": 23,
-              "rule.level": 24,
-              "rule.mail": 25,
-              "sort": 26,
-              "timestamp": 27
-            },
-            "renameByName": {
-              "data.cpu_usage_%": "CPU",
-              "data.disk_usage_%": "Disk",
-              "data.memory_usage_%": "Memory"
-            }
-          }
-        },
-        {
-          "id": "convertFieldType",
-          "options": {
-            "conversions": [
-              {
-                "destinationType": "number",
-                "targetField": "data.cpu_usage_%"
-              },
-              {
-                "destinationType": "number",
-                "targetField": "data.memory_usage_%"
-              },
-              {
-                "destinationType": "number",
-                "targetField": "data.disk_usage_%"
-              }
-            ],
-            "fields": {}
-          }
-        }
-      ],
-      "transparent": true,
-      "type": "gauge"
-    },
-    {
-      "datasource": {
-        "type": "elasticsearch",
-        "uid": "${DS_WAZUH-2}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "fieldMinMax": false,
-          "mappings": [],
-          "max": 7.4,
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 6
-              }
-            ]
-          },
-          "unit": "GB"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 5,
-        "w": 8,
-        "x": 5,
-        "y": 1
-      },
-      "id": 16,
-      "options": {
-        "displayMode": "lcd",
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": false
-        },
-        "maxVizHeight": 300,
-        "minVizHeight": 224,
-        "minVizWidth": 8,
-        "namePlacement": "auto",
-        "orientation": "horizontal",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "/^Memory Used GB$/",
-          "values": false
-        },
-        "showUnfilled": true,
-        "sizing": "auto",
-        "valueMode": "color"
-      },
-      "pluginVersion": "11.6.0",
-      "targets": [
-        {
-          "alias": "",
-          "bucketAggs": [],
-          "metrics": [
-            {
-              "id": "1",
-              "settings": {
-                "size": "500"
-              },
-              "type": "raw_data"
-            }
-          ],
-          "query": "rule.id:100105",
-          "refId": "A",
-          "timeField": "@timestamp",
-          "datasource": {
-            "type": "elasticsearch",
-            "uid": "${DS_WAZUH-2}"
-          }
-        }
-      ],
-      "title": "Memory Used",
-      "transformations": [
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": {},
-            "includeByName": {},
-            "indexByName": {},
-            "renameByName": {
-              "agent.name": "",
-              "data.memory_available_bytes": "Memory Free",
-              "data.memory_used_bytes": "Memory Used"
-            }
-          }
-        },
-        {
-          "id": "convertFieldType",
-          "options": {
-            "conversions": [
-              {
-                "destinationType": "number",
-                "targetField": "data.memory_available_bytes"
-              },
-              {
-                "destinationType": "number",
-                "targetField": "data.memory_used_bytes"
-              }
-            ],
-            "fields": {}
-          }
-        },
-        {
-          "id": "calculateField",
-          "options": {
-            "alias": "Memory Used GB",
-            "binary": {
-              "left": {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Memory Used"
-                }
-              },
-              "operator": "/",
-              "right": {
-                "fixed": "1073741824"
-              }
-            },
-            "mode": "binary",
-            "reduce": {
-              "reducer": "sum"
-            },
-            "replaceFields": false
-          }
-        },
-        {
-          "id": "calculateField",
-          "options": {
-            "alias": "Memory Total",
-            "binary": {
-              "left": {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Memory Used"
-                }
-              },
-              "right": {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Memory Free"
-                }
-              }
-            },
-            "mode": "binary",
-            "reduce": {
-              "reducer": "sum"
-            }
-          }
-        },
-        {
-          "id": "calculateField",
-          "options": {
-            "alias": "Memory Total GB",
-            "binary": {
-              "left": {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Memory Total"
-                }
-              },
-              "operator": "/",
-              "right": {
-                "fixed": "1073741824"
-              }
-            },
-            "mode": "binary",
-            "reduce": {
-              "reducer": "sum"
-            }
-          }
-        },
-        {
-          "id": "calculateField",
-          "options": {
-            "alias": "Memory Free GB",
-            "binary": {
-              "left": {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Memory Free"
-                }
-              },
-              "operator": "/",
-              "right": {
-                "fixed": "1073741824"
-              }
-            },
-            "mode": "binary",
-            "reduce": {
-              "reducer": "sum"
-            }
-          }
-        }
-      ],
-      "transparent": true,
-      "type": "bargauge"
-    },
-    {
-      "datasource": {
-        "type": "elasticsearch",
-        "uid": "${DS_WAZUH-2}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "decgbytes"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 5,
-        "w": 2,
-        "x": 13,
-        "y": 1
-      },
-      "id": 30,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "/^Total GB$/",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.6.0",
-      "targets": [
-        {
-          "alias": "",
-          "bucketAggs": [],
-          "metrics": [
-            {
-              "id": "1",
-              "settings": {
-                "size": "500"
-              },
-              "type": "raw_data"
-            }
-          ],
-          "query": "rule.id:100105",
-          "refId": "A",
-          "timeField": "@timestamp",
-          "datasource": {
-            "type": "elasticsearch",
-            "uid": "${DS_WAZUH-2}"
-          }
-        }
-      ],
-      "title": "Total Memory",
-      "transformations": [
-        {
-          "id": "convertFieldType",
-          "options": {
-            "conversions": [
-              {
-                "destinationType": "number",
-                "targetField": "data.memory_available_bytes"
-              },
-              {
-                "destinationType": "number",
-                "targetField": "data.memory_used_bytes"
-              }
-            ],
-            "fields": {}
-          }
-        },
-        {
-          "id": "calculateField",
-          "options": {
-            "alias": "total bytes",
-            "binary": {
-              "left": {
-                "matcher": {
-                  "id": "byName",
-                  "options": "data.memory_available_bytes"
-                }
-              },
-              "right": {
-                "matcher": {
-                  "id": "byName",
-                  "options": "data.memory_used_bytes"
-                }
-              }
-            },
-            "mode": "binary",
-            "reduce": {
-              "reducer": "sum"
-            }
-          }
-        },
-        {
-          "id": "calculateField",
-          "options": {
-            "alias": "Total GB",
-            "binary": {
-              "left": {
-                "matcher": {
-                  "id": "byName",
-                  "options": "total bytes"
-                }
-              },
-              "operator": "/",
-              "right": {
-                "fixed": "1073741824"
-              }
-            },
-            "mode": "binary",
-            "reduce": {
-              "reducer": "sum"
-            }
-          }
-        }
-      ],
-      "transparent": true,
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "elasticsearch",
-        "uid": "${DS_WAZUH-2}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "line",
-            "fillOpacity": 5,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 10,
-        "w": 9,
-        "x": 15,
-        "y": 1
-      },
-      "id": 17,
-      "options": {
-        "legend": {
-          "calcs": [
-            "mean"
-          ],
-          "displayMode": "table",
-          "placement": "right",
-          "showLegend": true
-        },
-        "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "11.6.0",
-      "targets": [
-        {
-          "alias": "",
-          "bucketAggs": [],
-          "metrics": [
-            {
-              "id": "1",
-              "settings": {
-                "size": "1000"
-              },
-              "type": "raw_data"
-            }
-          ],
-          "query": "rule.id:100104",
-          "refId": "A",
-          "timeField": "@timestamp",
-          "datasource": {
-            "type": "elasticsearch",
-            "uid": "${DS_WAZUH-2}"
-          }
-        }
-      ],
-      "title": "Load Average",
-      "transformations": [
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": {
-              "rule.firedtimes": true,
-              "rule.level": true,
-              "rule.mail": true
-            },
-            "includeByName": {},
-            "indexByName": {
-              "@timestamp": 0,
-              "_id": 1,
-              "_index": 2,
-              "_type": 3,
-              "agent.id": 4,
-              "agent.ip": 5,
-              "agent.name": 6,
-              "data.15mins_loadAverage": 9,
-              "data.1min_loadAverage": 7,
-              "data.5mins_loadAverage": 8,
-              "decoder.name": 10,
-              "decoder.parent": 11,
-              "full_log": 12,
-              "highlight": 13,
-              "id": 14,
-              "input.type": 15,
-              "location": 16,
-              "manager.name": 17,
-              "predecoder.hostname": 18,
-              "predecoder.program_name": 19,
-              "predecoder.timestamp": 20,
-              "rule.description": 21,
-              "rule.firedtimes": 22,
-              "rule.groups": 23,
-              "rule.id": 24,
-              "rule.level": 25,
-              "rule.mail": 26,
-              "sort": 27,
-              "timestamp": 28
-            },
-            "renameByName": {
-              "agent.name": "",
-              "data.15mins_loadAverage": "15min Load Avg.",
-              "data.1min_loadAverage": "1min Load Avg.",
-              "data.5mins_loadAverage": "5min Load Avg."
-            }
-          }
-        },
-        {
-          "id": "convertFieldType",
-          "options": {
-            "conversions": [
-              {
-                "destinationType": "number",
-                "targetField": "data.15mins_loadAverage"
-              },
-              {
-                "destinationType": "number",
-                "targetField": "data.1min_loadAverage"
-              },
-              {
-                "destinationType": "number",
-                "targetField": "data.5mins_loadAverage"
-              }
-            ],
-            "fields": {}
-          }
-        }
-      ],
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "elasticsearch",
-        "uid": "${DS_WAZUH-2}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "max": 19.2,
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 15.7
-              }
-            ]
-          },
-          "unit": "decgbytes"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 5,
-        "w": 8,
-        "x": 5,
-        "y": 6
-      },
-      "id": 15,
-      "options": {
-        "displayMode": "lcd",
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": false
-        },
-        "maxVizHeight": 300,
-        "minVizHeight": 16,
-        "minVizWidth": 8,
-        "namePlacement": "auto",
-        "orientation": "horizontal",
-        "reduceOptions": {
-          "calcs": [
-            "firstNotNull"
-          ],
-          "fields": "/^Used GB$/",
-          "values": false
-        },
-        "showUnfilled": true,
-        "sizing": "auto",
-        "valueMode": "color"
-      },
-      "pluginVersion": "11.6.0",
-      "targets": [
-        {
-          "alias": "",
-          "bucketAggs": [],
-          "metrics": [
-            {
-              "id": "1",
-              "settings": {
-                "size": "500"
-              },
-              "type": "raw_data"
-            }
-          ],
-          "query": "100106",
-          "refId": "A",
-          "timeField": "@timestamp",
-          "datasource": {
-            "type": "elasticsearch",
-            "uid": "${DS_WAZUH-2}"
-          }
-        }
-      ],
-      "title": "Disk Space Used ",
-      "transformations": [
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": {
-              "manager.name": true,
-              "predecoder.hostname": true,
-              "predecoder.program_name": true,
-              "predecoder.timestamp": true,
-              "rule.firedtimes": true,
-              "rule.groups": true,
-              "rule.id": true,
-              "rule.level": true,
-              "rule.mail": true,
-              "sort": true,
-              "timestamp": true
-            },
-            "includeByName": {},
-            "indexByName": {
-              "@timestamp": 0,
-              "_id": 1,
-              "_index": 2,
-              "_type": 3,
-              "agent.id": 4,
-              "agent.ip": 5,
-              "agent.name": 6,
-              "data.disk_free_bytes": 8,
-              "data.disk_used_bytes": 7,
-              "decoder.name": 9,
-              "decoder.parent": 10,
-              "full_log": 11,
-              "highlight": 12,
-              "id": 13,
-              "input.type": 14,
-              "location": 15,
-              "manager.name": 16,
-              "predecoder.hostname": 17,
-              "predecoder.program_name": 18,
-              "predecoder.timestamp": 19,
-              "rule.description": 20,
-              "rule.firedtimes": 21,
-              "rule.groups": 22,
-              "rule.id": 23,
-              "rule.level": 24,
-              "rule.mail": 25,
-              "sort": 26,
-              "timestamp": 27
-            },
-            "renameByName": {
-              "data.disk_free_bytes": "Free Bytes",
-              "data.disk_used_bytes": "Used Bytes"
-            }
-          }
-        },
-        {
-          "id": "convertFieldType",
-          "options": {
-            "conversions": [
-              {
-                "destinationType": "number",
-                "targetField": "data.disk_free_bytes"
-              },
-              {
-                "destinationType": "number",
-                "targetField": "data.disk_used_bytes"
-              }
-            ],
-            "fields": {}
-          }
-        },
-        {
-          "id": "calculateField",
-          "options": {
-            "alias": "Total Bytes",
-            "binary": {
-              "left": {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Used Bytes"
-                }
-              },
-              "right": {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Free Bytes"
-                }
-              }
-            },
-            "mode": "binary",
-            "reduce": {
-              "reducer": "sum"
-            }
-          }
-        },
-        {
-          "id": "calculateField",
-          "options": {
-            "alias": "Used GB",
-            "binary": {
-              "left": {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Used Bytes"
-                }
-              },
-              "operator": "/",
-              "right": {
-                "fixed": "1073741824"
-              }
-            },
-            "mode": "binary",
-            "reduce": {
-              "reducer": "sum"
-            }
-          }
-        },
-        {
-          "id": "calculateField",
-          "options": {
-            "alias": "Total GB",
-            "binary": {
-              "left": {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Total Bytes"
-                }
-              },
-              "operator": "/",
-              "right": {
-                "fixed": "1073741824"
-              }
-            },
-            "mode": "binary",
-            "reduce": {
-              "reducer": "sum"
-            }
-          }
-        }
-      ],
-      "transparent": true,
-      "type": "bargauge"
-    },
-    {
-      "datasource": {
-        "type": "elasticsearch",
-        "uid": "${DS_WAZUH-2}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "decgbytes"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 5,
-        "w": 2,
-        "x": 13,
-        "y": 6
-      },
-      "id": 29,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "/^Total Disk Space$/",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.6.0",
-      "targets": [
-        {
-          "alias": "",
-          "bucketAggs": [],
-          "metrics": [
-            {
-              "id": "1",
-              "settings": {
-                "size": "500"
-              },
-              "type": "raw_data"
-            }
-          ],
-          "query": "rule.id:100106",
-          "refId": "A",
-          "timeField": "@timestamp",
-          "datasource": {
-            "type": "elasticsearch",
-            "uid": "${DS_WAZUH-2}"
-          }
-        }
-      ],
-      "title": "Total Disk Space",
-      "transformations": [
-        {
-          "id": "convertFieldType",
-          "options": {
-            "conversions": [
-              {
-                "destinationType": "number",
-                "targetField": "data.disk_free_bytes"
-              },
-              {
-                "destinationType": "number",
-                "targetField": "data.disk_used_bytes"
-              }
-            ],
-            "fields": {}
-          }
-        },
-        {
-          "id": "calculateField",
-          "options": {
-            "alias": "Total Bytes",
-            "binary": {
-              "left": {
-                "matcher": {
-                  "id": "byName",
-                  "options": "data.disk_free_bytes"
-                }
-              },
-              "right": {
-                "matcher": {
-                  "id": "byName",
-                  "options": "data.disk_used_bytes"
-                }
-              }
-            },
-            "mode": "binary",
-            "reduce": {
-              "reducer": "sum"
-            }
-          }
-        },
-        {
-          "id": "calculateField",
-          "options": {
-            "alias": "Total Disk Space",
-            "binary": {
-              "left": {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Total Bytes"
-                }
-              },
-              "operator": "/",
-              "right": {
-                "fixed": "1073741824"
-              }
-            },
-            "mode": "binary",
-            "reduce": {
-              "reducer": "sum"
-            }
-          }
-        }
-      ],
-      "transparent": true,
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "elasticsearch",
-        "uid": "${DS_WAZUH-2}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisGridShow": true,
-            "axisLabel": "",
-            "axisPlacement": "left",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "line",
-            "fillOpacity": 5,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineStyle": {
-              "fill": "solid"
-            },
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "fieldMinMax": false,
-          "mappings": [],
-          "max": 100,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 70
-              }
-            ]
-          },
-          "unit": "%"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 10,
-        "w": 24,
-        "x": 0,
-        "y": 11
-      },
-      "id": 12,
-      "options": {
-        "legend": {
-          "calcs": [
-            "last"
-          ],
-          "displayMode": "table",
-          "placement": "right",
-          "showLegend": true
-        },
-        "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "11.6.0",
-      "targets": [
-        {
-          "alias": "",
-          "bucketAggs": [],
-          "metrics": [
-            {
-              "id": "1",
-              "settings": {
-                "size": "1500"
-              },
-              "type": "raw_data"
-            }
-          ],
-          "query": "rule.id:100100",
-          "refId": "A",
-          "timeField": "@timestamp",
-          "datasource": {
-            "type": "elasticsearch",
-            "uid": "${DS_WAZUH-2}"
-          }
-        }
-      ],
-      "title": "System Usage",
-      "transformations": [
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": {
-              "rule.firedtimes": true,
-              "rule.level": true,
-              "rule.mail": true
-            },
-            "includeByName": {},
-            "indexByName": {
-              "@timestamp": 0,
-              "_id": 1,
-              "_index": 2,
-              "_type": 3,
-              "agent.id": 4,
-              "agent.ip": 5,
-              "agent.name": 6,
-              "data.cpu_usage_%": 7,
-              "data.disk_usage_%": 9,
-              "data.memory_usage_%": 8,
-              "decoder.name": 10,
-              "decoder.parent": 11,
-              "full_log": 12,
-              "highlight": 13,
-              "id": 14,
-              "input.type": 15,
-              "location": 16,
-              "manager.name": 17,
-              "predecoder.hostname": 18,
-              "predecoder.program_name": 19,
-              "predecoder.timestamp": 20,
-              "rule.description": 21,
-              "rule.firedtimes": 22,
-              "rule.groups": 23,
-              "rule.id": 24,
-              "rule.level": 25,
-              "rule.mail": 26,
-              "sort": 27,
-              "timestamp": 28
-            },
-            "renameByName": {
-              "data.cpu_usage_%": "Cpu Usage",
-              "data.disk_usage_%": "Disk Usage",
-              "data.memory_usage_%": "Memory Usage"
-            }
-          }
-        },
-        {
-          "id": "convertFieldType",
-          "options": {
-            "conversions": [
-              {
-                "destinationType": "number",
-                "targetField": "data.cpu_usage_%"
-              },
-              {
-                "destinationType": "number",
-                "targetField": "data.disk_usage_%"
-              },
-              {
-                "destinationType": "number",
-                "targetField": "data.memory_usage_%"
-              }
-            ],
-            "fields": {}
-          }
-        }
-      ],
-      "type": "timeseries"
     },
     {
       "collapsed": true,
@@ -1337,7 +1338,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 21
+        "y": 1
       },
       "id": 24,
       "panels": [
@@ -1371,7 +1372,7 @@
             "h": 10,
             "w": 5,
             "x": 0,
-            "y": 104
+            "y": 2
           },
           "hideTimeOverride": true,
           "id": 8,
@@ -1392,7 +1393,7 @@
             "textMode": "value",
             "wideLayout": true
           },
-          "pluginVersion": "11.6.0",
+          "pluginVersion": "12.0.1",
           "targets": [
             {
               "alias": "",
@@ -1604,7 +1605,7 @@
             "h": 10,
             "w": 10,
             "x": 5,
-            "y": 104
+            "y": 2
           },
           "hideTimeOverride": true,
           "id": 7,
@@ -1622,7 +1623,7 @@
             "showHeader": true,
             "sortBy": []
           },
-          "pluginVersion": "11.6.0",
+          "pluginVersion": "12.0.1",
           "targets": [
             {
               "alias": "",
@@ -1775,7 +1776,7 @@
             "h": 10,
             "w": 9,
             "x": 15,
-            "y": 104
+            "y": 2
           },
           "id": 1,
           "options": {
@@ -1804,7 +1805,7 @@
             "xTickLabelRotation": 0,
             "xTickLabelSpacing": 100
           },
-          "pluginVersion": "11.6.0",
+          "pluginVersion": "12.0.1",
           "targets": [
             {
               "alias": "Authentication Success",
@@ -1969,6 +1970,18 @@
                     "value": 300
                   }
                 ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Container"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 116
+                  }
+                ]
               }
             ]
           },
@@ -1976,7 +1989,7 @@
             "h": 14,
             "w": 24,
             "x": 0,
-            "y": 114
+            "y": 12
           },
           "id": 9,
           "options": {
@@ -1993,7 +2006,7 @@
             "showHeader": true,
             "sortBy": []
           },
-          "pluginVersion": "11.6.0",
+          "pluginVersion": "12.0.1",
           "targets": [
             {
               "alias": "",
@@ -2055,18 +2068,18 @@
                   "agent.id": 4,
                   "agent.ip": 6,
                   "agent.name": 5,
-                  "data.Command": 9,
-                  "data.User": 7,
-                  "data.WD": 8,
-                  "decoder.name": 10,
-                  "decoder.parent": 11,
-                  "full_log": 12,
-                  "highlight": 13,
-                  "id": 14,
-                  "input.type": 15,
-                  "location": 16,
-                  "manager.name": 17,
-                  "predecoder.hostname": 18,
+                  "data.Command": 10,
+                  "data.Container": 7,
+                  "data.User": 8,
+                  "data.WD": 9,
+                  "decoder.name": 11,
+                  "decoder.parent": 12,
+                  "full_log": 13,
+                  "highlight": 14,
+                  "id": 15,
+                  "input.type": 16,
+                  "location": 17,
+                  "manager.name": 18,
                   "predecoder.program_name": 19,
                   "predecoder.timestamp": 20,
                   "rule.description": 21,
@@ -2082,8 +2095,10 @@
                   "@timestamp": "Timestamp",
                   "agent.ip": "Server",
                   "data.Command": "Command",
+                  "data.Container": "Container",
                   "data.User": "User",
                   "data.WD": "Directory",
+                  "sort": "",
                   "timestamp": ""
                 }
               }
@@ -2093,6 +2108,10 @@
               "options": {
                 "fields": {
                   "Command": {
+                    "aggregations": [],
+                    "operation": "groupby"
+                  },
+                  "Container": {
                     "aggregations": [],
                     "operation": "groupby"
                   },
@@ -2247,7 +2266,7 @@
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 128
+            "y": 26
           },
           "id": 2,
           "options": {
@@ -2264,7 +2283,7 @@
             "showHeader": true,
             "sortBy": []
           },
-          "pluginVersion": "11.6.0",
+          "pluginVersion": "12.0.1",
           "targets": [
             {
               "alias": "",
@@ -2402,7 +2421,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 22
+        "y": 2
       },
       "id": 25,
       "panels": [
@@ -2785,7 +2804,7 @@
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 105
+            "y": 378
           },
           "id": 4,
           "options": {
@@ -3183,7 +3202,7 @@
             "h": 7,
             "w": 12,
             "x": 0,
-            "y": 113
+            "y": 386
           },
           "id": 5,
           "options": {
@@ -3397,7 +3416,7 @@
             "h": 7,
             "w": 12,
             "x": 12,
-            "y": 113
+            "y": 386
           },
           "id": 31,
           "options": {
@@ -3427,6 +3446,10 @@
                   "type": "date_histogram"
                 }
               ],
+              "datasource": {
+                "type": "elasticsearch",
+                "uid": "${DS_WAZUH-2}"
+              },
               "metrics": [
                 {
                   "id": "1",
@@ -3435,11 +3458,7 @@
               ],
               "query": "rule.id:100502",
               "refId": "A",
-              "timeField": "@timestamp",
-              "datasource": {
-                "type": "elasticsearch",
-                "uid": "${DS_WAZUH-2}"
-              }
+              "timeField": "@timestamp"
             }
           ],
           "title": "Packet  Events per minute",
@@ -3592,7 +3611,7 @@
             "h": 16,
             "w": 15,
             "x": 0,
-            "y": 120
+            "y": 393
           },
           "id": 19,
           "options": {
@@ -3649,6 +3668,10 @@
                   "type": "date_histogram"
                 }
               ],
+              "datasource": {
+                "type": "elasticsearch",
+                "uid": "${DS_WAZUH-2}"
+              },
               "hide": false,
               "metrics": [
                 {
@@ -3658,11 +3681,7 @@
               ],
               "query": "rule.id:100501 AND data.dst_ip:10* AND (data.src_ip:10.20.30.60)",
               "refId": "A",
-              "timeField": "@timestamp",
-              "datasource": {
-                "type": "elasticsearch",
-                "uid": "${DS_WAZUH-2}"
-              }
+              "timeField": "@timestamp"
             },
             {
               "alias": "External Flow Events",
@@ -3885,7 +3904,7 @@
             "h": 8,
             "w": 9,
             "x": 15,
-            "y": 120
+            "y": 393
           },
           "id": 20,
           "options": {
@@ -3907,6 +3926,10 @@
             {
               "alias": "",
               "bucketAggs": [],
+              "datasource": {
+                "type": "elasticsearch",
+                "uid": "${DS_WAZUH-2}"
+              },
               "metrics": [
                 {
                   "id": "1",
@@ -3918,11 +3941,7 @@
               ],
               "query": "rule.id:100501 AND NOT data.dst_ip:10\\.* AND NOT data.dst_ip:ff0* AND NOT data.dst_ip:255* AND data.ndpi.hostname:[* TO *] AND NOT data.dst_ip:129.206.100.126",
               "refId": "A",
-              "timeField": "@timestamp",
-              "datasource": {
-                "type": "elasticsearch",
-                "uid": "${DS_WAZUH-2}"
-              }
+              "timeField": "@timestamp"
             }
           ],
           "title": "External IPs",
@@ -4109,7 +4128,7 @@
             "h": 8,
             "w": 9,
             "x": 15,
-            "y": 128
+            "y": 401
           },
           "id": 21,
           "options": {
@@ -4131,6 +4150,10 @@
             {
               "alias": "",
               "bucketAggs": [],
+              "datasource": {
+                "type": "elasticsearch",
+                "uid": "${DS_WAZUH-2}"
+              },
               "metrics": [
                 {
                   "id": "1",
@@ -4142,11 +4165,7 @@
               ],
               "query": "rule.id:100501 AND NOT data.dst_ip:10\\.* AND NOT data.dst_ip:ff0* AND NOT data.dst_ip:255* AND NOT data.ndpi.hostname:[* TO *] AND NOT data.dst_ip:129.206.100.126",
               "refId": "A",
-              "timeField": "@timestamp",
-              "datasource": {
-                "type": "elasticsearch",
-                "uid": "${DS_WAZUH-2}"
-              }
+              "timeField": "@timestamp"
             }
           ],
           "title": "External IPs w/o Hostname",
@@ -4529,7 +4548,7 @@
             "h": 11,
             "w": 15,
             "x": 0,
-            "y": 136
+            "y": 409
           },
           "id": 34,
           "options": {
@@ -5159,7 +5178,7 @@
             "h": 11,
             "w": 9,
             "x": 15,
-            "y": 136
+            "y": 409
           },
           "id": 33,
           "options": {
@@ -5404,7 +5423,7 @@
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 147
+            "y": 420
           },
           "id": 32,
           "options": {
@@ -5425,6 +5444,10 @@
             {
               "alias": "",
               "bucketAggs": [],
+              "datasource": {
+                "type": "elasticsearch",
+                "uid": "${DS_WAZUH-2}"
+              },
               "metrics": [
                 {
                   "id": "1",
@@ -5436,11 +5459,7 @@
               ],
               "query": "rule.id:100501 AND (data.dst_ip:129.206.100.126 OR data.dst_ip:129.206.100.127)",
               "refId": "A",
-              "timeField": "@timestamp",
-              "datasource": {
-                "type": "elasticsearch",
-                "uid": "${DS_WAZUH-2}"
-              }
+              "timeField": "@timestamp"
             }
           ],
           "title": "Uni Heidelberg IPs",
@@ -5649,7 +5668,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 23
+        "y": 3
       },
       "id": 22,
       "panels": [
@@ -5690,7 +5709,7 @@
             "h": 8,
             "w": 15,
             "x": 0,
-            "y": 503
+            "y": 776
           },
           "id": 3,
           "options": {
@@ -5987,7 +6006,7 @@
             "h": 21,
             "w": 9,
             "x": 15,
-            "y": 503
+            "y": 776
           },
           "hideTimeOverride": true,
           "id": 35,
@@ -6211,7 +6230,7 @@
             "h": 7,
             "w": 15,
             "x": 0,
-            "y": 511
+            "y": 784
           },
           "id": 18,
           "options": {
@@ -6250,6 +6269,10 @@
                   "type": "date_histogram"
                 }
               ],
+              "datasource": {
+                "type": "elasticsearch",
+                "uid": "${DS_WAZUH-2}"
+              },
               "metrics": [
                 {
                   "id": "1",
@@ -6258,11 +6281,7 @@
               ],
               "query": "rule.id:100601",
               "refId": "A",
-              "timeField": "@timestamp",
-              "datasource": {
-                "type": "elasticsearch",
-                "uid": "${DS_WAZUH-2}"
-              }
+              "timeField": "@timestamp"
             }
           ],
           "title": "Firewall Block events",
@@ -6311,7 +6330,7 @@
             "h": 6,
             "w": 15,
             "x": 0,
-            "y": 518
+            "y": 791
           },
           "id": 28,
           "options": {
@@ -6331,6 +6350,10 @@
             {
               "alias": "",
               "bucketAggs": [],
+              "datasource": {
+                "type": "elasticsearch",
+                "uid": "${DS_WAZUH-2}"
+              },
               "metrics": [
                 {
                   "id": "1",
@@ -6342,11 +6365,7 @@
               ],
               "query": "rule.id:100601",
               "refId": "A",
-              "timeField": "@timestamp",
-              "datasource": {
-                "type": "elasticsearch",
-                "uid": "${DS_WAZUH-2}"
-              }
+              "timeField": "@timestamp"
             }
           ],
           "title": "Blocked IPs",
@@ -6457,7 +6476,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 24
+        "y": 4
       },
       "id": 27,
       "panels": [
@@ -6499,10 +6518,10 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 25,
+            "h": 30,
             "w": 24,
             "x": 0,
-            "y": 725
+            "y": 183
           },
           "id": 11,
           "options": {
@@ -6592,7 +6611,7 @@
               "zoom": 15
             }
           },
-          "pluginVersion": "11.6.0",
+          "pluginVersion": "12.0.1",
           "targets": [
             {
               "alias": "",
@@ -7047,287 +7066,6 @@
             }
           ],
           "type": "geomap"
-        },
-        {
-          "datasource": {
-            "type": "elasticsearch",
-            "uid": "${DS_WAZUH-2}"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "custom": {
-                "align": "auto",
-                "cellOptions": {
-                  "type": "auto"
-                },
-                "inspect": false
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              }
-            },
-            "overrides": [
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "GeoLocation.location.lon"
-                },
-                "properties": [
-                  {
-                    "id": "custom.width",
-                    "value": 220
-                  }
-                ]
-              }
-            ]
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 750
-          },
-          "id": 13,
-          "options": {
-            "cellHeight": "sm",
-            "footer": {
-              "countRows": false,
-              "fields": "",
-              "reducer": [
-                "sum"
-              ],
-              "show": false
-            },
-            "showHeader": true,
-            "sortBy": []
-          },
-          "pluginVersion": "11.6.0",
-          "targets": [
-            {
-              "alias": "",
-              "bucketAggs": [],
-              "metrics": [
-                {
-                  "id": "1",
-                  "settings": {
-                    "size": "500"
-                  },
-                  "type": "raw_data"
-                }
-              ],
-              "query": "rule.id:100701",
-              "refId": "A",
-              "timeField": "@timestamp",
-              "datasource": {
-                "type": "elasticsearch",
-                "uid": "${DS_WAZUH-2}"
-              }
-            }
-          ],
-          "title": "OpenVPN Connections",
-          "transformations": [
-            {
-              "id": "organize",
-              "options": {
-                "excludeByName": {
-                  "_id": true,
-                  "_index": true,
-                  "_type": true,
-                  "agent.id": true,
-                  "agent.name": true,
-                  "data.timestamp": true,
-                  "decoder.name": true,
-                  "full_log": true,
-                  "highlight": true,
-                  "id": true,
-                  "input.type": true,
-                  "location": true,
-                  "manager.name": true,
-                  "rule.description": true,
-                  "rule.firedtimes": true,
-                  "rule.groups": true,
-                  "rule.id": true,
-                  "rule.level": true,
-                  "rule.mail": true,
-                  "sort": true,
-                  "timestamp": true
-                },
-                "includeByName": {},
-                "indexByName": {},
-                "renameByName": {}
-              }
-            }
-          ],
-          "type": "table"
-        },
-        {
-          "datasource": {
-            "type": "elasticsearch",
-            "uid": "${DS_WAZUH-2}"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "custom": {
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 750
-          },
-          "id": 14,
-          "options": {
-            "basemap": {
-              "config": {},
-              "name": "Layer 0",
-              "type": "default"
-            },
-            "controls": {
-              "mouseWheelZoom": false,
-              "showAttribution": false,
-              "showDebug": false,
-              "showMeasure": false,
-              "showScale": false,
-              "showZoom": false
-            },
-            "layers": [
-              {
-                "config": {
-                  "showLegend": false,
-                  "style": {
-                    "color": {
-                      "fixed": "dark-green"
-                    },
-                    "opacity": 0.4,
-                    "rotation": {
-                      "fixed": 0,
-                      "max": 360,
-                      "min": -360,
-                      "mode": "mod"
-                    },
-                    "size": {
-                      "fixed": 5,
-                      "max": 15,
-                      "min": 2
-                    },
-                    "symbol": {
-                      "fixed": "img/icons/marker/circle.svg",
-                      "mode": "fixed"
-                    },
-                    "symbolAlign": {
-                      "horizontal": "center",
-                      "vertical": "center"
-                    },
-                    "textConfig": {
-                      "fontSize": 12,
-                      "offsetX": 0,
-                      "offsetY": 0,
-                      "textAlign": "center",
-                      "textBaseline": "middle"
-                    }
-                  }
-                },
-                "location": {
-                  "latitude": "GeoLocation.location.lat",
-                  "longitude": "GeoLocation.location.lon",
-                  "mode": "coords"
-                },
-                "name": "Layer 1",
-                "tooltip": false,
-                "type": "markers"
-              }
-            ],
-            "tooltip": {
-              "mode": "details"
-            },
-            "view": {
-              "allLayers": true,
-              "id": "fit",
-              "lat": 0,
-              "lon": 0,
-              "zoom": 15
-            }
-          },
-          "pluginVersion": "11.6.0",
-          "targets": [
-            {
-              "alias": "",
-              "bucketAggs": [],
-              "metrics": [
-                {
-                  "id": "1",
-                  "settings": {
-                    "size": "500"
-                  },
-                  "type": "raw_data"
-                }
-              ],
-              "query": "rule.id:100701",
-              "refId": "A",
-              "timeField": "@timestamp",
-              "datasource": {
-                "type": "elasticsearch",
-                "uid": "${DS_WAZUH-2}"
-              }
-            }
-          ],
-          "title": "",
-          "transformations": [
-            {
-              "id": "convertFieldType",
-              "options": {
-                "conversions": [
-                  {
-                    "destinationType": "number",
-                    "targetField": "GeoLocation.location.lat"
-                  },
-                  {
-                    "destinationType": "number",
-                    "targetField": "GeoLocation.location.lon"
-                  }
-                ],
-                "fields": {}
-              }
-            }
-          ],
-          "type": "geomap"
         }
       ],
       "title": "Connections",
@@ -7366,9 +7104,9 @@
   },
   "timepicker": {},
   "timezone": "Europe/Berlin",
-  "title": "Wazuh",
+  "title": "System Monitoring",
   "uid": "ee5oyzl487bwga",
-  "version": 198,
+  "version": 6,
   "weekStart": ""
 }
 }
