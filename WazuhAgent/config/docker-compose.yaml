@@ -19,7 +19,7 @@ services:
         volumes:
             - var_log:/var/log
             - tmp:/tmp
-            - /home/fdaas/Master-Practical-Evaluating-XDR-applications/WazuhAgent/config/heiDPI_config.yml:/usr/src/app/config.yml
+            - <config_absolute_path>:/usr/src/app/config.yml
             - /var/lib/GeoLite2/city.mmdb:/tmp/city.mmdb
         restart: unless-stopped
         network_mode: host
