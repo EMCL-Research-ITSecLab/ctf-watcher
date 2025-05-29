@@ -70,6 +70,15 @@ while [[ $# -gt 0 ]]; do
   shift
 done
 
+print_divider
+echo "Set Up Tool for Monitoring an Environment Created by the CTF-Creator"
+echo "Using Wazuh, Grafana, cAdvisor, Prometheus, heiDPI, and Docker"
+echo "Created by FeDaas"
+print_divider
+echo ""
+echo "Starting Setup..."
+sleep 10
+
 if [ $RAM -le $RAM_MIN ]; then
     echo "Not Enough Memory!"
     echo "MINIMUM: $RAM_MIN"
@@ -83,13 +92,6 @@ if [ $RAM -le $RAM_MIN ]; then
         exit 0
     fi
  fi
-
-print_divider
-echo "Set Up Tool for Monitoring an Environment Created by the CTF-Creator. Using Wazuh, Grafana, cAdvisor, Prometheus, heiDPI, and Docker."
-echo "Created by FeDaas"
-print_divider
-echo "Start Set Up..."
-sleep 10
 
 export SET_UP_STEP_MAIN="\e[1m [Step 1/4] Set Up Wazuh Docker\e[0m"
 section_header "[1/4] Set Up Wazuh Docker"
