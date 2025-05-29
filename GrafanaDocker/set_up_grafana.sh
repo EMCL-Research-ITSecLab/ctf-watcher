@@ -51,7 +51,7 @@ is_grafana_responding()
   fi
 }
 wait_for_grafana() {
-  print_info "[3/] Wait for Grafana Responce"
+  print_info "[3/7] Wait for Grafana Responce"
   echo "If this lasts too long, something went wrong and the program exits."
   local wait_time_ds=2400
   local current=0
@@ -100,21 +100,21 @@ wait_for_grafana() {
 function print_info()
 {
 echo ""
-echo -e "\e[34m[Info]:\e[0m $SET_UP_STEP_MAIN |  $1"
+echo -e "\e[34m[Info]:\e[0m $SET_UP_STEP_MAIN: $1"
 echo ""
 }
 
 function print_warning()
 {
 echo ""
-echo -e "\e[33m[Warn]:\e[0m $SET_UP_STEP_MAIN | $1"
+echo -e "\e[33m[Warn]:\e[0m $SET_UP_STEP_MAIN: $1"
 echo ""
 }
 
 function print_error()
 {
 echo ""
-echo -e "\e[31m[Error]:\e[0m $SET_UP_STEP_MAIN | $1"
+echo -e "\e[31m[Error]:\e[0m $SET_UP_STEP_MAIN: $1"
 echo ""
 }
 function print_divider () {
@@ -171,20 +171,20 @@ if [ "$SET_UP_APPROVED" != "y" ] && [ "$SET_UP_APPROVED" != "yes" ]; then
   exit 0
 fi
 
-print_info "Start set up  Grafana Dashboard"
-print_info "[1/] Set the Datasources' IP addresses."
+print_info "Start set up  Grafana Dashboard..."
+print_info "Set the Datasources' IP addresses...    (1/7)"
 
 sed -i "s/ \"url\": \"https:\/\/<wazuh_manager_ip>:9200\",/ \"url\": \"https:\/\/$MANAGER_IP_ADDRESS:$MANAGER_PORT\",/" config/wazuh_datasource.json
 sed -i "s/<cadvisor_ip>/$CADVISOR_IP_ADDRESS/g" config/cadvisor_datasource.json
 
 
-print_info "[2/] Start Grafana Docker"
+print_info "Start Grafana Docker...    (2/7)"
 
 docker run -d --restart unless-stopped -p 3000:3000 --name=grafana grafana/grafana-enterprise
 
 wait_for_grafana
 
-print_info "[4/] Upload Datasources"
+print_info "Upload Datasources...    (4/7)"
 
 curl -X POST "$GRAFANA_URL/api/datasources" \
   -u "$GRAFANA_USERNAME:$GRAFANA_PASSWORD" \
@@ -196,7 +196,7 @@ curl -X POST "$GRAFANA_URL/api/datasources" \
   -H "Content-Type: application/json" \
   -d @$DATASOURCE_CADVISOR_JSON
 
-print_info "[5/] Request Datasources UID"
+print_info "Request Datasources UID...    (5/7)"
 ##Get the UID Grafana assigned to the new Wazuh datasource 
 echo "Get Wazuh Datasource uid"
 DATASOURCE_WAZUH_UID=$(curl -X GET "http://localhost:3000/api/datasources/1" -u admin:admin 2>/dev/null | grep -o '"uid":"[^"]*' | sed 's/"uid":"//')
@@ -207,7 +207,7 @@ echo "Get cAdvisor Datasource uid"
 DATASOURCE_CADVISOR_UID=$(curl -X GET "http://localhost:3000/api/datasources/2" -u admin:admin 2>/dev/null | grep -o '"uid":"[^"]*' | sed 's/"uid":"//')
 echo "cAdvisor UID: $DATASOURCE_CADVISOR_UID"
 
-print_info "[6/] Set Datasource UID in Dashboards"
+print_info "Set Datasource UID in Dashboards...    (6/7)"
 
 sed -i "s/\${DS_CADVISOR}/$DATASOURCE_CADVISOR_UID/g" "$DASHBOARD_WAZUH_JSON"
 sed -i "s/\${DS_WAZUH-2}/$DATASOURCE_CADVISOR_UID/g" "$DASHBOARD_WAZUH_JSON"
@@ -218,7 +218,7 @@ sed -i "s/\${DS_WAZUH-2}/$DATASOURCE_CADVISOR_UID/g" "$DASHBOARD_CADVISOR_JSON"
 sed -i "s/\${DS_CADVISOR}/$DATASOURCE_CADVISOR_UID/g" "$DASHBOARD_COMMANDS_JSON"
 sed -i "s/\${DS_WAZUH-2}/$DATASOURCE_CADVISOR_UID/g" "$DASHBOARD_COMMANDS_JSON"
 
-print_info "[7/] Upload Dashboard"
+print_info "Upload Dashboard...    (7/7)"
 echo "Upload Wazuh Dashboard"
 print_divider
 
