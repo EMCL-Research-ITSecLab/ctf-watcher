@@ -51,7 +51,8 @@ is_grafana_responding()
   fi
 }
 wait_for_grafana() {
-  print "Wait for Grafana to be set up. If this lasts too long, something went wrong and the program exits."
+  print_info "[3/] Wait for Grafana Responce"
+  echo "If this lasts too long, something went wrong and the program exits."
   local wait_time_ds=2400
   local current=0
   local progress
@@ -81,19 +82,45 @@ wait_for_grafana() {
     ((current++))
   done
 
+  print_warning "Grafana Boot Up took longer than expected."
   echo ""
-  print "Grafana not correctly installed, not set up or error in updloading datasource"
-  
-  print "Status:"
+  echo "Grafana Responce:"
   echo "$GRAFANA_HEALTH"
-  exit 1
+  echo ""
+  echo "Wait longer? <y/yes> "
+  read WAIT_APPROVED
+  if [ "$WAIT_APPROVED" != "y" ] && [ "$WAIT_APPROVED" != "yes" ]; then
+      section_header "Grafana Setup Aborted"
+      exit 1
+  fi
+  
+  wait_for_grafana || {exit 1}
 }
 
-print()
+function print_info()
 {
 echo ""
-echo $1
+echo -e "\e[34m[Info]:\e[0m $SET_UP_STEP_MAIN |  $1"
 echo ""
+}
+
+function print_warning()
+{
+echo ""
+echo -e "\e[33m[Warn]:\e[0m $SET_UP_STEP_MAIN | $1"
+echo ""
+}
+
+function print_error()
+{
+echo ""
+echo -e "\e[31m[Error]:\e[0m $SET_UP_STEP_MAIN | $1"
+echo ""
+}
+function print_divider () {
+    terminal=/dev/pts/1
+    columns=$(stty -a <"$terminal" | grep -Po '(?<=columns )\d+')
+    printf "%${columns}s\n" | tr " " "-"
 }
 
 while [[ $# -gt 0 ]]; do
@@ -136,52 +163,51 @@ echo "Wazuh Manager Port: $MANAGER_PORT"
 
 SET_UP_APPROVED="y"
 if [ "$SKIP_CONFIRMATION" == "false" ]; then
-  print "Set up Grafana Dashboard with these settings? [y/yes]"
+  echo "Set up Grafana Dashboard with these settings? [y/yes]"
   read SET_UP_APPROVED
 fi
 if [ "$SET_UP_APPROVED" != "y" ] && [ "$SET_UP_APPROVED" != "yes" ]; then
-  print "Setup Aborted"
+  print_info "Setup Aborted"
   exit 0
 fi
 
-print "Start set up  Grafana Dashboard"
-print "Set Wazuh Manager Datasource ip address"
+print_info "Start set up  Grafana Dashboard"
+print_info "[1/] Set the Datasources' IP addresses."
 
 sed -i "s/ \"url\": \"https:\/\/<wazuh_manager_ip>:9200\",/ \"url\": \"https:\/\/$MANAGER_IP_ADDRESS:$MANAGER_PORT\",/" config/wazuh_datasource.json
-
-print "Set cAdvisor Datasource ip address"
 sed -i "s/<cadvisor_ip>/$CADVISOR_IP_ADDRESS/g" config/cadvisor_datasource.json
 
 
-print "Run Docker Grafana Dashbaord"
+print_info "[2/] Start Grafana Docker"
 
 docker run -d --restart unless-stopped -p 3000:3000 --name=grafana grafana/grafana-enterprise
 
 wait_for_grafana
 
-print "Upload Wazuh Datasource"
+print_info "[4/] Upload Datasources"
 
 curl -X POST "$GRAFANA_URL/api/datasources" \
   -u "$GRAFANA_USERNAME:$GRAFANA_PASSWORD" \
   -H "Content-Type: application/json" \
   -d @$DATASOURCE_WAZUH_JSON
 
-print "Upload cAdvisor Datasource"
-
 curl -X POST "$GRAFANA_URL/api/datasources" \
   -u "$GRAFANA_USERNAME:$GRAFANA_PASSWORD" \
   -H "Content-Type: application/json" \
   -d @$DATASOURCE_CADVISOR_JSON
 
+print_info "[5/] Request Datasources UID"
 ##Get the UID Grafana assigned to the new Wazuh datasource 
-print "Get Wazuh Datasource uid"
+echo "Get Wazuh Datasource uid"
 DATASOURCE_WAZUH_UID=$(curl -X GET "http://localhost:3000/api/datasources/1" -u admin:admin 2>/dev/null | grep -o '"uid":"[^"]*' | sed 's/"uid":"//')
-echo "uid: $DATASOURCE_WAZUH_UID"
+echo "Wazuh UID: $DATASOURCE_WAZUH_UID"
 
 ##Get the UID Grafana assigned to the new cAdvisor datasource 
-print "Get cAdvisor Datasource uid"
+echo "Get cAdvisor Datasource uid"
 DATASOURCE_CADVISOR_UID=$(curl -X GET "http://localhost:3000/api/datasources/2" -u admin:admin 2>/dev/null | grep -o '"uid":"[^"]*' | sed 's/"uid":"//')
-echo "uid: $DATASOURCE_CADVISOR_UID"
+echo "cAdvisor UID: $DATASOURCE_CADVISOR_UID"
+
+print_info "[6/] Set Datasource UID in Dashboards"
 
 sed -i "s/\${DS_CADVISOR}/$DATASOURCE_CADVISOR_UID/g" "$DASHBOARD_WAZUH_JSON"
 sed -i "s/\${DS_WAZUH-2}/$DATASOURCE_CADVISOR_UID/g" "$DASHBOARD_WAZUH_JSON"
@@ -192,30 +218,45 @@ sed -i "s/\${DS_WAZUH-2}/$DATASOURCE_CADVISOR_UID/g" "$DASHBOARD_CADVISOR_JSON"
 sed -i "s/\${DS_CADVISOR}/$DATASOURCE_CADVISOR_UID/g" "$DASHBOARD_COMMANDS_JSON"
 sed -i "s/\${DS_WAZUH-2}/$DATASOURCE_CADVISOR_UID/g" "$DASHBOARD_COMMANDS_JSON"
 
-
-print "Upload Wazuh Dashboard"
+print_info "[7/] Upload Dashboard"
+echo "Upload Wazuh Dashboard"
+print_divider
 
 curl -v -X POST "$GRAFANA_URL/api/dashboards/db" \
   -u "$GRAFANA_USERNAME:$GRAFANA_PASSWORD" \
   -H "Content-Type: application/json" \
   -d @$DASHBOARD_WAZUH_JSON
 
+print_divider
+echo ""
 
-print "Upload cAdvisor Dashboard"
+
+echo "Upload cAdvisor Dashboard"
+print_divider
 
 curl -v -X POST "$GRAFANA_URL/api/dashboards/db" \
   -u "$GRAFANA_USERNAME:$GRAFANA_PASSWORD" \
   -H "Content-Type: application/json" \
   -d @$DASHBOARD_CADVISOR_JSON
 
-print "Upload Commands Dashboard"
+print_divider
+echo ""
+
+echo "Upload Commands Dashboard"
+print_divider
 
 curl -v -X POST "$GRAFANA_URL/api/dashboards/db" \
   -u "$GRAFANA_USERNAME:$GRAFANA_PASSWORD" \
   -H "Content-Type: application/json" \
   -d @$DASHBOARD_COMMANDS_JSON
 
-print "Grafana setup complete"
+print_divider
+echo ""
+
+echo
+echo -e "$SET_UP_STEP_MAIN: Grafana Installation Finished!"
+echo
+
 echo "Grafana Dashboard: http://$LOCAL_IP_ADDRESS:3000"
 echo "User: admin"
 echo "Password: admin"
