@@ -88,21 +88,21 @@ delete_agent(){
 function print_info()
 {
 echo ""
-echo -e "\e[34m[Info]:\e[0m $1"
+echo -e "$SET_UP_STEP_MAIN | \e[34m[Info]:\e[0m $1"
 echo ""
 }
 
 function print_warning()
 {
 echo ""
-echo -e "\e[33m[Info]:\e[0m $1"
+echo -e "$SET_UP_STEP_MAIN | \e[33m[Info]:\e[0m $1"
 echo ""
 }
 
 function print_error()
 {
 echo ""
-echo -e "\e[31m[Info]:\e[0m $1"
+echo -e "$SET_UP_STEP_MAIN | \e[31m[Info]:\e[0m $1"
 echo ""
 }
 
@@ -232,7 +232,7 @@ echo "AGENT IP: $LOCAL_IP_ADDRESS"
 echo "Manager IP: $MANAGER_IP_ADDRESS"
 
 if [ "$MANAGER_IP_ADDRESS" == "$LOCAL_IP_ADDRESS" ]; then
-  print_warning "Wazuh manager has same address as wazuh agent. Please provide the correct manager address using --manager. Ignore if manager and agent are on the same system"
+  print_warning "Wazuh manager has same address as wazuh agent. Please provide the correct Manager address using --manager. Ignore if the Manager and the Agent are on the same system."
 fi
 
 echo "Logging System Health: $SYSTEM_HEALTH"
@@ -256,52 +256,57 @@ fi
 print_info "Start Agent Setup"
 
 #####################################################
-print_info "Wazuh Agent set up [1/4] Download Agent"
+print_info "[1/4] Download Agent"
 
 eval $CMD_INSTALL
 
 #####################################################
-print_info "Wazuh Agent set up [2/4] Run Agent"
+print_info "[2/4] Run Agent"
 
 eval $CMD_RUN
 
 #####################################################
-print_info "Wazuh Agent set up [3/4] Inject Localfiles"
+print_info "[3/4] ADD Localfiles"
 
 cat config/localfile_ossec_config | sudo tee -a /var/ossec/etc/ossec.conf > /dev/null
 
 if [ "$SYSTEM_HEALTH" == "true" ]; then
-  print_info "Wazuh Agent set up [4/4] Set up System Health Logging"
+  export SET_UP_STEP_SUB="[4/4] Set up System Health Logging"
+  print_info "[4/4] Set up System Health Logging"
   cat config/localfile_ossec_config_system_health | sudo tee -a /var/ossec/etc/ossec.conf > /dev/null
 fi
 if [ "$BASH_LOG" == "true" ]; then
-  print_info "Wazuh Agent set up [4/4] Set up Bash Logging"
+  export SET_UP_STEP_SUB="[4/4] Set up Bash Logging"
+  print_info "[4/4] Set up Bash Logging"
   config/bash_loggin_set_up.sh
   
 fi
 if [ "$HEIDPI" == "true" ]; then
-  print_info "Wazuh Agent set up [4/4] Set up heiDPId"
+  export SET_UP_STEP_SUB="[4/4] Set up heiDPI"
+  print_info "[4/4] Set up heiDPId"
   cd config
   ./heiDPI_set_up.sh
   cd ..
 fi
 if [ "$UFW" == "true" ]; then
-  print_info "Wazuh Agent set up [4/4] Set up UFW"
+  export SET_UP_STEP_SUB="[4/4] Set up UFW"
+  print_info "[4/4] Set up UFW"
   sudo config/ufw_set_up.sh
   cat config/localfile_ossec_config_ufw_status | sudo tee -a /var/ossec/etc/ossec.conf > /dev/null
 fi
 if [ "$CONTAINER_LOGGING" == "true" ]; then
-  print_info "Wazuh Agent set up [4/4] Set up Container Logging"
+  export SET_UP_STEP_SUB="[4/4] Set up Container LOgging"
+  print_info "[4/4] Set up Container Logging"
   sudo config/container_logging_set_up.sh
   cat config/localfile_ossec_config_container_logging | sudo tee -a /var/ossec/etc/ossec.conf > /dev/null
 fi
 
-if [ "$BASH_LOG" == "false" ] && [ "$HEIDPI" == "false" ]  && [ "$UFW" == "false" ] && [ "$SYSTEM_HEALTH" == "false" ]; then
-    print_info "Wazuh Agent set up [4/4] Skipping set up"
+if [ "$BASH_LOG" == "false" ] && [ "$HEIDPI" == "false" ]  && [ "$UFW" == "false" ] && [ "$CONTAINER_LOGGING" == "false" ] && [ "$SYSTEM_HEALTH" == "false" ]; then
+    print_info "[4/4] Nothing to Set Up."
 fi
 
 echo
-echo "--------Instalation Finished--------"
+echo -e "$SET_UP_STEP_MAIN: Wazuh Agent Instalation Finished!"
 echo
 
 
