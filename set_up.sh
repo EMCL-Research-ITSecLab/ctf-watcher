@@ -145,10 +145,13 @@ echo -e "Wazuh Manager \t https://$IP_ADDRESS \t\t admin \t\t Secret Password"
 echo -e "cAdvisor \t http:///$IP_ADDRESS:8080 \t / \t\t /"
 echo -e "Prometheus \t http:///$IP_ADDRESS:9090 \t / \t\t /"
 echo -e "Wazuh Manager \t https://$IP_ADDRESS:3000 \t admin \t\t admin"
-
+echo ""
+echo ""
+echo ""
 echo "Show Status of installed Container (y|n)?"
 read SHOW_CONTAINER
 if [ "$SET_UP_APPROVED" == "y"  ]; then
   echo ""
   echo "Container:"
   docker container ls --format "table {{.Names}}:\t{{.ID}}:\t {{.Image}}:\t {{.Status}}:" 
+fi
