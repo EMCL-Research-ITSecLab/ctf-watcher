@@ -855,7 +855,7 @@
   "refresh": "10s",
   "schemaVersion": 41,
   "tags": [
-    "docker"
+    "Docker",
   ],
   "templating": {
     "list": []
