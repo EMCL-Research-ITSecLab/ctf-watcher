@@ -19,8 +19,13 @@ docker ps -q | xargs -I {} docker cp config/bash_loggin_set_up.sh {}:/wazuh-agen
 
 print_info "Install requirements on containers [3/4]"
 
-docker ps -q | xargs -I {} docker exec -i {} sh -c "/wazuh-agent/container_requirements_set_up.sh"
-
+for container_id in $(docker ps -q); do
+  docker exec "$container_id" sh -c "/wazuh-agent/container_requirements_set_up.sh" &
+  pids+=($!)
+done
+for pid in "${pids[@]}"; do
+  wait "$pid"
+done
 
 print_info "Set up bash logging in containers [4/4]"
 
