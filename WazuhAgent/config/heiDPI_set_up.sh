@@ -4,7 +4,7 @@ ABSOLUTE_PATH_CONFIG=$(realpath heiDPI_config.yml)
 function print_info()
 {
 echo ""
-echo -e "\e[34m[Info]:\e[0m  $SET_UP_STEP_MAIN: $SET_UP_STEP_SUB:\e[2m $1"
+echo -e "\e[34m[Info]:\e[0m  $SET_UP_STEP_MAIN: $SET_UP_STEP_SUB:\e[2m $1\e[0m"
 echo ""
 }
 
