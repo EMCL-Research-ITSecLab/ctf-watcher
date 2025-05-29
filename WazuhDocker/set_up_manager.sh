@@ -92,7 +92,7 @@ docker restart $(docker ps -aqf "name=single-node-wazuh.manager-1")
 
 
 echo
-echo "$SET_UP_STEP_MAIN: Wazuh Docker Installation Finished!"
+echo -e "$SET_UP_STEP_MAIN: Wazuh Docker Installation Finished!"
 echo
 
 echo "Dashboard: https://$IP_ADDRESS"
