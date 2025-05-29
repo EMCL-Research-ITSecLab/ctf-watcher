@@ -152,7 +152,7 @@ echo ""
 echo ""
 echo "Show Status of installed Container (y|n)?"
 read SHOW_CONTAINER
-if [ "$SET_UP_APPROVED" == "y"  ]; then
+if [ "$SHOW_CONTAINER" == "y"  ]; then
   echo ""
   echo "Container:"
   docker container ls --format "table {{.Names}}:\t{{.ID}}:\t {{.Image}}:\t {{.Status}}:" 
