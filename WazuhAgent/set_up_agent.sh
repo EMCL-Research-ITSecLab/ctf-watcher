@@ -88,21 +88,21 @@ delete_agent(){
 function print_info()
 {
 echo ""
-echo -e "\e[34m[Info]:\e[0m $SET_UP_STEP_MAIN | $1"
+echo -e "\e[34m[Info]:\e[0m $SET_UP_STEP_MAIN: $1"
 echo ""
 }
 
 function print_warning()
 {
 echo ""
-echo -e "\e[33m[Info]:\e[0m $SET_UP_STEP_MAIN | $1"
+echo -e "\e[33m[Info]:\e[0m $SET_UP_STEP_MAIN: $1"
 echo ""
 }
 
 function print_error()
 {
 echo ""
-echo -e "\e[31m[Info]:\e[0m $SET_UP_STEP_MAIN |$1"
+echo -e "\e[31m[Info]:\e[0m $SET_UP_STEP_MAIN: $1"
 echo ""
 }
 
@@ -256,47 +256,48 @@ fi
 print_info "Start Agent Setup"
 
 #####################################################
-print_info "[1/4] Download Agent"
+print_info "Download Agent...    (1/4)"
 
 eval $CMD_INSTALL
 
 #####################################################
-print_info "[2/4] Run Agent"
+print_info "Run Agent...    (2/4)"
 
 eval $CMD_RUN
 
 #####################################################
-print_info "[3/4] ADD Localfiles"
+print_info "Add Localfiles...    (3/4)"
 
 cat config/localfile_ossec_config | sudo tee -a /var/ossec/etc/ossec.conf > /dev/null
 
+print_info "Set Up Logging...    (4/4)"
 if [ "$SYSTEM_HEALTH" == "true" ]; then
-  export SET_UP_STEP_SUB="[4/4] Set up System Health Logging"
-  print_info "[4/4] Set up System Health Logging"
+  export SET_UP_STEP_SUB="Set up System Health Logging"
+  print_info "Set Up Logging...    (4/4): Set up System Health Logging"
   cat config/localfile_ossec_config_system_health | sudo tee -a /var/ossec/etc/ossec.conf > /dev/null
 fi
 if [ "$BASH_LOG" == "true" ]; then
-  export SET_UP_STEP_SUB="[4/4] Set up Bash Logging"
-  print_info "[4/4] Set up Bash Logging"
+  export SET_UP_STEP_SUB="Set up Bash Logging"
+  print_info "Set Up Logging...    (4/4): Set up Bash Logging"
   config/bash_loggin_set_up.sh
   
 fi
 if [ "$HEIDPI" == "true" ]; then
-  export SET_UP_STEP_SUB="[4/4] Set up heiDPI"
-  print_info "[4/4] Set up heiDPId"
+  export SET_UP_STEP_SUB="Set up heiDPI"
+  print_info "Set Up Logging...    (4/4): Set up heiDPId"
   cd config
   ./heiDPI_set_up.sh
   cd ..
 fi
 if [ "$UFW" == "true" ]; then
-  export SET_UP_STEP_SUB="[4/4] Set up UFW"
-  print_info "[4/4] Set up UFW"
+  export SET_UP_STEP_SUB="Set up UFW"
+  print_info "Set Up Logging...    (4/4): Set up UFW"
   sudo config/ufw_set_up.sh
   cat config/localfile_ossec_config_ufw_status | sudo tee -a /var/ossec/etc/ossec.conf > /dev/null
 fi
 if [ "$CONTAINER_LOGGING" == "true" ]; then
-  export SET_UP_STEP_SUB="[4/4] Set up Container LOgging"
-  print_info "[4/4] Set up Container Logging"
+  export SET_UP_STEP_SUB="Set up Container Logging"
+  print_info "Set Up Logging...    (4/4): Set up Container Logging"
   sudo config/container_logging_set_up.sh
   cat config/localfile_ossec_config_container_logging | sudo tee -a /var/ossec/etc/ossec.conf > /dev/null
 fi
