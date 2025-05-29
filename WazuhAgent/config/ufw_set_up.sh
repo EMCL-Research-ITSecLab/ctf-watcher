@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ufw enable
+ufw --force enable
 
 ufw allow 22/tcp
 
