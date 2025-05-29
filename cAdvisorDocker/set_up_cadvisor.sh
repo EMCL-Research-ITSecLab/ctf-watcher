@@ -5,11 +5,11 @@ LOCAL_IP_ADDRESS=$(hostname -I | awk '{print $1}')
 function print_info()
 {
 echo ""
-echo -e "\e[34m[Info]:\e[0m $SET_UP_STEP_MAIN | $1"
+echo -e "\e[34m[Info]:\e[0m $SET_UP_STEP_MAIN: $1"
 echo ""
 }
 
-print_info "[1/2] Start cAdvisor Docker"
+print_info "Start cAdvisor Docker...  (1/2)"
 
 sudo docker run \
   --volume=/:/rootfs:ro \
@@ -25,7 +25,7 @@ sudo docker run \
   --device=/dev/kmsg \
   gcr.io/cadvisor/cadvisor:$VERSION
 
-print_info "[2/2] Start Prometheus Docker"
+print_info "Start Prometheus Docker...  (2/2)"
 sed -i "s/<cadvisor_ip>/$LOCAL_IP_ADDRESS/g" prometheus.yaml
 docker compose -f docker-compose.yaml up -d
 
