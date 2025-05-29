@@ -8,21 +8,21 @@ RAM=$(awk '/MemTotal/ {print $2}' /proc/meminfo)
 function print_info()
 {
 echo ""
-echo -e "\e[34m[Info]:\e[0m $1"
+echo -e "$SET_UP_STEP_MAIN | \e[34m[Info]:\e[0m $1"
 echo ""
 }
 
 function print_warning()
 {
 echo ""
-echo -e "\e[33m[Info]:\e[0m $1"
+echo -e "$SET_UP_STEP_MAIN | \e[33m[Warn]:\e[0m $1"
 echo ""
 }
 
 function print_error()
 {
 echo ""
-echo -e "\e[31m[Info]:\e[0m $1"
+echo -e "$SET_UP_STEP_MAIN | \e[31m[Error]:\e[0m $1"
 echo ""
 }
 
@@ -37,7 +37,7 @@ if [ $RAM -le $RAM_MIN ]; then
     echo "MINIMUM: $RAM_MIN"
     echo "Current: $RAM"
     echo ""
-    echo "Ignoring this warnig can cause a broken installation"
+    echo "Ignoring this warning can cause a broken installation."
     echo "Ignore warning? [y/yes]"
     read SET_UP_APPROVED
     if [ "$SET_UP_APPROVED" != "y" ] && [ "$SET_UP_APPROVED" != "yes" ]; then
@@ -48,7 +48,7 @@ if [ $RAM -le $RAM_MIN ]; then
 
 
 #####################################################
-print_info "Wazuh Manager set up [1/6] Set Map Count"
+print_info "[1/6] Set Map Count"
 
 sysctl -w vm.max_map_count=262144
 
@@ -58,26 +58,26 @@ else
     echo "vm.max_map_count=262144" >> "$SYSCTL_CONF"
 fi
 
-print_info "Wazuh Manager set up [2/6] Build Images"
+print_info "[2/6] Build Images"
 
 cd wazuh-docker
 git checkout v4.11.1
 
 #####################################################
-print_info "Wazuh Manager set up [4/6] Generating Certifications"
+print_info "[3/6] Generating Certifications"
 
 
 cd single-node
 sudo -u $SUDO_USER docker-compose -f generate-indexer-certs.yml run --rm generator
 
 #####################################################
-print_info "Wazuh Manager set up [4/6] Docker Compose"
+print_info "[4/6] Compose Docker"
 
 
 sudo -u $SUDO_USER docker-compose up -d
 
 #####################################################
-print_info "Wazuh Manager set up [4/6] Set up custom rules"
+print_info "[5/6] Add Custom Rules"
 
 cd ..
 cd ..
@@ -86,13 +86,13 @@ docker cp config/local_rules.xml $(docker ps -aqf "name=single-node-wazuh.manage
 docker cp config/local_decoder.xml $(docker ps -aqf "name=single-node-wazuh.manager-1"):/var/ossec/etc/decoders/local_decoder.xml
 
 #####################################################
-print_info "Wazuh Manager set up [6/6] Restart Manager"
+print_info "[6/6] Restart Manager"
 
 docker restart $(docker ps -aqf "name=single-node-wazuh.manager-1")
 
 
 echo
-echo --------Instalation Finished--------
+echo "$SET_UP_STEP_MAIN: Wazuh Docker Installation Finished!"
 echo
 
 echo "Dashboard: https://$IP_ADDRESS"
