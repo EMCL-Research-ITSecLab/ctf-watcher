@@ -21,12 +21,6 @@ cat << "EOF"
 
 EOF
 
-print_divider
-echo "Set Up Tool for Monitoring an Environment Created by the CTF-Creator. Using Wazuh, Grafana, cAdvisor, Prometheus, heiDPI, and Docker."
-echo "Created by FeDaas"
-print_divider
-sleep 10
-
 function print_divider () {
     terminal=/dev/pts/1
     columns=$(stty -a <"$terminal" | grep -Po '(?<=columns )\d+')
@@ -89,6 +83,12 @@ if [ $RAM -le $RAM_MIN ]; then
         exit 0
     fi
  fi
+
+print_divider
+echo "Set Up Tool for Monitoring an Environment Created by the CTF-Creator. Using Wazuh, Grafana, cAdvisor, Prometheus, heiDPI, and Docker."
+echo "Created by FeDaas"
+print_divider
+sleep 10
 
 export SET_UP_STEP_MAIN="\e[1m [Step 1/4] Set Up Wazuh Docker\e[0m"
 section_header "[1/4] Set Up Wazuh Docker"
