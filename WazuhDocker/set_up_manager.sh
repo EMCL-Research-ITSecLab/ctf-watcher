@@ -8,21 +8,21 @@ RAM=$(awk '/MemTotal/ {print $2}' /proc/meminfo)
 function print_info()
 {
 echo ""
-echo -e "\e[34m[Info]:\e[0m $SET_UP_STEP_MAIN |  $1"
+echo -e "\e[34m[Info]:\e[0m $SET_UP_STEP_MAIN:  $1"
 echo ""
 }
 
 function print_warning()
 {
 echo ""
-echo -e "\e[33m[Warn]:\e[0m $SET_UP_STEP_MAIN | $1"
+echo -e "\e[33m[Warn]:\e[0m $SET_UP_STEP_MAIN: $1"
 echo ""
 }
 
 function print_error()
 {
 echo ""
-echo -e "\e[31m[Error]:\e[0m $SET_UP_STEP_MAIN | $1"
+echo -e "\e[31m[Error]:\e[0m $SET_UP_STEP_MAIN: $1"
 echo ""
 }
 
@@ -48,7 +48,7 @@ if [ $RAM -le $RAM_MIN ]; then
 
 
 #####################################################
-print_info "[1/6] Set Map Count"
+print_info "Set Map Count...    (1/6)"
 
 sysctl -w vm.max_map_count=262144
 
@@ -58,26 +58,26 @@ else
     echo "vm.max_map_count=262144" >> "$SYSCTL_CONF"
 fi
 
-print_info "[2/6] Build Images"
+print_info "Build Images...    (2/6)"
 
 cd wazuh-docker
 git checkout v4.11.1
 
 #####################################################
-print_info "[3/6] Generating Certifications"
+print_info "Generating Certifications...    (3/6)"
 
 
 cd single-node
 sudo -u $SUDO_USER docker-compose -f generate-indexer-certs.yml run --rm generator
 
 #####################################################
-print_info "[4/6] Compose Docker"
+print_info "Compose Docker...    (4/6)"
 
 
 sudo -u $SUDO_USER docker-compose up -d
 
 #####################################################
-print_info "[5/6] Add Custom Rules"
+print_info "Add Custom Rules...    (5/6)"
 
 cd ..
 cd ..
@@ -86,7 +86,7 @@ docker cp config/local_rules.xml $(docker ps -aqf "name=single-node-wazuh.manage
 docker cp config/local_decoder.xml $(docker ps -aqf "name=single-node-wazuh.manager-1"):/var/ossec/etc/decoders/local_decoder.xml
 
 #####################################################
-print_info "[6/6] Restart Manager"
+print_info "Restart Manager...    (6/6)"
 
 docker restart $(docker ps -aqf "name=single-node-wazuh.manager-1")
 
