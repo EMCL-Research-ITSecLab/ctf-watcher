@@ -3,17 +3,22 @@
 IP_ADDRESS=$(hostname -I | awk '{print $1}')
 RAM_MIN=8388608
 RAM=$(awk '/MemTotal/ {print $2}' /proc/meminfo)
+HELP="
+set_up.sh -h
+
+Usage: set_up.sh [OPTIONS]
+
+    --remove                  [Optional] Removes all containers and the Wazuh Agent."
 
 clear -x
 cat << "EOF"
- __          __             _       _____           _        _ _           
- \ \        / /            | |     |_   _|         | |      | | |          
-  \ \  /\  / /_ _ _____   _| |__     | |  _ __  ___| |_ __ _| | | ___ _ __ 
-   \ \/  \/ / _` |_  / | | | '_ \    | | | '_ \/ __| __/ _` | | |/ _ \ '__|
-    \  /\  / (_| |/ /| |_| | | | |  _| |_| | | \__ \ || (_| | | |  __/ |   
-     \/  \/ \__,_/___|\__,_|_| |_| |_____|_| |_|___/\__\__,_|_|_|\___|_|   
-                                                                           
-                                                                         
+   _____ _______ __  __          __   _       _               
+  / ____|__   __/ _| \ \        / /  | |     | |              
+ | |       | | | |_   \ \  /\  / /_ _| |_ ___| |__   ___ _ __ 
+ | |       | | |  _|   \ \/  \/ / _` | __/ __| '_ \ / _ \ '__|
+ | |____   | | | |      \  /\  / (_| | || (__| | | |  __/ |   
+  \_____|  |_| |_|       \/  \/ \__,_|\__\___|_| |_|\___|_|   
+
 EOF
 
 function print_divider () {
@@ -23,10 +28,11 @@ function print_divider () {
 }
 
 function section_header () {
+    clear -x
     print_divider
     echo "${1}..."
     print_divider
-    sleep 1
+    sleep 5
 }
 
 function section_footer () {
@@ -34,7 +40,7 @@ function section_footer () {
 }
 
 function remove (){
-    echo "Remove Wazuh Enviroment"
+    echo "Remove Wazuh Environment"
     ./clean_docker.sh #Todo: Only remove my containers
     WazuhAgent/set_up_agent.sh --remove
     echo "Everything removed"
@@ -69,7 +75,7 @@ if [ $RAM -le $RAM_MIN ]; then
     echo "MINIMUM: $RAM_MIN"
     echo "Current: $RAM"
     echo ""
-    echo "Ignoring this warnig can cause a broken installation"
+    echo "Ignoring this warning can cause a broken installation."
     echo "Ignore warning? [y/yes]"
     read SET_UP_APPROVED
     if [ "$SET_UP_APPROVED" != "y" ] && [ "$SET_UP_APPROVED" != "yes" ]; then
@@ -78,25 +84,29 @@ if [ $RAM -le $RAM_MIN ]; then
     fi
  fi
 
-section_header "Set Up Wazuh Manager"
+export SET_UP_STEP_MAIN="\e[1mSet Up Wazuh Docker [1/4] |\e[0m |"
+section_header "Set Up Wazuh Docker [1/4]"
 cd WazuhDocker
 ./set_up_manager.sh
 cd ..
 section_footer
 
-section_header "Set Up Wazuh Agent"
+export SET_UP_STEP_MAIN="\e[1mSet Up Wazuh Agent [2/4] |\e[0m |"
+section_header "Set Up Wazuh Agent [2/4]"
 cd WazuhAgent
 ./set_up_agent.sh -y
 cd ..
 section_footer
 
-section_header "Set Up cAdvisor"
+export SET_UP_STEP_MAIN="\e[1mSet Up cAdvisor [3/4] |\e[0m |"
+section_header "Set Up cAdvisor [3/4]"
 cd cAdvisorDocker
 ./set_up_cadvisor.sh
 cd ..
 section_footer
 
-section_header "Set Up Grafana"
+export SET_UP_STEP_MAIN="\e[1mSet Up cAdvisor [4/4] |\e[0m |"
+section_header "Set Up Grafana [4/4]"
 cd GrafanaDocker
 ./set_up_grafana.sh -y
 cd ..
@@ -105,16 +115,16 @@ section_footer
 clear -x
 
 cat << "EOF"
- __          __             _       _____           _        _ _           
- \ \        / /            | |     |_   _|         | |      | | |          
-  \ \  /\  / /_ _ _____   _| |__     | |  _ __  ___| |_ __ _| | | ___ _ __ 
-   \ \/  \/ / _` |_  / | | | '_ \    | | | '_ \/ __| __/ _` | | |/ _ \ '__|
-    \  /\  / (_| |/ /| |_| | | | |  _| |_| | | \__ \ || (_| | | |  __/ |   
-     \/  \/ \__,_/___|\__,_|_| |_| |_____|_| |_|___/\__\__,_|_|_|\___|_|   
-                                                                           
-                                                                         
+   _____ _______ __  __          __   _       _               
+  / ____|__   __/ _| \ \        / /  | |     | |              
+ | |       | | | |_   \ \  /\  / /_ _| |_ ___| |__   ___ _ __ 
+ | |       | | |  _|   \ \/  \/ / _` | __/ __| '_ \ / _ \ '__|
+ | |____   | | | |      \  /\  / (_| | || (__| | | |  __/ |   
+  \_____|  |_| |_|       \/  \/ \__,_|\__\___|_| |_|\___|_|   
+                                                             
 EOF
-echo "Everything Installed Succsessfully!"
+
+echo "Everything Installed Successfully!"
 echo ""
 echo ""
 echo "Web Interfaces:"
