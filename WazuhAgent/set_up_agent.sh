@@ -115,19 +115,19 @@ docker exec $1 mkdir -p /wazuh-agent
 docker cp config/localfile_ossec_config $1:/wazuh-agent
 docker cp config/localfile_ossec_config_ufw_status $1:/wazuh-agent
 
-print_info "Set Up Requirements [1/4]"
+print_info "[1/4] Set Up Requirements"
 docker exec -w /wazuh-agent -i $1 bash < config/container_requirements_set_up.sh
 
-print_info "Install and Run Agent [2/4]"
+print_info "[2/4] Install and Run Agent"
 docker exec -w /wazuh-agent $1 bash -c "wget https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.11.1-1_amd64.deb && sudo WAZUH_MANAGER='"$MANAGER_IP_ADDRESS"' WAZUH_AGENT_NAME='ag-"$CONTAINER_NAME"' dpkg -i ./wazuh-agent_4.11.1-1_amd64.deb"
 docker exec -w /wazuh-agent $1 bash -c "sudo systemctl daemon-reload && sudo systemctl enable wazuh-agent && sudo systemctl start wazuh-agent"
 
 
-print_info "Inject Localfiles [3/4]"
+print_info "[3/4] Inject Localfiles"
 docker exec -w /wazuh-agent $1 sudo sh -c "cat localfile_ossec_config >> /var/ossec/etc/ossec.conf"
 docker exec -w /wazuh-agent $1 sudo sh -c "cat localfile_ossec_config_ufw_status >> /var/ossec/etc/ossec.conf"
 
-print_info "Set Up Bash logging [4/4]"
+print_info "[4/4] Set Up Bash logging"
 docker exec -w /wazuh-agent -i $1 bash < config/bash_loggin_set_up.sh
 
 print_info "Agent Set Up completed"4
