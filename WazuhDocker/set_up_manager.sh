@@ -8,21 +8,21 @@ RAM=$(awk '/MemTotal/ {print $2}' /proc/meminfo)
 function print_info()
 {
 echo ""
-echo -e "$SET_UP_STEP_MAIN | \e[34m[Info]:\e[0m $1"
+echo -e "\e[34m[Info]:\e[0m $SET_UP_STEP_MAIN |  $1"
 echo ""
 }
 
 function print_warning()
 {
 echo ""
-echo -e "$SET_UP_STEP_MAIN | \e[33m[Warn]:\e[0m $1"
+echo -e "\e[33m[Warn]:\e[0m $SET_UP_STEP_MAIN | $1"
 echo ""
 }
 
 function print_error()
 {
 echo ""
-echo -e "$SET_UP_STEP_MAIN | \e[31m[Error]:\e[0m $1"
+echo -e "\e[31m[Error]:\e[0m $SET_UP_STEP_MAIN | $1"
 echo ""
 }
 
