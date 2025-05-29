@@ -21,6 +21,12 @@ cat << "EOF"
 
 EOF
 
+print_divider
+echo "Set Up Tool for Monitoring an Environment Created by the CTF-Creator. Using Wazuh, Grafana, cAdvisor, Prometheus, heiDPI, and Docker."
+echo "Created by FeDaas"
+print_divider
+sleep 10
+
 function print_divider () {
     terminal=/dev/pts/1
     columns=$(stty -a <"$terminal" | grep -Po '(?<=columns )\d+')
@@ -139,13 +145,9 @@ echo -e "cAdvisor \t http:///$IP_ADDRESS:8080 \t / \t\t /"
 echo -e "Prometheus \t http:///$IP_ADDRESS:9090 \t / \t\t /"
 echo -e "Wazuh Manager \t https://$IP_ADDRESS:3000 \t admin \t\t admin"
 
-echo ""
-echo "Container:"
-docker container ls --format "table {{.Names}}:\t{{.ID}}:\t {{.Image}}:\t {{.Status}}:"
-
-
-
-
-
-
-
+echo "Show Status of installed Container (y|n)?"
+read SHOW_CONTAINER
+if [ "$SET_UP_APPROVED" == "y"  ]; then
+  echo ""
+  echo "Container:"
+  docker container ls --format "table {{.Names}}:\t{{.ID}}:\t {{.Image}}:\t {{.Status}}:" 
