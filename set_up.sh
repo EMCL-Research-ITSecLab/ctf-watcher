@@ -84,32 +84,32 @@ if [ $RAM -le $RAM_MIN ]; then
     fi
  fi
 
-export SET_UP_STEP_MAIN="\e[1mSet Up Wazuh Docker [1/4] |\e[0m |"
-section_header "Set Up Wazuh Docker [1/4]"
+export SET_UP_STEP_MAIN="\e[1m [1/4] Set Up Wazuh Docker\e[0m |"
+section_header "[1/4] Set Up Wazuh Docker"
 cd WazuhDocker
 ./set_up_manager.sh
 cd ..
 section_footer
 sleep 5
 
-export SET_UP_STEP_MAIN="\e[1mSet Up Wazuh Agent [2/4] |\e[0m |"
-section_header "Set Up Wazuh Agent [2/4]"
+export SET_UP_STEP_MAIN="\e[1m [2/4] Set Up Wazuh Agent\e[0m |"
+section_header "[2/4] Set Up Wazuh Agent"
 cd WazuhAgent
 ./set_up_agent.sh -y
 cd ..
 section_footer
 sleep 5
 
-export SET_UP_STEP_MAIN="\e[1mSet Up cAdvisor [3/4] |\e[0m |"
-section_header "Set Up cAdvisor [3/4]"
+export SET_UP_STEP_MAIN="\e[1m [3/4] Set Up cAdvisor\e[0m |"
+section_header "[3/4] Set Up cAdvisor"
 cd cAdvisorDocker
 ./set_up_cadvisor.sh
 cd ..
 section_footer
 sleep 5
 
-export SET_UP_STEP_MAIN="\e[1mSet Up cAdvisor [4/4] |\e[0m |"
-section_header "Set Up Grafana [4/4]"
+export SET_UP_STEP_MAIN="\e[1m [4/4] Set Up cAdvisor\e[0m |"
+section_header "[4/4] Set Up Grafana"
 cd GrafanaDocker
 ./set_up_grafana.sh -y
 cd ..
@@ -128,7 +128,7 @@ cat << "EOF"
                                                              
 EOF
 
-echo "Everything Installed Successfully!"
+echo "Everything Installed!"
 echo ""
 echo ""
 echo "Web Interfaces:"
