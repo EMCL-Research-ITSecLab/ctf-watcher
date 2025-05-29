@@ -90,6 +90,7 @@ cd WazuhDocker
 ./set_up_manager.sh
 cd ..
 section_footer
+sleep 5
 
 export SET_UP_STEP_MAIN="\e[1mSet Up Wazuh Agent [2/4] |\e[0m |"
 section_header "Set Up Wazuh Agent [2/4]"
@@ -97,6 +98,7 @@ cd WazuhAgent
 ./set_up_agent.sh -y
 cd ..
 section_footer
+sleep 5
 
 export SET_UP_STEP_MAIN="\e[1mSet Up cAdvisor [3/4] |\e[0m |"
 section_header "Set Up cAdvisor [3/4]"
@@ -104,6 +106,7 @@ cd cAdvisorDocker
 ./set_up_cadvisor.sh
 cd ..
 section_footer
+sleep 5
 
 export SET_UP_STEP_MAIN="\e[1mSet Up cAdvisor [4/4] |\e[0m |"
 section_header "Set Up Grafana [4/4]"
@@ -111,6 +114,7 @@ cd GrafanaDocker
 ./set_up_grafana.sh -y
 cd ..
 section_footer
+sleep 5
 
 clear -x
 
