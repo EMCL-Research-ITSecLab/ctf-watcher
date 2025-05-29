@@ -51,7 +51,7 @@ is_grafana_responding()
   fi
 }
 wait_for_grafana() {
-  print_info "[3/7] Wait for Grafana Responce"
+  print_info "Wait for Grafana Responce...    (3/7)"
   echo "If this lasts too long, something went wrong and the program exits."
   local wait_time_ds=2400
   local current=0
