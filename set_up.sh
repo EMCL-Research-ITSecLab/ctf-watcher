@@ -84,7 +84,7 @@ if [ $RAM -le $RAM_MIN ]; then
     fi
  fi
 
-export SET_UP_STEP_MAIN="\e[1m [1/4] Set Up Wazuh Docker\e[0m |"
+export SET_UP_STEP_MAIN="\e[1m [Step 1/4] Set Up Wazuh Docker\e[0m"
 section_header "[1/4] Set Up Wazuh Docker"
 cd WazuhDocker
 ./set_up_manager.sh
@@ -92,7 +92,7 @@ cd ..
 section_footer
 sleep 5
 
-export SET_UP_STEP_MAIN="\e[1m [2/4] Set Up Wazuh Agent\e[0m |"
+export SET_UP_STEP_MAIN="\e[1m [Step 2/4] Set Up Wazuh Agent\e[0m"
 section_header "[2/4] Set Up Wazuh Agent"
 cd WazuhAgent
 ./set_up_agent.sh -y
@@ -100,7 +100,7 @@ cd ..
 section_footer
 sleep 5
 
-export SET_UP_STEP_MAIN="\e[1m [3/4] Set Up cAdvisor\e[0m |"
+export SET_UP_STEP_MAIN="\e[1m [Step 3/4] Set Up cAdvisor\e[0m"
 section_header "[3/4] Set Up cAdvisor"
 cd cAdvisorDocker
 ./set_up_cadvisor.sh
@@ -108,7 +108,7 @@ cd ..
 section_footer
 sleep 5
 
-export SET_UP_STEP_MAIN="\e[1m [4/4] Set Up cAdvisor\e[0m |"
+export SET_UP_STEP_MAIN="\e[1m [Step 4/4] Set Up cAdvisor\e[0m"
 section_header "[4/4] Set Up Grafana"
 cd GrafanaDocker
 ./set_up_grafana.sh -y
