@@ -27,7 +27,6 @@ install_dependency wget
 install_dependency lsb-release
 install_dependency procps
 install_dependency rsyslog
-install_dependency shwupdiwupdiluppy
 
 if [ "$DEPENDENCY_FAILED" = "true" ]; then
   echo -e "\e[34m[Info]:\e[0m $CONTAINER_NAME: Requirements set up with \e[31m[ERROR]\e[0m"
