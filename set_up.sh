@@ -88,6 +88,7 @@ print_divider
 echo "Set Up Tool for Monitoring an Environment Created by the CTF-Creator. Using Wazuh, Grafana, cAdvisor, Prometheus, heiDPI, and Docker."
 echo "Created by FeDaas"
 print_divider
+echo "Start Set Up..."
 sleep 10
 
 export SET_UP_STEP_MAIN="\e[1m [Step 1/4] Set Up Wazuh Docker\e[0m"
