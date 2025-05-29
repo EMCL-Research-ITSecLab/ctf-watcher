@@ -4,7 +4,7 @@ DEPENDENCY_FAILED="false"
 CONTAINER_NAME="${ENV_CONTAINER_NAME}"
 if [ -z "$CONTAINER_NAME" ]; then CONTAINER_NAME=$(hostname); fi
 
-echo -e "\e[34m[Info]:\e[0m $CONTAINER_NAME: Start Requirements set up"
+echo -e "\e[34m[Info]:\e[0m $CONTAINER_NAME: Start Requirements set up (This may take a while)"
 
 install_dependency()
 {
