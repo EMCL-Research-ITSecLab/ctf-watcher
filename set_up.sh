@@ -41,7 +41,7 @@ function section_footer () {
 
 function remove (){
     echo "Remove Wazuh Environment"
-    ./clean_docker.sh #Todo: Only remove my containers
+    utils/clean_docker.sh #Todo: Only remove my containers
     WazuhAgent/set_up_agent.sh --remove
     echo "Everything removed"
 }
