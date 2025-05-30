@@ -56,7 +56,7 @@ for container_id in $(docker ps -q); do
   IMAGE_NAME=$(docker inspect --format='{{.Config.Image}}' "$container_id")
   if is_excluded_image "$IMAGE_NAME"; then
     CONTAINER_NAME=$(docker inspect --format='{{.Name}}' "$container_id" | sed 's/^\/\?//')
-    echo -e "\e[34m[Info]:\e[0m Skipping Container $CONTAINER_NAME: Container with Image $IMAGE_NAME are excluded."
+    echo -e "\e[34m[Info]:\e[0m $CONTAINER_NAME: Bash logging set up \e[33m[Skipped]\e[0m: \e[2m(Image is Excluded: $IMAGE_NAME)\e[0m"
     continue
   fi
   docker exec "$container_id" sh -c "/wazuh-agent/bash_loggin_set_up.sh --privat_log=/wazuh-agent/commands.log"
