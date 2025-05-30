@@ -855,7 +855,9 @@
   "refresh": "10s",
   "schemaVersion": 41,
   "tags": [
-    "Docker"
+    "Docker",
+    "cAdvisor",
+    "Prometheus"
   ],
   "templating": {
     "list": []
