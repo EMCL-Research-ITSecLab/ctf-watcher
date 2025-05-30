@@ -1,18 +1,27 @@
 #!/bin/bash
 GRAFANA_URL="http://localhost:3000"
+
 LOCAL_IP_ADDRESS=$(hostname -I | awk '{print $1}')
 MANAGER_IP_ADDRESS="$LOCAL_IP_ADDRESS"
 MANAGER_PORT="9200"
 CADVISOR_IP_ADDRESS="$LOCAL_IP_ADDRESS"
 CADVISOR_PORT="9090"
+
 GRAFANA_PASSWORD="admin"
 GRAFANA_USERNAME="admin"
+
 DASHBOARD_WAZUH_JSON="config/wazuh_dashboard.json"
+DASHBOARD_WAZUH_UID_JSON="config/wazuh_dashboard_uid.json"
 DASHBOARD_CADVISOR_JSON="config/cadvisor_dashboard.json"
+DASHBOARD_CADVISOR_UID_JSON="config/cadvisor_dashboard_uid.json"
 DASHBOARD_COMMANDS_JSON="config/commands_dashboard.json"
+DASHBOARD_COMMANDS_JSON="config/commands_dashboard_uid.json"
+
 DATASOURCE_WAZUH_JSON="config/wazuh_datasource.json"
 DATASOURCE_CADVISOR_JSON="config/cadvisor_datasource.json"
+
 SKIP_CONFIRMATION="false"
+
 HELP="
 set_up_grafana.sh -h
 
@@ -209,14 +218,14 @@ echo "cAdvisor UID: $DATASOURCE_CADVISOR_UID"
 
 print_info "Set Datasource UID in Dashboards...    (6/7)"
 
-sed -i "s/\${DS_WAZUH-2}/$DATASOURCE_WAZUH_UID/g" "$DASHBOARD_WAZUH_JSON"
-sed -i "s/\${DS_CADVISOR}/$DATASOURCE_CADVISOR_UID/g" "$DASHBOARD_WAZUH_JSON"
+sed "s/\${DS_WAZUH-2}/$DATASOURCE_WAZUH_UID/g" "$DASHBOARD_WAZUH_JSON" > "$DASHBOARD_WAZUH_UID_JSON"
+sed "s/\${DS_CADVISOR}/$DATASOURCE_CADVISOR_UID/g" "$DASHBOARD_WAZUH_UID_JSON" > "$DASHBOARD_WAZUH_UID_JSON"
 
-sed -i "s/\${DS_WAZUH-2}/$DATASOURCE_WAZUH_UID/g" "$DASHBOARD_CADVISOR_JSON"
-sed -i "s/\${DS_CADVISOR}/$DATASOURCE_CADVISOR_UID/g" "$DASHBOARD_CADVISOR_JSON"
+sed "s/\${DS_WAZUH-2}/$DATASOURCE_WAZUH_UID/g" "$DASHBOARD_CADVISOR_JSON" > "$DASHBOARD_CADVISOR_UID_JSON"
+sed "s/\${DS_CADVISOR}/$DATASOURCE_CADVISOR_UID/g" "$DASHBOARD_CADVISOR_UID_JSON" > "$DASHBOARD_CADVISOR_UID_JSON"
 
-sed -i "s/\${DS_WAZUH-2}/$DATASOURCE_WAZUH_UID/g" "$DASHBOARD_COMMANDS_JSON"
-sed -i "s/\${DS_CADVISOR}/$DATASOURCE_CADVISOR_UID/g" "$DASHBOARD_COMMANDS_JSON"
+sed "s/\${DS_WAZUH-2}/$DATASOURCE_WAZUH_UID/g" "$DASHBOARD_COMMANDS_JSON" > "$DASHBOARD_COMMANDS_UID_JSON"
+sed "s/\${DS_CADVISOR}/$DATASOURCE_CADVISOR_UID/g" "$DASHBOARD_COMMANDS_UID_JSON" > "$DASHBOARD_COMMANDS_UID_JSON"
 
 print_info "Upload Dashboard...    (7/7)"
 echo "Upload Wazuh Dashboard"
@@ -225,7 +234,7 @@ print_divider
 curl -v -X POST "$GRAFANA_URL/api/dashboards/db" \
   -u "$GRAFANA_USERNAME:$GRAFANA_PASSWORD" \
   -H "Content-Type: application/json" \
-  -d @$DASHBOARD_WAZUH_JSON
+  -d @$DASHBOARD_WAZUH_UID_JSON
 
 print_divider
 echo ""
@@ -237,7 +246,7 @@ print_divider
 curl -v -X POST "$GRAFANA_URL/api/dashboards/db" \
   -u "$GRAFANA_USERNAME:$GRAFANA_PASSWORD" \
   -H "Content-Type: application/json" \
-  -d @$DASHBOARD_CADVISOR_JSON
+  -d @$DASHBOARD_CADVISOR_UID_JSON
 
 print_divider
 echo ""
@@ -248,7 +257,7 @@ print_divider
 curl -v -X POST "$GRAFANA_URL/api/dashboards/db" \
   -u "$GRAFANA_USERNAME:$GRAFANA_PASSWORD" \
   -H "Content-Type: application/json" \
-  -d @$DASHBOARD_COMMANDS_JSON
+  -d @$DASHBOARD_COMMANDS_UID_JSON
 
 print_divider
 echo ""
