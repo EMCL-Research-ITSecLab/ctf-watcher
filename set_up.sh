@@ -1,8 +1,11 @@
 #!/bin/bash
 
 IP_ADDRESS=$(hostname -I | awk '{print $1}')
-RAM_MIN=8388608
+RAM_GB_MIN=8
 RAM=$(awk '/MemTotal/ {print $2}' /proc/meminfo)
+RAM_GB=$(awk "BEGIN {print int($RAM/1048576)}")
+DISK_GB_MIN=10
+DISK_GB_FREE=$(df --block-size=1G / | awk 'NR==2 {print $4}' | sed 's/[^0-9]*//g')
 HELP="
 set_up.sh -h
 
@@ -20,6 +23,7 @@ cat << "EOF"
   \_____|  |_| |_|       \/  \/ \__,_|\__\___|_| |_|\___|_|   
 
 EOF
+echo "Created by FeDaas"
 
 function print_divider () {
     terminal=/dev/pts/1
@@ -70,13 +74,42 @@ while [[ $# -gt 0 ]]; do
   shift
 done
 
+if [ "$DISK_GB_FREE" -ge "$DISK_GB_MIN" ]; then
+    DISK_STATUS="[\033[32mO\033[0m]"  
+else
+    DISK_STATUS="[\033[31mX\033[0m]"  
+fi
+if [ "$RAM_GB" -ge "$RAM_GB_MIN" ]; then
+    RAM_STATUS="[\033[32mO\033[0m]"  
+else
+    RAM_STATUS="[\033[31mX\033[0m]"  
+fi
+
 print_divider
 echo "Set Up Tool for Monitoring an Environment Created by the CTF-Creator"
 echo "Using Wazuh, Grafana, cAdvisor, Prometheus, heiDPI, and Docker"
-echo "Created by FeDaas"
 print_divider
 echo ""
-echo "Starting Setup..."
+echo " Set up Components:                                                            Requirements:"
+echo "+------------------------+----------------------------------------------+     +-----------------------------------------+"
+echo -e "| [1] Wazuh Docker       | - Wazuh Manager Container                    |     | Disk Space:    $DISK_GB_FREE GB / $DISK_GB_MIN GB\t$DISK_STATUS\t|"
+echo -e "|                        | - Wazuh Indexer Container                    |     | Memory:        $RAM_GB GB / $RAM_GB_MIN GB\t$RAM_STATUS\t|"
+echo "|                        | - Wazuh Dashboard Container                  |     +-----------------------------------------+"
+echo "+------------------------+----------------------------------------------+     +-----------------------------------------+"
+echo "| [2] Wazuh Agent        | - Wazuh Agent installation                   |     | The Setup Time Depends on:              |"
+echo "|                        | - Bash Logging Setup                         |     |     - Internet connection               |"
+echo "|                        | - heiDPID Producer and Consumer Containers   |     |     - Number of Containers              |"
+echo "|                        | - UFW enabled and rules added                |     |                                         |"
+echo "|                        | - Bash Logging Setup inside Containers       |     | Container:                              |"
+echo "+------------------------+----------------------------------------------+     |     - 20 (40 excluded)                  |"
+echo "| [3] cAdvisor           | - cAdvisor Container                         |     |                                         |"
+echo "|                        | - Prometheus Container                       |     | ETA:                                    |"
+echo "+------------------------+----------------------------------------------+     |             [ 1H : 10min ]              |"
+echo "| [4] Grafana            | - Grafana Docker                             |     |       (10min + 5min x #Container)       |"
+echo "+------------------------+----------------------------------------------+     +-----------------------------------------+"
+echo ""
+echo "Start Setup (y|n)?"
+
 sleep 10
 
 if [ $RAM -le $RAM_MIN ]; then
@@ -109,15 +142,15 @@ cd ..
 section_footer
 sleep 5
 
-export SET_UP_STEP_MAIN="\e[1m [Step 3/4] Set Up cAdvisor\e[0m"
-section_header "[3/4] Set Up cAdvisor"
+export SET_UP_STEP_MAIN="\e[1m [Step 3/4] Set Up Container Monitoring\e[0m"
+section_header "[3/4] Set Up Container Monitoring"
 cd cAdvisorDocker
 ./set_up_cadvisor.sh
 cd ..
 section_footer
 sleep 5
 
-export SET_UP_STEP_MAIN="\e[1m [Step 4/4] Set Up cAdvisor\e[0m"
+export SET_UP_STEP_MAIN="\e[1m [Step 4/4] Set Up Grafana\e[0m"
 section_header "[4/4] Set Up Grafana"
 cd GrafanaDocker
 ./set_up_grafana.sh -y
