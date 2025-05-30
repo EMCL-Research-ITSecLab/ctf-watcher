@@ -1,6 +1,6 @@
 #!/bin/bash
 
-EXCLUDED_IMAGES=("grafana" "prom" "gcr.io" "stefan96/heidpi" "wazuh")
+EXCLUDED_IMAGES=("grafana" "prom" "gcr.io" "stefan96/heidpi" "wazuh" "openvpn")
 function is_excluded_image() {
   for prefix in "${EXCLUDED_IMAGES[@]}"; do
     if [[ "$1" == "$prefix"* ]]; then
