@@ -23,7 +23,7 @@ if [ -z "$CONTAINER_NAME" ]; then CONTAINER_NAME=$(hostname); fi
 
 COMMAND_LOG_BASH="
 # log last bash command to local6.debug which is located in /var/log/commands.log
-export PROMPT_COMMAND='RETRN_VAL=\$?;logger -t bash_commands -p local6.debug \"Container $CONTAINER_NAME User \$(whoami) @ \$(pwd) [$$]: \$(history 1 | sed \"s/^[ ]*[0-9]\+[ ]*//\" )\"'
+export PROMPT_COMMAND='RETRN_VAL=\$?;logger -t bash_commands -p local6.debug \"Container $CONTAINER_NAME User \$(whoami) @ \$(pwd) Exit ${RETRN_VAL} [$$]: \$(history 1 | sed \"s/^[ ]*[0-9]\+[ ]*//\" )\"'
 "
 
 # Check if the GLOBAL_BASHRC file exists
