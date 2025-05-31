@@ -1,5 +1,6 @@
 #!/bin/bash
 
+EXCLUDED_IMAGES=("grafana" "prom" "gcr.io" "stefan96/heidpi" "wazuh" "openvpn")
 IP_ADDRESS=$(hostname -I | awk '{print $1}')
 RAM_GB_MIN=8
 RAM=$(awk '/MemTotal/ {print $2}' /proc/meminfo)
@@ -20,14 +21,12 @@ cat << "EOF"
  | |       | | | |_   \ \  /\  / /_ _| |_ ___| |__   ___ _ __ 
  | |       | | |  _|   \ \/  \/ / _` | __/ __| '_ \ / _ \ '__|
  | |____   | | | |      \  /\  / (_| | || (__| | | |  __/ |   
-  \_____|  |_| |_|       \/  \/ \__,_|\__\___|_| |_|\___|_|   
-
+  \_____|  |_| |_|       \/  \/ \__,_|\__\___|_| |_|\___|_| Created by FeDaas
 EOF
-echo "Created by FeDaas"
+#echo "Created by FeDaas"
 
 function print_divider () {
-    terminal=/dev/pts/1
-    columns=$(stty -a <"$terminal" | grep -Po '(?<=columns )\d+')
+    columns=$(tput cols)
     printf "%${columns}s\n" | tr " " "-"
 }
 
@@ -50,11 +49,14 @@ function remove (){
     echo "Everything removed"
 }
 
-if [ $(id -u) -ne 0 ]
-then
-    echo "Please run this script as root or using sudo!"
-    exit 0
-fi
+function is_excluded_image() {
+  for prefix in "${EXCLUDED_IMAGES[@]}"; do
+    if [[ "$1" == "$prefix"* ]]; then
+      return 0
+    fi
+  done
+  return 1
+}
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -74,57 +76,92 @@ while [[ $# -gt 0 ]]; do
   shift
 done
 
-if [ "$DISK_GB_FREE" -ge "$DISK_GB_MIN" ]; then
-    DISK_STATUS="[\033[32mO\033[0m]"  
-else
-    DISK_STATUS="[\033[31mX\033[0m]"  
-fi
-if [ "$RAM_GB" -ge "$RAM_GB_MIN" ]; then
-    RAM_STATUS="[\033[32mO\033[0m]"  
-else
-    RAM_STATUS="[\033[31mX\033[0m]"  
-fi
-
 print_divider
 echo "Set Up Tool for Monitoring an Environment Created by the CTF-Creator"
 echo "Using Wazuh, Grafana, cAdvisor, Prometheus, heiDPI, and Docker"
 print_divider
 echo ""
-echo " Set up Components:                                                            Requirements:"
-echo "+------------------------+----------------------------------------------+     +-----------------------------------------+"
-echo -e "| [1] Wazuh Docker       | - Wazuh Manager Container                    |     | Disk Space:    $DISK_GB_FREE GB / $DISK_GB_MIN GB\t$DISK_STATUS\t|"
-echo -e "|                        | - Wazuh Indexer Container                    |     | Memory:        $RAM_GB GB / $RAM_GB_MIN GB\t$RAM_STATUS\t|"
-echo "|                        | - Wazuh Dashboard Container                  |     +-----------------------------------------+"
-echo "+------------------------+----------------------------------------------+     +-----------------------------------------+"
-echo "| [2] Wazuh Agent        | - Wazuh Agent installation                   |     | The Setup Time Depends on:              |"
-echo "|                        | - Bash Logging Setup                         |     |     - Internet connection               |"
-echo "|                        | - heiDPID Producer and Consumer Containers   |     |     - Number of Containers              |"
-echo "|                        | - UFW enabled and rules added                |     |                                         |"
-echo "|                        | - Bash Logging Setup inside Containers       |     | Container:                              |"
-echo "+------------------------+----------------------------------------------+     |     - 20 (40 excluded)                  |"
-echo "| [3] cAdvisor           | - cAdvisor Container                         |     |                                         |"
-echo "|                        | - Prometheus Container                       |     | ETA:                                    |"
-echo "+------------------------+----------------------------------------------+     |             [ 1H : 10min ]              |"
-echo "| [4] Grafana            | - Grafana Docker                             |     |       (10min + 5min x #Container)       |"
-echo "+------------------------+----------------------------------------------+     +-----------------------------------------+"
-echo ""
-echo "Start Setup (y|n)?"
+echo -ne "Checking Requirements...\r"
 
-sleep 10
-
-if [ $RAM -le $RAM_MIN ]; then
-    echo "Not Enough Memory!"
-    echo "MINIMUM: $RAM_MIN"
-    echo "Current: $RAM"
+if [ $(id -u) -ne 0 ]
+then
     echo ""
-    echo "Ignoring this warning can cause a broken installation."
-    echo "Ignore warning? [y/yes]"
-    read SET_UP_APPROVED
-    if [ "$SET_UP_APPROVED" != "y" ] && [ "$SET_UP_APPROVED" != "yes" ]; then
-        section_header "Setup Aborted"
-        exit 0
-    fi
- fi
+    echo ""
+    echo "Please run this script as root or using sudo!"
+    exit 0
+fi
+
+if ! docker info &> /dev/null; then
+  echo ""
+  echo ""
+  echo "Docker not installed or not installed correctly. Please run sudo ./utils/install_docker.sh"
+  exit 0
+fi
+
+REQUIREMENTS_FULLFILLED="true"
+
+if [ "$DISK_GB_FREE" -ge "$DISK_GB_MIN" ]; then
+    DISK_STATUS="[\033[32mO\033[0m]"  
+else
+    DISK_STATUS="[\033[31mX\033[0m]"
+    REQUIREMENTS_FULLFILLED="false"
+fi
+if [ "$RAM_GB" -ge "$RAM_GB_MIN" ]; then
+    RAM_STATUS="[\033[32mO\033[0m]"  
+else
+    RAM_STATUS="[\033[31mX\033[0m]"
+     REQUIREMENTS_FULLFILLED="false"
+fi
+
+CONTAINER_COUNT=0
+CONTAINER_EXCLUDED_COUNT=0
+
+for container_id in $(docker ps -q); do
+  IMAGE_NAME=$(docker inspect --format='{{.Config.Image}}' "$container_id")
+  if is_excluded_image "$IMAGE_NAME"; then
+    ((CONTAINER_EXCLUDED_COUNT++))
+  else
+     ((CONTAINER_COUNT++))
+  fi
+done
+
+MIN_BASE=10
+MIN_PER_CON=5
+MIN_TOTAL=$((MIN_BASE + MIN_PER_CON * CONTAINER_COUNT))
+ETA_HOURS=$((MIN_TOTAL / 60))
+ETA_MIN=$((MIN_TOTAL % 60))
+
+echo " Set up Components:                                                          Requirements:"
+echo "+------------------------+---------------------------------------------+    +------------------------------------------+"
+echo -e "| [1] Wazuh Docker       | - Wazuh Manager Container                   |    | Disk Space:    $DISK_GB_FREE GB / $DISK_GB_MIN GB\t$DISK_STATUS\t|"
+echo -e "|                        | - Wazuh Indexer Container                   |    | Memory:        $RAM_GB GB / $RAM_GB_MIN GB\t$RAM_STATUS\t|"
+echo "|                        | - Wazuh Dashboard Container                 |    +------------------------------------------+"
+echo "+------------------------+---------------------------------------------+    +------------------------------------------+"
+echo "| [2] Wazuh Agent        | - Wazuh Agent installation                  |    | The Setup Time Depends on:               |"
+echo "|                        | - Bash Logging Setup                        |    |     - Internet Connection                |"
+echo "|                        | - heiDPID Producer and Consumer Containers  |    |     - Number of Containers               |"
+echo "|                        | - UFW enabled and rules added               |    |                                          |"
+echo "|                        | - Bash Logging Setup inside Containers      |    | Container:                               |"
+echo -e "+------------------------+---------------------------------------------+    |     - $CONTAINER_COUNT ($CONTAINER_EXCLUDED_COUNT excluded)\t\t\t|"
+echo "| [3] cAdvisor           | - cAdvisor Container                        |    |                                          |"
+echo "|                        | - Prometheus Container                      |    | ETA:                                     |"
+echo -e "+------------------------+---------------------------------------------+    |             [ $ETA_HOURS H : $ETA_MIN m ]  \t\t|"
+echo "| [4] Grafana            | - Grafana Container                         |    |       (10min + 5min x #Container)        |"
+echo "+------------------------+---------------------------------------------+    +------------------------------------------+"
+echo ""
+echo -n "Start Setup"
+
+if [ "$REQUIREMENTS_FULLFILLED" == "false" ]; then
+    echo -ne "\033[31m even with unfulfilled requirements\033[0m"
+fi
+echo -n " (y|n)?"
+
+
+read SET_UP_APPROVED
+if [ "$SET_UP_APPROVED" != "y" ] && [ "$SET_UP_APPROVED" != "yes" ]; then
+    section_header "Setup Aborted"
+    exit 0
+fi
 
 export SET_UP_STEP_MAIN="\e[1m [Step 1/4] Set Up Wazuh Docker\e[0m"
 section_header "[1/4] Set Up Wazuh Docker"
