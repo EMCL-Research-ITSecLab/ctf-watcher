@@ -786,12 +786,6 @@
             },
             "properties": [
               {
-                "id": "custom.cellOptions",
-                "value": {
-                  "type": "color-text"
-                }
-              },
-              {
                 "id": "mappings",
                 "value": [
                   {
@@ -805,6 +799,16 @@
                     "type": "regex"
                   }
                 ]
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              },
+              {
+                "id": "custom.width",
+                "value": 1043
               }
             ]
           },
@@ -816,7 +820,7 @@
             "properties": [
               {
                 "id": "custom.width",
-                "value": 170
+                "value": 166
               }
             ]
           },
@@ -828,7 +832,7 @@
             "properties": [
               {
                 "id": "custom.width",
-                "value": 116
+                "value": 124
               }
             ]
           },
@@ -852,7 +856,141 @@
             "properties": [
               {
                 "id": "custom.width",
-                "value": 544
+                "value": 522
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Container"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 116
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "agent.name"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 144
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Exit"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "130": {
+                        "color": "red",
+                        "index": 5,
+                        "text": "130 (Terminated ctrl+c)"
+                      }
+                    },
+                    "type": "value"
+                  },
+                  {
+                    "options": {
+                      "pattern": "0",
+                      "result": {
+                        "color": "green",
+                        "index": 0,
+                        "text": "0"
+                      }
+                    },
+                    "type": "regex"
+                  },
+                  {
+                    "options": {
+                      "pattern": "1",
+                      "result": {
+                        "color": "red",
+                        "index": 1,
+                        "text": "1 (Error)"
+                      }
+                    },
+                    "type": "regex"
+                  },
+                  {
+                    "options": {
+                      "pattern": "2",
+                      "result": {
+                        "color": "red",
+                        "index": 2,
+                        "text": "2 (Incorrect Usage)"
+                      }
+                    },
+                    "type": "regex"
+                  },
+                  {
+                    "options": {
+                      "pattern": "127",
+                      "result": {
+                        "color": "red",
+                        "index": 3,
+                        "text": "127 (Command not Found)"
+                      }
+                    },
+                    "type": "regex"
+                  },
+                  {
+                    "options": {
+                      "pattern": "126",
+                      "result": {
+                        "color": "red",
+                        "index": 4,
+                        "text": "126 (Not Executable)"
+                      }
+                    },
+                    "type": "regex"
+                  },
+                  {
+                    "options": {
+                      "pattern": "143",
+                      "result": {
+                        "color": "red",
+                        "index": 6,
+                        "text": "143 (Terminated Kill Command)"
+                      }
+                    },
+                    "type": "regex"
+                  }
+                ]
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "red"
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
               }
             ]
           },
@@ -864,7 +1002,7 @@
             "properties": [
               {
                 "id": "custom.width",
-                "value": 118
+                "value": 156
               }
             ]
           }
@@ -876,7 +1014,7 @@
         "x": 0,
         "y": 16
       },
-      "id": 2,
+      "id": 8,
       "options": {
         "cellHeight": "sm",
         "footer": {
@@ -924,6 +1062,8 @@
               "_index": true,
               "_type": true,
               "agent.id": true,
+              "agent.ip": true,
+              "agent.name": true,
               "decoder.name": true,
               "decoder.parent": true,
               "full_log": true,
@@ -981,13 +1121,16 @@
               "agent.ip": "Server",
               "data.Command": "Command",
               "data.Container": "Enviroment",
+              "data.Exit": "Exit",
               "data.User": "User",
               "data.WD": "Directory",
+              "sort": "",
               "timestamp": ""
             }
           }
         },
         {
+          "disabled": true,
           "id": "groupBy",
           "options": {
             "fields": {
@@ -995,17 +1138,20 @@
                 "aggregations": [],
                 "operation": "groupby"
               },
+              "Container": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
               "Directory": {
                 "aggregations": [],
                 "operation": "groupby"
               },
-              "Enviroment": {
+              "Exit": {
                 "aggregations": [],
                 "operation": "groupby"
               },
               "Server": {
-                "aggregations": [],
-                "operation": "groupby"
+                "aggregations": []
               },
               "Timestamp": {
                 "aggregations": [],
@@ -1016,9 +1162,6 @@
                 "operation": "groupby"
               },
               "agent.name": {
-                "aggregations": []
-              },
-              "data.Container": {
                 "aggregations": []
               }
             }
@@ -1055,7 +1198,7 @@
   "timezone": "browser",
   "title": "Command Monitoring",
   "uid": "eb67574a-71bf-4206-b655-e00cb30f1e13",
-  "version": 8,
+  "version": 3,
   "weekStart": ""
 }
 }
