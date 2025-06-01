@@ -3,9 +3,9 @@ You can manually set up a Grafana Dashboard or install it on a different machine
 ```
 set_up_grafana.sh
 ```
-If the Wazuh Manager is on a different address you need to provide it
+If the Wazuh Manager or cAdvidor are installed on a different system, you need to provide their address
 ```
-set_up_agent.sh --manager=<manager_ip_address>
+set_up_agent.sh --manager=<manager_ip_address> --cadvisor=<cadvisor_ip_address>
 ```
 
 
@@ -15,13 +15,13 @@ set_up_grafana.sh -h
 
 Usage: set_up_grafana.sh [OPTIONS]
 
-    --manager=<ip_address>         [Optional] Set the Wazuh Manager ip address this Grafana dashboard should get data from.
+    --manager=<ip_address>         [Optional] Set the Wazuh Manager IP address the Grafana dashboard should get data from.
                                    [Default] = localhost
 
     --manager_port=<port>          [Optional] Set the Wazuh Manager API port.
                                    [Default] = 9200
 
-    --cadvisor=<ip_address>        [Optional] Set the cAdvisor Prometheus ip address this Grafana dashboard should get data from.
+    --cadvisor=<ip_address>        [Optional] Set the cAdvisor Prometheus IP address the Grafana dashboard should get data from.
                                    [Default] = localhost
 
     --cadvisor_port=<port>         [Optional] Set the cAdvisor Prometheus API port.
