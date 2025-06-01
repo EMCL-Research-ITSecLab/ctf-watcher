@@ -4,12 +4,12 @@ GLOBAL_BASHRC="/etc/bash.bashrc"
 CONTAINER_NAME="${ENV_CONTAINER_NAME}"
 PATH_BASH_CONF="/etc/rsyslog.d/bash.conf"
 LOG_DESTINATION="local6.* /var/log/commands.log"
-PRIVAT_LOG=""
+PRIVATE_LOG=""
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --privat_log=*)
-      PRIVAT_LOG="${1#*=}"
+    --private_log=*)
+      PRIVATE_LOG="${1#*=}"
       ;;
     *)
       echo "Unknown option: $1"
@@ -41,8 +41,8 @@ source "$GLOBAL_BASHRC"
 
 echo "$LOG_DESTINATION" >> "$PATH_BASH_CONF"
 
-if [ -n "$PRIVAT_LOG" ]; then
-  echo "local6.* $PRIVAT_LOG" >> "$PATH_BASH_CONF"
+if [ -n "$PRIVATE_LOG" ]; then
+  echo "local6.* $PRIVATE_LOG" >> "$PATH_BASH_CONF"
 fi
 
 systemctl restart rsyslog
