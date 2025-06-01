@@ -1,8 +1,8 @@
 This is the Git Repository for the Master Practical:
 Evaluating XDR applications to protect Training Environments for the next Generation of Cybersecurity Specialists
-at the EMCL Research Group at University Heidelberg
+at the EMCL Research Group at the University of Heidelberg
 
-# Set up a Wazuh environment with extended monitoring specialized in supervising cybersecurity training environments visualized in Grafana OSS
+# Set up a Wazuh environment with extended monitoring, specialized in supervising cybersecurity training environments visualized in Grafana OSS
 
 Wazuh:    [Wazuh Website](https://wazuh.com/)
 
@@ -21,7 +21,7 @@ Set up the components on the same or different systems
 ```
 sudo bash set_up_docker.sh
 ```
-If you have docker already installed, make sure the current user is inside a docker group:
+If you have Docker already installed, make sure the current user is inside a Docker group:
 ```
 sudo groupadd docker
 sudo usermod -aG docker $user
@@ -37,7 +37,7 @@ more info: [Wazuh Manager](https://github.com/FeDaas/Master-Practical-Evaluating
 ```
 sudo bash WazuhAgent/set_up_agent.sh
 ```
-If the Agent is on a different system than the Manager you need to provide the Managers IP:
+If the Agent is on a different system than the Manager, you need to provide the Manager's IP:
 ```
 sudo bash WazuhAgent/set_up_agent.sh --manager=<manager_ip_address>
 ```
@@ -48,13 +48,13 @@ more info: [Wazuh Agent](https://github.com/FeDaas/Master-Practical-Evaluating-X
 ```
 sudo bash GrafanaDocker/set_up_grafana.sh
 ```
-If Grafana is on a different system than the Manager you need to provide the Managers IP:
+If Grafana is on a different system than the Manager, you need to provide the Manager's IP:
 ```
 sudo bash GrafanaDocker/set_up_grafana.sh --manager=<manager_ip_address>
 ```
 more info: [Grafana Dashboard](https://github.com/FeDaas/Master-Practical-Evaluating-XDR-applications/tree/main/GrafanaDocker) 
 
-5) Now you can visit the wazuh and grafana dashboard in your browser via:
+5) Now you can visit the Wazuh and Grafana dashboards in your browser via:
 
 Wazuh:
 ```
@@ -75,20 +75,20 @@ Incomplete list of Grafana Dashboard Features
 
 ### Performance
 
-1) Live surveillanc of the Wazuh Manager System resources
+1) Live surveillance of the Wazuh Manager System resources
 
 ### Users
 
-1) Number of current active users as well as an active user timeline
+1) Number of current active users, as well as an active user timeline
 2) All currently active users and from where they are connected
 3) All commands executed by users. Filterable by user. Sudo commands are highlighted.
 
 ### SSH
-1) A life graph tracking the number of successful and unsuccessful  ssh requests
+1) A life graph tracking the number of successful and unsuccessful SSH requests
 
 ### Firewall
 1) A list of all active UFW Rules
-2) A List of blocked UFW Events
+2) A List of Blocked UFW Events
 
 ### Network Flow
 1) A list of heiDPId flow events. Traffic outside is highlighted.
@@ -97,7 +97,7 @@ Incomplete list of Grafana Dashboard Features
 
 ## Additional Wazuh Alerts
 
-The custom Wazuh Alerts used. 
+The custom Wazuh alerts, their ID and level. 
 ### Performance
 
 | Description      | Rule ID      | Level |
@@ -155,10 +155,10 @@ The custom Wazuh Alerts used.
 
 ## Modify the project
 
-If you want to make changes to the setup change the following files:
+If you want to make changes to the setup, change the following files:
 ### Wazuh
-Custom Wazuh Rules can be creates as described in the [Wazuh Documentation](https://documentation.wazuh.com/current/user-manual/ruleset/rules/custom.html),
-if you only want to change them in a running setup keep in mind that the mentioned files and commands must be altered and executed inside the corresponding docker container. You can easily work inside a container with 
+Custom Wazuh Rules can be created as described in the [Wazuh Documentation](https://documentation.wazuh.com/current/user-manual/ruleset/rules/custom.html).
+If you only want to change them in a running setup, keep in mind that the mentioned files and commands must be altered and executed inside the corresponding Docker container. You can easily work inside a container with 
 ```
 docker exec -it <container_id_or_name>
 ```
@@ -166,11 +166,13 @@ Else, modify [local_file_ossec_conf](https://github.com/FeDaas/Master-Practical-
 
 ### Grafana
 Simply modify the dashboard via the Grafana UI.\
-If you want to use your custom dahsboard in this project export it via the Grafana UI. Make sure to use the 'Export the dashboard to use in another instance' setting and encase the output in a dashboard key: ```{"dashboard":<outuput>}```\
+If you want to use your custom dashboard in this project, export it via the Grafana UI. Make sure to use the 'Export the dashboard to use in another instance' setting and encase the output in a dashboard key: ```{"dashboard":<outuput>}```\
 Then override the [wazuh_dashboard.json](https://github.com/FeDaas/Master-Practical-Evaluating-XDR-applications/blob/main/GrafanaDocker/config/wazuh_dashboard.json) and use this project as usual.
 
-
-
+### Excluded Container
+The setup ignores containers created from specific images. They are defined by the `EXCLUDED_IMAGES` array at the top of the files
+[set_up.sh](https://github.com/FeDaas/Master-Practical-Evaluating-XDR-applications/blob/main/set_up.sh) and 
+[container_logging_set_up.sh](https://github.com/FeDaas/Master-Practical-Evaluating-XDR-applications/blob/main/WazuhAgent/config/container_logging_set_up.sh). Add or remove image names to include or exclude their containers.
 
 
 
