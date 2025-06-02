@@ -59,5 +59,5 @@ for container_id in $(docker ps -q); do
     echo -e "\e[34m[Info]:\e[0m $CONTAINER_NAME: Bash logging set up \e[33m[Skipped]\e[0m: \e[2m(Image is Excluded: $IMAGE_NAME)\e[0m"
     continue
   fi
-  docker exec "$container_id" sh -c "/wazuh-agent/bash_loggin_set_up.sh --privat_log=/wazuh-agent/commands.log"
+  docker exec "$container_id" sh -c "/wazuh-agent/bash_loggin_set_up.sh --private_log=/wazuh-agent/commands.log"
 done
