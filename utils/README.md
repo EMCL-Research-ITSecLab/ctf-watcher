@@ -2,7 +2,7 @@
 
 ## Clean Docker
 ```
-sudo clean_docker.sh
+./sudo clean_docker.sh
 ```
 Executing this script will:
 -  Stop and remove all active and inactive containers
@@ -11,7 +11,7 @@ Executing this script will:
 
 ## Install Docker
 ```
-install_docker.sh
+./install_docker.sh
 ```
 Executing this script will:
 - Install Docker
@@ -20,11 +20,23 @@ Executing this script will:
 
 If Docker is already installed, it will only create the group and add the user
 
-## Pull Dashboard (Depricated)
+## Create Container
 ```
-pull_dashboard.sh
+./create_container <#Container>
+```
+Executing this script will:
+- Creates `#Container` nginx containers
+- With Environment Variable `ENV_CONTAINER_NAME=my_engine_#`
+- With Bind `/var/log/commands.log:/var/log/commands.log`
+- With Bind ` ~/command_logs/cl_#.log:/wazuh-agent/commands.log` 
+
+## Pull Dashboard (Deprecated)
+```
+./pull_dashboard.sh
 ```
 Executing this script will:
 - Ask for a Grafana Dashboard ID
 - Pull this Dashboard from Grafana via the API
-- write the Dashboard inside the `new_dashboard.json` file
+- Write the Dashboard inside the `new_dashboard.json` file
+
+ 
