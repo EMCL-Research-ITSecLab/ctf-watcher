@@ -116,8 +116,8 @@
 <decoder name="bash_commands1">
   <parent>bash_commands</parent>
   <prematch>\.</prematch> 
-  <regex>Container (\S+) User (\S+) @ (\S+) \p\d+\p:(\.+)</regex>
-  <order>Container, User, WD, Command</order>
+  <regex>Container (\S+) User (\S+) @ (\S+) Exit (\S+) \p\d+\p:(\.+)</regex>
+  <order>Container, User, WD, Exit, Command</order>
 </decoder>
 
 <!-- UFW Status -->
