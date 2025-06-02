@@ -26,7 +26,7 @@ COMMAND_LOG_BASH="
 export PROMPT_COMMAND='RETRN_VAL=\$?;logger -t bash_commands -p local6.debug \"Container $CONTAINER_NAME User \$(whoami) @ \$(pwd) Exit \${RETRN_VAL} [$$]: \$(history 1 | sed \"s/^[ ]*[0-9]\+[ ]*//\" )\"'
 "
 
-# Check if the GLOBAL_BASHRC file exists
+
 if [ -e "$GLOBAL_BASHRC" ]; then
   :
 else
@@ -34,7 +34,12 @@ else
   exit 0
 fi
 
-# Append the command to the GLOBAL_BASHRC file
+if [ ! -e "/var/log/commands.log" ]; then
+  touch /var/log/commands.log
+fi
+chmod 664 /var/log/commands.log
+
+
 echo "$COMMAND_LOG_BASH" >> "$GLOBAL_BASHRC"
 
 source "$GLOBAL_BASHRC"
