@@ -1,6 +1,4 @@
-This is the Git Repository for the Master Practical:
-Evaluating XDR applications to protect Training Environments for the next Generation of Cybersecurity Specialists
-at the EMCL Research Group at the University of Heidelberg
+Monitoring tool for CTF-Creator 
 
 # Set up a Wazuh environment with extended monitoring, specialized in supervising cybersecurity training environments visualized in Grafana OSS
 
