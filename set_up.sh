@@ -146,7 +146,7 @@ echo -e "+------------------------+---------------------------------------------
 echo "| [3] cAdvisor           | - cAdvisor Container                        |    |                                          |"
 echo "|                        | - Prometheus Container                      |    | ETA:                                     |"
 echo -e "+------------------------+---------------------------------------------+    |             [ $ETA_HOURS H : $ETA_MIN m ]  \t\t|"
-echo "| [4] Grafana            | - Grafana Container                         |    |       (10min + 5min x #Container)        |"
+echo "| [4] Grafana            | - Grafana Container                         |    |       (10min + 2min x #Container)        |"
 echo "+------------------------+---------------------------------------------+    +------------------------------------------+"
 echo ""
 echo -n "Start Setup"
