@@ -1,10 +1,12 @@
 Monitoring tool for CTF-Creator 
 
-# Set up a Wazuh environment with extended monitoring, specialized in supervising cybersecurity training environments visualized in Grafana OSS
+# Set up a Wazuh environment with extended monitoring, specialized in supervising cybersecurity training environments created by the CTF-Creator
 
 Wazuh:    [Wazuh Website](https://wazuh.com/)
 
 Grafana:  [Grafana Website](https://grafana.com/)
+
+CTF-Creator: [GitHub Page](https://github.com/EMCL-Research-ITSecLab/ctf-creator)
 
 
 ## Complete setup on one system:
@@ -29,7 +31,7 @@ sudo usermod -aG docker $user
 ```
 sudo bash WazuhDocker/set_up.sh
 ```
-more info: [Wazuh Manager](https://github.com/FeDaas/Master-Practical-Evaluating-XDR-applications/tree/main/WazuhDocker)
+more info: [Wazuh Manager](https://github.com/EMCL-Research-ITSecLab/ctf-watcher/tree/main/WazuhDocker)
 
 3) Install and set up Wazuh Agent:
 ```
@@ -40,7 +42,7 @@ If the Agent is on a different system than the Manager, you need to provide the 
 sudo bash WazuhAgent/set_up_agent.sh --manager=<manager_ip_address>
 ```
 
-more info: [Wazuh Agent](https://github.com/FeDaas/Master-Practical-Evaluating-XDR-applications/tree/main/WazuhAgent)
+more info: [Wazuh Agent](https://github.com/EMCL-Research-ITSecLab/ctf-watcher/tree/main/WazuhAgent)
 
 4) Install and set up Grafana
 ```
@@ -50,7 +52,7 @@ If Grafana is on a different system than the Manager, you need to provide the Ma
 ```
 sudo bash GrafanaDocker/set_up_grafana.sh --manager=<manager_ip_address>
 ```
-more info: [Grafana Dashboard](https://github.com/FeDaas/Master-Practical-Evaluating-XDR-applications/tree/main/GrafanaDocker) 
+more info: [Grafana Dashboard](https://github.com/EMCL-Research-ITSecLab/ctf-watcher/tree/main/GrafanaDocker) 
 
 5) Now you can visit the Wazuh and Grafana dashboards in your browser via:
 
@@ -95,7 +97,7 @@ Incomplete list of Grafana Dashboard Features
 
 ## Additional Wazuh Alerts
 
-The custom Wazuh alerts, their ID and level. 
+The custom Wazuh alerts, their ID, and level. 
 ### Performance
 
 | Description      | Rule ID      | Level |
@@ -160,17 +162,17 @@ If you only want to change them in a running setup, keep in mind that the mentio
 ```
 docker exec -it <container_id_or_name>
 ```
-Else, modify [local_file_ossec_conf](https://github.com/FeDaas/Master-Practical-Evaluating-XDR-applications/blob/main/WazuhAgent/config/localfile_ossec_config), [local_decoder.xml](https://github.com/FeDaas/Master-Practical-Evaluating-XDR-applications/blob/main/WazuhDocker/config/local_decoder.xml) and [local_rules.xml](https://github.com/FeDaas/Master-Practical-Evaluating-XDR-applications/blob/main/WazuhDocker/config/local_rules.xml) and use this project as usual.
+Else, modify [local_file_ossec_conf](https://github.com/EMCL-Research-ITSecLab/ctf-watcher/blob/main/WazuhAgent/config/localfile_ossec_config), [local_decoder.xml](https://github.com/EMCL-Research-ITSecLab/ctf-watcher/blob/main/WazuhDocker/config/local_decoder.xml) and [local_rules.xml](https://github.com/EMCL-Research-ITSecLab/ctf-watcher/blob/main/WazuhDocker/config/local_rules.xml) and use this project as usual.
 
 ### Grafana
 Simply modify the dashboard via the Grafana UI.\
 If you want to use your custom dashboard in this project, export it via the Grafana UI. Make sure to use the 'Export the dashboard to use in another instance' setting and encase the output in a dashboard key: ```{"dashboard":<outuput>}```\
-Then override the [wazuh_dashboard.json](https://github.com/FeDaas/Master-Practical-Evaluating-XDR-applications/blob/main/GrafanaDocker/config/wazuh_dashboard.json) and use this project as usual.
+Then override the [wazuh_dashboard.json](https://github.com/EMCL-Research-ITSecLab/ctf-watcher/blob/main/GrafanaDocker/config/wazuh_dashboard.json) and use this project as usual.
 
 ### Excluded Container
 The setup ignores containers created from specific images. They are defined by the `EXCLUDED_IMAGES` array at the top of the files
-[set_up.sh](https://github.com/FeDaas/Master-Practical-Evaluating-XDR-applications/blob/main/set_up.sh) and 
-[container_logging_set_up.sh](https://github.com/FeDaas/Master-Practical-Evaluating-XDR-applications/blob/main/WazuhAgent/config/container_logging_set_up.sh). Add or remove image names to include or exclude their containers.
+[set_up.sh](https://github.com/EMCL-Research-ITSecLab/ctf-watcher/blob/main/set_up.sh) and 
+[container_logging_set_up.sh](https://github.com/EMCL-Research-ITSecLab/ctf-watcher/blob/main/WazuhAgent/config/container_logging_set_up.sh). Add or remove image names to include or exclude their containers.
 
 
 
