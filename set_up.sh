@@ -126,7 +126,7 @@ for container_id in $(docker ps -q); do
 done
 
 MIN_BASE=10
-MIN_PER_CON=5
+MIN_PER_CON=2
 MIN_TOTAL=$((MIN_BASE + MIN_PER_CON * CONTAINER_COUNT))
 ETA_HOURS=$((MIN_TOTAL / 60))
 ETA_MIN=$((MIN_TOTAL % 60))
