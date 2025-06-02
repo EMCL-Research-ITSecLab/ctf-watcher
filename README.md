@@ -11,7 +11,7 @@ CTF-Creator: [GitHub Page](https://github.com/EMCL-Research-ITSecLab/ctf-creator
 
 ## Complete setup on one system:
 ```
-sudo set_up.sh
+sudo ./set_up.sh
 ```
 
 ## Manual setup:
@@ -19,7 +19,7 @@ sudo set_up.sh
 Set up the components on the same or different systems
 1) Install and set up Docker on Systems where the Wazuh Manager and Grafana should run.
 ```
-sudo bash set_up_docker.sh
+sudo ./set_up_docker.sh
 ```
 If you have Docker already installed, make sure the current user is inside a Docker group:
 ```
@@ -29,32 +29,40 @@ sudo usermod -aG docker $user
 
 2) Install and set up Wazuh Manager:
 ```
-sudo bash WazuhDocker/set_up.sh
+sudo ./WazuhDocker/set_up.sh
 ```
 more info: [Wazuh Manager](https://github.com/EMCL-Research-ITSecLab/ctf-watcher/tree/main/WazuhDocker)
 
 3) Install and set up Wazuh Agent:
 ```
-sudo bash WazuhAgent/set_up_agent.sh
+sudo ./WazuhAgent/set_up_agent.sh
 ```
 If the Agent is on a different system than the Manager, you need to provide the Manager's IP:
 ```
-sudo bash WazuhAgent/set_up_agent.sh --manager=<manager_ip_address>
+sudo ./WazuhAgent/set_up_agent.sh --manager=<manager_ip_address>
 ```
 
 more info: [Wazuh Agent](https://github.com/EMCL-Research-ITSecLab/ctf-watcher/tree/main/WazuhAgent)
 
+4) Install and set up cAdvisor
+```
+sudo ./cAdvisorDocker/set_up_cadvisor.sh
+```
+on the supervised system.
+
+more info: [cAdvisor Docker](https://github.com/EMCL-Research-ITSecLab/ctf-watcher/tree/main/cAdvisorDocker)
+
 4) Install and set up Grafana
 ```
-sudo bash GrafanaDocker/set_up_grafana.sh
+sudo ./GrafanaDocker/set_up_grafana.sh
 ```
 If Grafana is on a different system than the Manager, you need to provide the Manager's IP:
 ```
-sudo bash GrafanaDocker/set_up_grafana.sh --manager=<manager_ip_address>
+sudo ./GrafanaDocker/set_up_grafana.sh --manager=<manager_ip_address>
 ```
 more info: [Grafana Dashboard](https://github.com/EMCL-Research-ITSecLab/ctf-watcher/tree/main/GrafanaDocker) 
 
-5) Now you can visit the Wazuh and Grafana dashboards in your browser via:
+6) Now you can visit the Wazuh and Grafana dashboards in your browser via:
 
 Wazuh:
 ```
