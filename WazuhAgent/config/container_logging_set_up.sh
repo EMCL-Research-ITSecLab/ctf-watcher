@@ -1,6 +1,7 @@
 #!/bin/bash
 
 EXCLUDED_IMAGES=("grafana" "prom" "gcr.io" "stefan96/heidpi" "wazuh" "openvpn")
+MAX_MULTI_PROCESSESS=3
 function is_excluded_image() {
   for prefix in "${EXCLUDED_IMAGES[@]}"; do
     if [[ "$1" == "$prefix"* ]]; then
@@ -46,6 +47,11 @@ for container_id in $(docker ps -q); do
   fi
   docker exec "$container_id" sh -c "/wazuh-agent/container_requirements_set_up.sh" &
   pids+=($!)
+  if [[ ${#pids[@]} -ge $MAX_MULTI_PROCESSESS ]]; then
+    wait "${pids[0]}"
+    # Remove the finished PID from the list
+    pids=("${pids[@]:1}")
+  fi
 done
 for pid in "${pids[@]}"; do
   wait "$pid"
