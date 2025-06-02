@@ -306,6 +306,8 @@ if [ "$BASH_LOG" == "false" ] && [ "$HEIDPI" == "false" ]  && [ "$UFW" == "false
     print_info "[4/4] Nothing to Set Up."
 fi
 
+systemctl restart wazuh-agent
+
 echo
 echo -e "$SET_UP_STEP_MAIN: Wazuh Agent Instalation Finished!"
 echo
